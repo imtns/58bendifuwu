@@ -1,5 +1,6 @@
 <script>
 import wepy from 'wepy';
+import 'wepy-async-function';
 
 export default class extends wepy.app {
     config = {
@@ -21,5 +22,5 @@ export default class extends wepy.app {
 </script>
 
 <style lang="scss">
-    @import './app.scss';
+@import './app.scss';
 </style>
