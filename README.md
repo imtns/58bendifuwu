@@ -15,6 +15,7 @@
 ```bash
 $ git clone git@gitlab.58corp.com:lbg-fe/wepy-demo.git <yourAppName>
 $ cd <yourAppName>
+$ rm -rf .git
 $ npm install
 ```
 
