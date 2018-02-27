@@ -12,6 +12,14 @@ module.exports = {
     'html'
   ],
   settings: {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".wpy"
+        ]
+      }
+    },
     'html/html-extensions': ['.html', '.wpy']
   },
   'rules': {
@@ -29,6 +37,10 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'no-console': 0,
     'space-before-function-paren': 0,
-    "class-methods-use-this": 0,
+    'class-methods-use-this': 0,
+    'import/extensions': ['error', 'always', {
+      'js': 'never',
+      'wpy': 'never'
+    }]
   }
 }
