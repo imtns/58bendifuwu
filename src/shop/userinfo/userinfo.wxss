@@ -1,0 +1,33 @@
+@import "../../style/info_page.wxss";
+.remark_con{
+  background: #fff;
+  padding-left: 30rpx;
+  margin-bottom: 20rpx;
+}
+.remark_title{
+  height: 80rpx;
+  line-height: 80rpx;
+  border-bottom: 1px solid #e5e5e5;
+  display: block;
+  font-size: 26rpx;
+  color: #333333;
+}
+.remark_content{
+  padding-top: 30rpx;
+  font-size: 26rpx;
+  color: #333333;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 30rpx;
+  height: 140rpx;
+}
+.sticky_con{
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #fff;
+  padding-left: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 30rpx; 
+}
+

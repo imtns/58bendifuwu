@@ -1,0 +1,31 @@
+<template name="text-item">
+    <view
+        class="im-msg im-msg-text {{item.send_status==='sending'?'im-msg-sending':item.send_status==='fail'?'im-msg-fail':''}} {{item.ismine==='true'?'im-msg-me':'im-msg-other'}}"
+        id="msg-{{index}}">
+        <view class="im-msg-time {{item.is_show_time === 'false'? 'im-msg-time-hide':''}}">
+            <view class="im-msg-time-content">{{item.format_time}}</view>
+        </view>
+        <view class="im-msg-main">
+            <view class="im-msg-send-status" id="resend-{{index}}" bindtap="onresendmsg"></view>
+            <view class="im-msg-content">
+                <block wx:for="{{item.content.msg}}" wx:key="{{index}}">
+                    <block wx:if="{{item.type === 'text'}}">
+                        <text>{{item.value}}</text>
+                    </block>
+                    <block wx:elif="{{item.type === 'emotion'}}">
+                        <view class="im-emotion im-emotion-{{item.value}}"></view>
+                    </block>
+                </block>
+            </view>
+            <view class="im-msg-arrow"></view>
+            <image src="{{item.sender_info.avatar}}" alt="" class="im-msg-avatar"
+                   error="handleImgFailLoad($event)"></image>
+        </view>
+        <view class="im-msg-feedback" wx:if="{{item.feedback_msg_hide+'' !== '1'}}">
+            <view class="im-msg-feedback-container">
+                <view class="im-msg-feedback-icon"></view>
+                <view class="im-msg-feedback-content">{{item.feedback_info}}</view>
+            </view>
+        </view>
+    </view>
+</template>

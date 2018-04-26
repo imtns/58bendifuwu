@@ -1,0 +1,58 @@
+<import src="text-item.wxml"/>
+<import src="image-item.wxml"/>
+<import src="tip-item.wxml"/>
+<import src="audio-item.wxml"/>
+<import src="mix-item.wxml"/>
+
+<template name="msglist">
+<view class="msglist-mask" wx:if="{{isShowMark}}">
+    <view class="msglist-mask-top"></view>
+    <block wx:for="{{msglistMark}}" wx:key="{{index}}">
+        <block wx:if="{{item.show_type === 'text'}}">
+            <template is="text-item" data="{{item,index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'image'}}">
+            <template is="image-item" data="{{item,index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'audio'}}">
+            <template is="audio-item" data="{{item:item, idx:index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'tip'}}">
+            <template is="tip-item" data="{{item}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'minicard'}}">
+            <template is="text-item" data="{{item}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'mix'}}">
+            <template is="mix-item" data="{{item}}"/>
+        </block>
+    </block>
+</view>
+<scroll-view class="im-msg-list" style="height:{{scrollHeight}}px;" scroll-y="true" bindscrolltoupper="onupper"
+             scroll-into-view="{{toView}}" upper-threshold="{{upperThreshold}}" bindtouchstart="ontouchstart" bindscroll="onscroll" scroll-top="{{scrollTop}}">
+    <view class="im-loading  {{loadStatus.loadInfo == ''?'im-msglist-loading':''}}" wx:if="{{loadStatus.showLoading}}">
+        <view class="icon" wx:if="{{loadStatus.loadInfo == ''}}"></view>
+        {{loadStatus.loadInfo}}
+    </view>
+    <block wx:for="{{msglist}}" wx:key="{{index}}">
+        <block wx:if="{{item.show_type === 'text'}}">
+            <template is="text-item" data="{{item,index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'image'}}">
+            <template is="image-item" data="{{item,index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'audio'}}">
+            <template is="audio-item" data="{{item,index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'tip'}}">
+            <template is="tip-item" data="{{item,index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'minicard'}}">
+            <template is="text-item" data="{{item,index}}"/>
+        </block>
+        <block wx:elif="{{item.show_type === 'mix'}}">
+            <template is="mix-item" data="{{item,index}}"/>
+        </block>
+    </block>
+</scroll-view>
+</template>

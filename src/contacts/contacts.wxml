@@ -1,0 +1,36 @@
+<!--contacts/contacts.wxml-->
+<view wx:if="{{!isShangjia}}" class="search_fake_container" bindtap="showRealSearch">
+  <view class="search_fake">搜索</view>
+</view>
+<view wx:if="{{!isShangjia}}">
+  <navigator class="single_contact" wx:for="{{contacts}}" url="/user/shopinfo/shopinfo?id={{item.shopid}}">
+    <image src="{{item.photo}}" class="avatar"></image>
+    <view class="contact_info_con">
+      <text class="nickname">{{item.name}}</text>
+      <text class="category">类别：{{item.category}}</text>
+      <text class="user_count_text">已有{{item.user_count}}位用户咨询该商家</text>
+    </view>
+    <view class="contact_btn">沟通</view>
+  </navigator>
+</view>
+<view wx:if="{{isShangjia}}">
+  <navigator class="single_contact" wx:for="{{contacts}}" url="/shop/userinfo/userinfo?id={{item.userid}}">
+    <image src="{{item.photo}}" class="avatar"></image>
+    <view class="contact_info_con">
+      <text class="nickname">{{item.name}}</text>
+      <text class="remark">备注：{{item.remark}}</text>
+      <text class="last_touch">最后沟通时间：{{item.last_time}}</text>
+    </view>
+    <view class="contact_btn">沟通</view>
+  </navigator>
+</view>
+<view class="search_mask" hidden="{{search.hidden}}"> <!--搜索浮层-->
+  <view class="search_input_container">
+    <input class="search_input" focus="{{search.inputFocus}}" bindinput="inputting"></input>
+    <view class="search_entertext_con" bindtap="searchEnter"><text class="search_entertext">{{search.enterText}}</text></view>
+  </view>
+  <text class="search_suggest_title">您最近关注的类别</text>
+  <view class="search_suggest_words">
+    <text wx:for="{{search.suggestQueryValues}}" bindtap="searchSuggestQuery" data-value="{{item}}" class="search_suggest_item">{{item}}</text>
+  </view>
+</view>

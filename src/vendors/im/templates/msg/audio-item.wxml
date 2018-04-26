@@ -1,0 +1,13 @@
+<template name="audio-item">
+    <view class="im-msg im-msg-audio {{item.ismine==='true'?'im-msg-me':'im-msg-other'}}" id="msg-{{index}}">
+        <view class="im-msg-time {{item.is_show_time === 'false'? 'im-msg-time-hide':''}}"><view class="im-msg-time-content">{{item.format_time}}</view></view>
+      <view class="im-msg-main" bindtap="onaudioplay" data-audio="audio-{{item.msg_id}}" data-idx="{{index}}" style="width:{{10 + 5 * item.content.duration}}px">
+        <view class="im-msg-content {{item.is_playing?'im-audio-playing':''}}"> </view>
+        <view class="im-msg-arrow"></view>
+        <text class="im-msg-duration">{{item.content.duration}}</text>
+        <text class="im-msg-read-status {{item.play_time===0?'':'im-audio-read'}}"></text>
+        <image src="{{item.sender_info.avatar}}" alt="" class="im-msg-avatar" error="handleImgFailLoad($event)"></image>
+      </view>
+      <audio src="{{item.content.url}}" data-idx="{{index}}"  id="audio-{{item.msg_id}}" bindended="onoverplay"></audio>
+    </view>
+</template>

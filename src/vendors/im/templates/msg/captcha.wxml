@@ -1,0 +1,19 @@
+<template name="captcha">
+    <view class="im-captcha {{!captcha.isShow? 'im-captcha-hide':''}}">
+        <view class="im-captcha-mask"></view>
+        <view class="im-captcha-content">
+            <view class="im-captcha-tips {{captcha.isError? 'im-captcha-error':''}}">
+                {{captcha.captcha_tips}}
+            </view>
+            <view class="im-captcha-input">
+                <input class="captcha-input" type="text" bindinput="oncaptchabindinput" value="{{captcha.inputdata}}"
+                       focus="{{captcha.focus}}"/>
+                <image class="captcha-image" alt="验证码" bindtap="onchangecaptchaimg" src="{{captcha.captcha_image}}"/>
+            </view>
+            <view class="im-captcha-btn">
+                <view class="im-captcha-cancel" bindtap="oncaptchaclosure">取消</view>
+                <view class="im-captcha-submit" bindtap="oncaptchasubmit">确定</view>
+            </view>
+        </view>
+    </view>
+</template>

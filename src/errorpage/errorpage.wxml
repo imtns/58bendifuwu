@@ -1,0 +1,2 @@
+<!--errorpage/errorpage.wxml-->
+<text>{{errMsg}}</text>

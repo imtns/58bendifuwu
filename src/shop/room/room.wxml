@@ -1,0 +1,70 @@
+<view class="body">
+<scroll-view class="chatMsgContainer" scroll-y="true" scroll-into-view="{{toView}}" bindscrolltoupper="msgRecord" scroll-with-animation="{{animation}}">
+    <view wx:for="{{message}}" wx:for-item="i" id="msg{{i.id}}">
+        <view wx:if="{{i.send_time_f}}"  class="time-label">
+            <label>{{i.send_time_f}}</label>
+        </view>
+        <view class="padding clearfix" wx:if="{{i.from==2}}">
+            <navigator url="/me/me" open-type="switchTab" hover-class="navigator-hover">
+                <image class="right-Avatar" src="{{shop.photo ? shop.photo : shop.logo}}"></image>
+            </navigator>
+            <view class="right-Triangle"></view>
+            <view wx:if="{{i.type==1 || i.type==2}}" class="right-message padding_half">
+                <text wx:if="{{i.type==1}}" class="{{i.content.length>packupBound && !i.unPackedUp ? 'msg_text_packedup' : ''}}">{{i.content}}</text>
+                <view wx:if="{{i.content.length>packupBound && i.type == 1 ? true : false}}" class="msg_packup_switch" data-msgid="{{i.id}}" data-test="{{i.content.length}}" bindtap="msgPackupSwitch">
+                    <text>{{!i.unPackedUp?'展开查看全文':'收起全文'}}</text>
+                    <image  src="../../image/{{!i.unPackedUp?'content_unpack_icon':'content_packup_icon'}}.png" class="content_pack_icon" />
+                </view>
+                <image wx:if="{{i.type==2}}" bindtap="preViewImage" id="{{i.content}}" style="max-width:150px;" src="{{i.content}}" mode="widthFix"></image>
+            </view>
+            <view wx:if="{{i.type==3}}" class="right-message padding_half" data-id="{{i.id}}" data-content="{{i.content}}" bindtap="playVoice">
+                <text wx:if="{{i.remark>0}}" style="float:left;">{{i.remark}}" </text>
+                <image wx:if="{{i.playing>0}}" style="max-width:20px;max-height:20px; float:right;" src="/image/voice_msg.gif"></image>
+                <image wx:else style="max-width:20px;max-height:20px; float:right;" src="/image/voice_msg.png"></image>
+                <view style="width:{{i.remark*5}}px; min-width:40px; float:left;"></view>
+            </view>
+        </view>
+        <view id="msg{{i.id}}" class="padding clearfix" wx:if="{{i.from==1}}">
+            <navigator url="{{userinfo_url}}" hover-class="navigator-hover">
+                <image class="left-Avatar" src="{{user_photo}}"></image>
+            </navigator>
+            <view class="left-Triangle"></view>
+            <view wx:if="{{i.type==1 || i.type==2}}" class="left-message padding_half">
+                <text wx:if="{{i.type==1}}" class="{{i.content.length>packupBound && !i.unPackedUp ? 'msg_text_packedup' : ''}}">{{i.content}}</text>
+                <view wx:if="{{i.content.length>packupBound && i.type == 1 ? true : false}}" class="msg_packup_switch" data-msgid="{{i.id}}" data-test="{{i.content.length}}" bindtap="msgPackupSwitch">
+                    <text>{{!i.unPackedUp?'展开查看全文':'收起全文'}}</text>
+                    <image  src="../../image/{{!i.unPackedUp?'content_unpack_icon':'content_packup_icon'}}.png" class="content_pack_icon" />
+                </view>
+                <image wx:if="{{i.type==2}}" bindtap="preViewImage" id="{{i.content}}" style="max-width:150px;" src="{{i.content}}" mode="widthFix"></image>
+            </view>
+            <view wx:if="{{i.type==3}}" class="left-message padding_half" data-id="{{i.id}}" data-content="{{i.content}}" bindtap="playVoice">
+                <image wx:if="{{i.playing>0}}" style="max-width:20px;max-height:20px;float:left;" src="/image/voice_msg1.gif"></image>
+                <image wx:else style="max-width:20px;max-height:20px;float:left;" src="/image/voice_msg1.png"></image>
+                <view style="width:{{i.remark*5}}px; min-width:40px;float:left;"> </view>
+                <text wx:if="{{i.remark>0}}" style="float:right;"> {{i.remark}}"</text>
+            </view>
+        </view>
+    </view>
+    <view id="msgbottom" class="weui-icon_success"></view>
+</scroll-view>
+<view class="wa-row inputContainer"> 
+    <view class="send_type_con" bindtap="sendType">
+        <image wx:if="{{sendType=='voice'}}" src="/image/input.png" class="send_type_pic"></image>
+        <image wx:if="{{sendType=='input'}}" src="/image/voice.png" class="send_type_pic"></image>
+    </view>
+    <view class="text_input_con">
+        <input wx:if="{{sendType=='input'}}" placeholder="想对他说点什么呢" confirm-type="send" type="text" value="{{inputValue}}" class="textInput" bindconfirm="send" confirm-hold="true" />
+        <button wx:if="{{sendType=='voice'}}" bindtouchstart="getvoice" bindtouchend="stopvoice" class="weui-btn voiceInput" type="default">按住 说话</button>
+    </view>
+    <view class="choose_img_con" bindtap="chooseImg">
+        <image src="/image/img.png" class="choose_img"></image>
+    </view>
+</view>
+</view>
+
+<view class="v_music_box" wx:if="{{ismusic}}">
+    <view class="v_music_pr">
+        <text class="v_music_txt">录音中</text>
+        <image class="v_music_img" src="/image/voice_sing.gif"></image>
+    </view>
+</view>

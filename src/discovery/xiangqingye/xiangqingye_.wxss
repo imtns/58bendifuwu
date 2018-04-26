@@ -1,0 +1,235 @@
+/* discovery/xiangqingye/xiangqingye.wxss */
+page {background-color: #efeff4;}
+.bodybg { background-color: #fff;}
+text{
+  display: block;
+}
+.service_introduce_con, .contact_con, .pet_pic_con{
+  border-bottom: 22rpx solid #efeff4;
+}
+.title_date, .abstract, .service_introduce_title, .service_introduce_content, .pet_pic_title{
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  border-bottom: 1rpx solid #ededed;
+}
+.title_date{
+  padding-top: 38rpx;
+}
+.title{
+  font-size: 30rpx;
+  color: #333333;
+  line-height: 30rpx;
+  display: block;
+}
+.date{
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  line-height: 85rpx;
+  white-space: pre;
+  display: block;
+}
+.abstract, .service_introduce_title, .pet_pic_title{
+  padding-top: 24rpx;
+  padding-bottom: 24rpx;
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 57rpx;
+}
+.contact_con{
+  display: flex;
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
+  justify-content: space-around;
+  text-align: center;
+  color: #FF552E;
+}
+.telephone, .wechat{
+  font-size: 32rpx;
+  line-height: 70rpx;
+  border: 2rpx solid #FF552E;
+  border-radius: 10rpx;
+  width: 40%;
+  height: 70rpx;
+  flex-grow: 0;
+}
+.telephone>text, .wechat>text{
+  display: inline;
+}
+.wechat{
+  border-color: #FF552E;
+  color: #FF552E;
+}
+.wechat_icon{
+  width: 54rpx;
+  height: 43rpx;
+  margin: 0 18rpx 0 0rpx;
+  line-height: 70rpx;
+  vertical-align: -9rpx;
+}
+.tele_icon{
+  width: 44rpx;
+  height: 44rpx;
+  margin: 0 18rpx 0 0rpx;
+  line-height: 70rpx;
+  vertical-align: -10rpx;
+}
+.service_introduce_content{
+  font-size: 26rpx;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 46rpx;
+  padding-top: 30rpx;
+  overflow-y: hidden;
+  border-bottom: 0;
+}
+/*展开收起 s*/
+.service_introduce_content_packup{
+  max-height: 176rpx;
+}
+.service_introduce_packup_switch{
+  padding-left: 30rpx;
+  padding-bottom: 8rpx;
+}
+.service_introduce_packup_switch>text{
+  display: inline;
+  font-size: 26rpx;
+  color: #1AAD19;
+  line-height: 30rpx;
+}
+.content_pack_icon{
+  width: 18rpx;
+  height: 10rpx;
+  padding-left: 10rpx;
+  vertical-align: 2rpx;
+}
+/*展开收起 e*/
+.enterprise_address_text{
+  display: flex;
+  padding: 30rpx;
+  font-size: 26rpx;
+  color: #333333;
+  border-bottom: 1rpx solid #ededed;
+}
+.enterprise_address_text::before{
+  content: '地址：';
+  flex-shrink: 0;
+}
+.enterprise_address_map{
+  padding: 30rpx;
+}
+#map{
+  width: 100%;
+  margin: 0;
+  height: 600rpx;
+}
+
+.pet_pic_content{
+  display: flex;
+  padding: 30rpx;
+  position: relative;
+}
+.pet_pic_content image{
+  display: block;
+}
+.first_pet_pic{
+  width: 400rpx;
+  height: 400rpx;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.second_third_pic_con{
+  padding-left: 19rpx;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.second_third_pic_con>image{
+  width: 270rpx;
+  height: 190rpx;
+  padding: 0;
+}
+.second_pic{
+  margin-bottom: 19rpx;
+}
+/*打电话弹层 s*/
+.call_mask{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 20;
+  background: rgba(0,0,0,0.49);
+  top: 0;
+  left: 0;
+}
+.call_con text{
+  text-align: center;
+  display: block;
+  font-family: PingFangSC-Regular;
+}
+.call_con{
+  width: 560rpx;
+  height: 329rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1rpx solid grey;
+  margin-top: -165rpx;
+  margin-left: -280rpx;
+  background: white;
+  border-radius: 8rpx;
+}
+.call_title{
+  font-size: 36rpx;
+  color: #000000;
+  padding-top: 40rpx;
+}
+.call_text{
+  font-size: 24rpx;
+  color: #3a3a3a;
+  padding-top: 4rpx;
+}
+.call_tick{
+  display: inline !important;
+  color: #ff552e;
+}
+.call_btn_con{
+  height: 100rpx;
+  border-top: 2rpx solid #e5e5e5;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+}
+.call_left_btn, .call_right_btn{
+  width: 40%;
+  flex-grow: 1;
+  line-height: 100rpx;
+  height: 100rpx;
+  font-size: 36rpx;
+  color: #02BB00;
+}
+.call_left_btn{
+  border-right: 2rpx solid #e5e5e5;
+  color: #000;
+}
+.noScroll{
+  height: 100%;
+  width:100%;
+  overflow: hidden;
+  display: block;
+  position: fixed;
+  top: 0;
+}
+/*打电话弹层 e*/
+.image_count{
+  position: absolute;
+  bottom: 40rpx;
+  right: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  padding: 0 14rpx;
+  background: rgba(0,0,0,0.50);
+  border-radius: 4rpx;
+  font-size: 24rpx;
+  color: #FFFFFF;
+}

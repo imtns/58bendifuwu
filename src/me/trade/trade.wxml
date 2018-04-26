@@ -1,0 +1,38 @@
+<view class="box">
+    <view class="list">
+        <navigator data-name="互联网-软件" open-type="navigateBack" url="/me/me" bindtap="urlFn">互联网-软件</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="通信-硬件" open-type="navigateBack" url="/me/me"  bindtap="urlFn">通信-硬件</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="房地产-建筑" open-type="navigateBack" url="/me/me"  bindtap="urlFn">房地产-建筑</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="文化传媒" open-type="navigateBack" url="/me/me"  bindtap="urlFn">文化传媒</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="金融类" open-type="navigateBack" url="/me/me"  bindtap="urlFn">金融类</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="消费品" open-type="navigateBack" url="/me/me"  bindtap="urlFn">消费品</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="汽车-机械" open-type="navigateBack" url="/me/me"  bindtap="urlFn">汽车-机械</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="教育-翻译" open-type="navigateBack" url="/me/me"  bindtap="urlFn">教育-翻译</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="贸易-物流" open-type="navigateBack" url="/me/me"  bindtap="urlFn">贸易-物流</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="生物-医疗" open-type="navigateBack" url="/me/me"  bindtap="urlFn">生物-医疗</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="能源-化工" open-type="navigateBack" url="/me/me"  bindtap="urlFn">能源-化工</navigator>
+    </view>
+    <view class="list">
+        <navigator data-name="政府机构" open-type="navigateBack" url="/me/me"  bindtap="urlFn">政府机构</navigator>
+    </view>
+</view>

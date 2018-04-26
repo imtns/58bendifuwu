@@ -1,0 +1,29 @@
+<loading hidden="{{hidden}}">
+    加载中...
+</loading>
+
+<view>
+    <view class="top_box">
+        <image src="{{me.photo}}" background-size="cover" style="border-radius: 50%;"></image>
+        <view class="user_name">
+            <text>{{me.name}}</text>
+        </view>
+    </view>
+    <view class="list_ul">
+        <view class="list_li"  bindtap="tradeUrl" data-url="/me/order/order">
+          <image src="/image/dingdan.png" class="image1"></image>
+          <text>我的订单</text>
+          <image src="/image/icon_more.png" class="image2"></image>
+        </view>
+        <view class="list_li"  bindtap="tradeUrl" data-url="/me/coupon/coupon" >
+          <image src="/image/youhui.png" class="image1"></image>
+          <text>我的优惠券</text>
+          <image src="/image/icon_more.png" class="image2"></image>
+        </view>
+        <view class="list_li"  bindtap="tradeUrl" data-url="/me/me">
+          <image src="/image/area.png" class="image1"></image>
+          <text>服务地址</text>
+          <image src="/image/icon_more.png" class="image2"></image>
+        </view>
+    </view>
+</view>

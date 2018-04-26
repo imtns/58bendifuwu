@@ -1,0 +1,112 @@
+/* shop/room/room.wxss */
+.left-Avatar{
+    float:left;
+    width: 70rpx;
+    height: 70rpx;
+    margin-right: 6rpx;
+    margin-top: 16rpx;
+}
+
+.left-Triangle{
+    float:left;
+    margin-top: 42rpx;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-right:  6px solid #fff;
+    border-bottom: 4px solid transparent;
+}
+
+.left-message{
+    float: left;
+    margin-top: 24rpx;
+    background: #fff;
+    border-radius: 6rpx;
+    font-size: 14px;
+    letter-spacing: 1px;
+    max-width: 180px;
+    word-break:break-all;
+}
+
+.right-Avatar{
+    float:right;
+    width: 70rpx;
+    height: 70rpx;
+    margin-left: 6rpx;
+    margin-top: 16rpx;
+    
+}
+.right-Triangle{
+    float:right;
+    margin-top: 42rpx;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-left: 6px solid #5bcd20;
+    border-bottom: 4px solid transparent;
+}
+.right-message{
+    float: right;
+    margin-top: 22rpx;
+    background: #5bcd20;
+    border-radius: 6rpx;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #333;
+    max-width: 180px;
+}
+.voice {
+    width: 50rpx;
+    height: 50rpx;
+    margin-top: 15rpx;
+}
+.expression {
+    width: 50rpx;
+    height: 50rpx;
+    margin-top: 15rpx;
+}
+.add {
+    width: 60rpx;
+    height: 60rpx;
+    margin-top: 10rpx;
+}
+
+.send {
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    margin-top: 12rpx;
+    font-size: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+    letter-spacing: 2px;
+}
+
+.textInput {
+    border-bottom: 1rpx solid #ccc;
+    padding-left:10px;
+    height:30px;
+    line-height:30px;
+    font-family:microsoft yahei;
+    font-size:14px;
+}
+
+.voiceInput {
+    border: 1rpx solid #ccc;
+    padding-left:10px;
+    height:30px;
+    line-height:30px;
+    font-family:microsoft yahei;
+    font-size:14px;
+}
+
+.time-label{
+    background: #ccc;
+    color: #fff;
+    margin: 0 auto;
+    text-align:center;
+    width: 40%;
+    font-family:microsoft yahei;
+    font-size:12px;
+    display: block;
+}

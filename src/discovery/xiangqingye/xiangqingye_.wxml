@@ -1,0 +1,64 @@
+<!--discovery/xiangqingye/xiangqingye.wxml-->
+<view class="{{call.hidden ? '' : 'noScroll'}} bodybg">
+<view>
+  <view class="title_date">
+    <text class="title">{{infoDetail.title}}</text>
+    <text class="date">发布    {{infoDetail.postDate}}</text>
+  </view>
+  <view wx:if="{{!isPet}}" class="abstract">
+    <text wx:if="{{infoDetail.cateName}}">服务类型：{{infoDetail.cateName}}</text>
+    <text wx:if="{{infoDetail.params.gobcompanyname.value}}">公司名称：{{infoDetail.params.gobcompanyname.value}}</text>
+    <text>会员年限：{{infoDetail.wltYears}} 年</text>
+  </view>
+  <view wx:if="{{isPet}}" class="abstract">
+    <text wx:if="{{infoDetail.cateName}}">品种：{{infoDetail.cateName}}</text>
+    <text wx:if="{{infoDetail.params.MinPrice.value}}">价格：{{infoDetail.params.MinPrice.value}} 元</text>
+    <text wx:if="{{infoDetail.params.yimiaoqingkuang.value}}">防疫：{{infoDetail.params.yimiaoqingkuang.value}}</text>
+  </view>
+  <view class="contact_con">
+    <view class="telephone" data-sign="{{sign}}" data-infoid="{{infoDetail.infoId}}" data-source="1"  bindtap="call_tick"><image  src="../../image/tele_icon.png" class="tele_icon"/><text>打电话</text></view>
+    <view  class="wechat" catchtap="goChat" data-userid= "{{infoDetail.userid}}" data-infoid="{{infoDetail.infoId}}"><image  src="../../image/detail_chat.png" class="wechat_icon"/><text>微聊</text></view>
+  </view>
+</view>
+<view wx:if="{{!isPet}}" class="service_introduce_con">
+  <view class="service_introduce_title">服务介绍</view>
+  <text class="service_introduce_content {{serviceIntroduceContentPackup?'service_introduce_content_packup':''}}">{{infoDetail.content}}</text>
+  <view class="service_introduce_packup_switch" bindtap="serviceIntroducePackupSwitch">
+    <text>{{serviceIntroduceContentPackup?'展开查看全文':'收起全文'}}</text>
+    <image  src="../../image/{{serviceIntroduceContentPackup?'content_unpack_icon':'content_packup_icon'}}.png" class="content_pack_icon" />
+  </view>
+</view>
+<view  wx:if="{{isPet}}" class="pet_pic_con">
+  <view class="pet_pic_title">详情照片</view>
+  <view class="pet_pic_content" bindtap="preViewImage">
+    <image src="{{infoDetail.images[0].image? infoDetail.images[0].image : '../../image/pic_holder.svg'}}" class="first_pet_pic" mode="aspectFill"></image>
+    <view class="second_third_pic_con">
+      <image src="{{infoDetail.images[1].image? infoDetail.images[1].image : '../../image/pic_holder.svg'}}" class="second_pic" mode="aspectFill"></image>
+      <image src="{{infoDetail.images[2].image? infoDetail.images[2].image : '../../image/pic_holder.svg'}}" mode="aspectFill"></image>
+    </view>
+    <text class="image_count">共{{infoDetail.images.length}}张</text>
+  </view>
+</view>
+<view class="enterprise_address_con"  wx:if="{{ismap}}">
+  <view class="enterprise_address_text" bindtap="onmapFun" wx:if="{{infoDetail.address ? true : (infoDetail.params.dizhi.value ? true : false) }}">
+    <text>{{infoDetail.address ? infoDetail.address : infoDetail.params.dizhi.value}}</text>
+    <image src="../../image/map.png" style="width:16rpx; height:26rpx; margin-left:10rpx; margin-top:6rpx; vertical-align:middle;"></image>
+  </view>
+  <view class="enterprise_address_map" hidden="{{call.hidden ? false : true}}">
+    <map id="map" longitude="{{infoDetail.coord.longitude}}" latitude="{{infoDetail.coord.latitude}}" scale="14" controls="{{mapControls}}" bindcontroltap="controltap" markers="{{mapMarkers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+  </view>
+</view>
+<!--打电话谈层  s-->
+<view class="call_mask" hidden="{{call.hidden}}">
+  <view class="call_con">
+    <text class="call_title">拨打电话</text>
+    <text class="call_number">{{call.teleNumber}}</text>
+    <text class="call_text">(电话<text class="call_tick">{{call.tick}}</text>秒后失效，请尽快拨打)</text>
+    <view class="call_btn_con">
+      <text class="call_left_btn" bindtap="cancel_call">取消</text>
+      <text class="call_right_btn" bindtap="call">拨打</text>
+    </view>
+  </view>
+</view>
+<!--打电话谈层  e-->
+</view>

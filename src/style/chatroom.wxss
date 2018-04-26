@@ -1,0 +1,195 @@
+/*聊天页面样式*/
+/* shop/room/room.wxss */
+.left-Avatar{
+    float:left;
+    width: 70rpx;
+    height: 70rpx;
+    margin-right: 6rpx;
+    border-radius: 50%;
+}
+.right-Avatar{
+    float:right;
+    width: 70rpx;
+    height: 70rpx;
+    margin-left: 6rpx;
+    border-radius: 50%;
+}
+.left-Triangle, .right-Triangle{
+    margin-top: 22rpx;
+    width: 14rpx;
+    height: 14rpx;
+}
+.left-Triangle{
+    float:left;
+    border-top: 1rpx solid #ccc;
+    border-left:  1rpx solid #ccc;
+    background: #fff;
+    transform: rotate(-45deg);
+    transform-origin: 100% 0;
+}
+.right-Triangle{
+    float:right;
+    border-top: 1rpx solid #6fb44e;
+    border-right: 1rpx solid #6fb44e;
+    background: #a0e75a;
+    transform: rotate(45deg);
+    transform-origin: 0 0;
+}
+.left-message, .right-message{
+    line-height: 1.4;
+    padding: 14rpx 14rpx;
+    max-width: 420rpx;
+    letter-spacing: 0;
+}
+.left-message{
+    float: left;
+    background: #fff;
+    border-radius: 10rpx;
+    font-size: 30rpx;
+    box-shadow: 0 0 0 1rpx #ccc;
+}
+.right-message{
+    float: right;
+    background: #a0e75a;
+    border-radius: 10rpx;
+    font-size: 30rpx;
+    color: #333;
+    box-shadow: 0 0 0 1rpx #6fb44e;
+}
+.voice {
+    width: 50rpx;
+    height: 50rpx;
+    margin-top: 15rpx;
+}
+.expression {
+    width: 50rpx;
+    height: 50rpx;
+    margin-top: 15rpx;
+}
+.add {
+    width: 60rpx;
+    height: 60rpx;
+    margin-top: 10rpx;
+}
+
+.send {
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    margin-top: 12rpx;
+    font-size: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+    letter-spacing: 2px;
+}
+
+.textInput {
+    border-bottom: 1rpx solid #ccc;
+    height:34px;
+    line-height:34px;
+    font-family:microsoft yahei;
+    font-size:14px;
+    width: 100%;
+}
+
+.voiceInput {
+    border: 1rpx solid #ccc;
+    padding-left:10px;
+    height:30px;
+    line-height:30px;
+    font-family:microsoft yahei;
+    font-size:14px;
+    width: 100%;
+}
+
+.time-label{
+    color: #fff;
+    margin: 0 auto;
+    text-align:center;
+    width: 40%;
+    font-family:microsoft yahei;
+    font-size:24rpx;
+    display: block;
+    color: #999;
+    height: 38rpx;
+    line-height: 38rpx;
+}
+
+/*聊天页面长信息收起展开 s*/
+
+.msg_packup_switch{
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.msg_packup_switch>text{
+  display: inline;
+  font-size: 26rpx;
+  color: #1AAD19;
+  line-height: 30rpx;
+}
+.content_pack_icon{
+  width: 18rpx;
+  height: 10rpx;
+  padding-left: 10rpx;
+  vertical-align: 2rpx;
+}
+.msg_text_packedup{
+    height: 124rpx;
+    overflow: hidden;
+    display: block;
+}
+/*聊天页面长信息收起展开 e*/
+.body{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+.chatMsgContainer{
+    background:#ebebeb;
+    height: 100%;
+    padding-bottom: 100rpx;
+    box-sizing: border-box;
+}
+.inputContainer{
+    background:#f5f5f7;
+    height: 100rpx;
+    padding:0;
+    position: absolute;
+    bottom: 0;
+}
+.send_type_con{
+    width: 84rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+.send_type_pic{
+    display: block;
+    width: 56rpx;
+    height: 56rpx;
+}
+.text_input_con{
+    width: 600rpx;
+    flex-shrink: 1;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+.choose_img_con{
+    width: 87rpx;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.choose_img{
+    width: 56rpx;
+    height: 47rpx;
+}
+#msgbottom{
+    padding-top: 40rpx;
+}
+.placeholder-class{
+    color: #eee;
+}

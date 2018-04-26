@@ -1,0 +1,11 @@
+<template name="editor">
+    <block wx:if="{{scrollHeight>0}}">
+        <form bindsubmit="onsendmsg" report-submit="true">
+            <view class="im-editor">
+                <input data-type="input" name="input" class="im-input" bindinput="oneditorbindinput"
+                       value="{{inputdata}}"/>
+                <button class='im-button' formType="submit">发送</button>
+            </view>
+        </form>
+    </block>
+</template>

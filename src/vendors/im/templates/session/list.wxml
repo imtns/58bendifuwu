@@ -1,0 +1,27 @@
+<!--list.wxml-->
+<template name='session-list'>
+    <block wx:for="{{sessionList}}" wx:for-index="idx" wx:for-item="item" wx:key="contact.user_id@contact.user_source">
+        <navigator url="../chat/chat?userid={{item.contact.user_id}}&usersource={{item.contact.user_source}}"
+                   class="ss-item">
+            <view class="ss-left">
+                <image class="avatar" mode="aspectFit" src="{{item.contact.avatar}}"></image>
+                <text class="unread" wx:if="{{item.unread!==0}}">{{item.unread}}</text>
+            </view>
+            <view class="ss-right">
+                <view class="top">
+                    <text class="name">{{item.contact.user_name}}</text>
+                    <text class="time">{{item.msg.send_time}}</text>
+                </view>
+                <view class="lastmsg">
+                    <text class="sending" wx:if="{{item.status==='SENDING'}}"></text>
+                    <text class="failed" wx:if="{{item.status==='FAIL'}}"></text>
+                    {{item.lastMsg}}
+                </view>
+            </view>
+        </navigator>
+    </block>
+    <view class="im-loading" wx:if="{{loadStatus.showLoading}}">
+        <view class="icon" wx:if="{{loadStatus.loadInfo == ''}}"></view>
+        {{loadStatus.loadInfo}}
+    </view>
+</template>

@@ -1,0 +1,5 @@
+page{
+    background: #fff;
+}
+
+.list { padding-left: 20rpx;height: 90rpx; border-bottom: 1px solid #f4f4f4; font-size: 32rpx; line-height: 90rpx; color: #333;}

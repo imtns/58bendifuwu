@@ -1,0 +1,898 @@
+page{
+    background-color: #f5f5f5;
+}
+.baseInfo{
+    background-color: #fff;
+    padding: 50rpx 30rpx 0;
+}
+.baseTit{
+    font-size: 40rpx;
+    color: #000;
+    line-height: 60rpx;
+}
+.baseDate{
+    display: flex;
+    font-size: 30rpx;
+    color: #989898;
+    height: 60rpx;
+    padding-bottom: 30rpx;
+    align-items: center;
+    justify-content: space-between;
+}
+.baseDetal{
+    height: 90rpx;
+    display: flex;
+    border-top: 2rpx solid #f1f1f1;
+    font-size: 30rpx;
+    align-items: center;
+}
+.baseTel{
+    height: 36rpx;
+    width: 36rpx;
+    background: url("https://img.58cdn.com.cn/ds/detail/tels.png") no-repeat 0 0;
+    background-size: 36rpx;
+    position: absolute;
+    right: 80rpx;
+}
+.bdName{
+    color: #989898;
+    padding-right: 50rpx;
+}
+.bdValue{
+    color: #000;
+}
+.serviceRange{
+    width: 500rpx;
+    height: 100%;
+    line-height: 90rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+.bdAddress{
+    max-width: 430rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.markBox{
+    background-color: #fffbf3;
+    font-size: 30rpx;
+    margin-top: 30rpx;
+}
+.markList{
+    display: flex;
+    border-bottom: 2rpx solid #f1ebdf;
+    height: 90rpx;
+    align-items: center;
+}
+.markList::after{
+    border: none;
+}
+.markTitle{
+    width: 100rpx;
+    text-align: right;
+    color: #989898;
+}
+.markDes{
+    display: flex;
+    align-items: center;
+    color: #FF552E;
+}
+.markDes text{
+    margin-left: 16rpx;
+}
+.markDes .mar30{
+    margin-left: 30rpx;
+}
+.successIcon{
+    width: 30rpx;
+    height: 30rpx;
+    border: 2rpx solid #FF552E;
+    margin-left: 30rpx;
+    border-radius: 100%;
+    position: relative;
+}
+.suceessRight{
+    position: absolute;
+    left:11rpx;
+    top:2rpx;
+    display:block;
+    width:9rpx;
+    height:18rpx;
+    border-bottom: 1px solid #FF552E;
+    border-right: 1px solid #FF552E;
+    transform: rotate(45deg);
+}
+.chooseService{
+    display: flex;
+    height: 90rpx;
+    padding: 0 30rpx;
+    align-items: center;
+    background-color: #fff;
+    margin-top: 30rpx;
+    justify-content: space-between;
+}
+.csImage{
+    width: 140rpx;
+    height: 32rpx;
+}
+.csTextBox{
+    display: flex;
+    font-size: 30rpx;
+    color: #989898;
+    align-items: center;
+}
+.csText{
+    margin-right: 10rpx;
+}
+.orange{
+    color: #FF552E;
+}
+.csArrow{
+    border: 11rpx solid #989898;
+    border-top-width: 9rpx;
+    border-bottom-width: 9rpx;
+    border-color: transparent transparent transparent #989898;
+}
+.tabBox{
+    margin-top:30rpx;
+    height: 90rpx;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    width: 100%;
+    border-bottom: 2rpx solid #f1f1f1;
+}
+.tabBox .tabItem{
+    width: 33.33333%;
+    text-align: center;
+    font-size: 30rpx;
+    height: 90rpx;
+    line-height: 90rpx;
+    position: relative;
+}
+.select{
+    color: #ff4f3f;
+}
+.select .tabLine{
+    position: absolute;
+    width: 60rpx;
+    height: 4rpx;
+    background-color: #ff4f3f;
+    top: 75rpx;
+    left: 50%;
+    margin-left: -30rpx;
+}
+.detail{
+    background-color: #fff;
+}
+.detailMark{
+    padding-left:30rpx; 
+    border: 0 solid #000;
+}
+.detailMark view{
+    margin: 30rpx 20rpx 0 0; 
+    padding: 8rpx 13rpx;
+    font-size: 28rpx;
+    background-color: #ebf5fe;
+    color: #105fa2;
+    display: inline-block;
+}
+.detailMain{
+    padding: 30rpx 0 10rpx;
+    font-size: 28rpx;
+}
+.detailTit{
+    padding: 0 30rpx 20rpx;
+}
+.detailDes{
+    padding: 0 30rpx 20rpx;
+    color: #666;
+    height: 260rpx;
+    overflow: hidden;
+    line-height: 40rpx;
+    word-wrap:break-word;
+    text-align: justify;
+}
+.show{
+    height: auto;
+}
+.detailMore,.detailMoreShow{
+    height: 90rpx;
+    border-top: 2rpx solid #f1f1f1;
+    line-height: 90rpx;
+    text-align: center;
+    position: relative;
+}
+.detailMore text,.detailMoreShow text{
+    font-size: 30rpx;
+    color: #666;
+    padding-right: 20rpx;
+}
+.detailMore .dmArrow{
+    border-color: transparent transparent #989898 transparent;
+    margin-top:-15rpx
+}
+.dmArrow{
+    border: 11rpx solid #989898;
+    border-top-width: 9rpx;
+    border-bottom-width: 9rpx;
+    border-color: #989898 transparent transparent transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: 60rpx;
+    margin-top: -5rpx;
+}
+.detailType{
+    padding: 0 30rpx;
+}
+.dtItem{
+    width: 25%;
+}
+.dtItem image{
+    width: 80rpx;
+    height: 80rpx;
+    display: block;
+    margin: 20rpx auto;
+}
+.dtItem text{
+    display: block;
+    text-align: center;
+}
+.imgList{
+    margin-top: 30rpx;
+    padding: 30rpx;
+    height: 220rpx;
+    background-color:#fff; 
+    width: 100%;
+}
+
+.imgList image{
+    width: 146px;
+    height: 220rpx;
+    border: 2rpx solid #f3f3f3;
+    margin-right: 20rpx;
+    float: left;
+}
+.firm{
+    padding: 30rpx;
+    margin-top: 30rpx;
+    background-color: #fff;
+}
+.firmHeadBox{
+    display: flex;
+}
+.firmImgBox{
+    width: 84rpx;
+    height: 84rpx;
+}
+.firmImgBox image{
+    width: 84rpx;
+    height: 84rpx;
+}
+.firmTitBox{
+    flex: 1;
+    margin-left: 20rpx;
+    height:84rpx;
+    line-height:40rpx;
+}
+.ftMark{
+    display: inline-block;
+    padding: 2rpx 4rpx;
+    background-color: #F2B839;
+    font-size: 24rpx;
+    color: #fff;
+    margin-right: 16rpx;
+    line-height: 24rpx;
+}
+.firmTit{
+    font-size: 28rpx;
+    color: #333;
+}
+.firmMarkBox{
+    width: 150rpx;
+}
+.firmLevel{
+    width: 150rpx;
+    height: 40rpx;
+    margin-top: 5rpx;
+    background-image: url(https://img.58cdn.com.cn/olympia/img/shenghuo/final/vip_new_m.png);
+    background-size: 150rpx 240rpx;
+    background-repeat: no-repeat;
+    font-size: 24rpx;
+    line-height: 40rpx;
+    padding-right: 15rpx;
+    box-sizing: border-box;
+    text-align: right;
+    color: #fff;
+}
+.zuanshi{
+    background-position: 0 0;
+}
+.huangguan{
+    background-position: 0 -48rpx;
+}
+.huangjin{
+    background-position: 0 -96rpx;
+}
+.baiyin{
+    background-position: 0 -144rpx;
+}
+.qingtong{
+    background-position: 0 -192rpx;
+}
+.firmPerc{
+    margin-top: 8rpx;
+    font-size: 24rpx;
+    color: #333;
+    text-align: right;
+}
+.firmPerc text{
+    color: #ff552e;
+}
+.firmCenterBox{
+    display: flex;
+    height: 104rpx;
+    margin-top: 20rpx;
+}
+.fcbItem{
+    flex: 1;
+    height: 104rpx;
+    padding: 10rpx 0;
+    box-sizing: border-box;
+    border-right: 2rpx solid #f3f3f3;
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+.fcbItem:last-child{
+    border:none;
+    padding: 0;
+}
+.fcbBig{
+    font-size: 30rpx;
+    text-align: center;
+    color: #333;
+}
+.fcbSmall{
+    font-size: 24rpx;
+    text-align: center;
+    color: #999;
+}
+.fcbHigh{
+    font-size: 26rpx;
+    display: flex;
+    justify-content: space-around;
+    align-content:space-between;
+    padding: 0 30rpx;
+    height: 35rpx;
+    line-height: 35rpx;
+}
+.fcbRq{
+    color: #999;
+}
+.fcbValue{
+    color: #ff552e;
+}
+.fcbLevel{
+    border: 1px solid #ff552e;
+    display:inline-block;
+    color: #ff552e;
+    line-height: 28rpx;
+    height: 26rpx;
+    margin-bottom: 4rpx;
+}
+.firmBottomBox{
+    margin-top: 20rpx;
+    padding: 10rpx;
+}
+.telButton{
+    border: 2rpx solid #ff552e;
+    text-align: center;
+    color:  #ff552e;
+    border-radius: 4rpx;
+    font-size: 30rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+    width: 80%;
+    margin: 0 auto;
+}
+.listTit{
+    height: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30rpx;
+    padding: 20rpx 0;
+    margin-top: 20rpx;
+}
+.listTit::before{
+    content: '';
+    width: 80rpx;
+    height: 2rpx;
+    background-color: #ddd;
+    margin-right: 20rpx;
+}
+.listTit::after{
+    content: '';
+    width: 80rpx;
+    height: 2rpx;
+    background-color: #ddd;
+    margin-left: 20rpx;
+}
+.list{width: 100%; padding:30rpx 0; height: 188rpx; box-sizing: border-box; border-bottom: 1rpx solid #dedfe0; background-color: #fff; display: flex; }
+.list_l{ padding-left: 26rpx;}
+.list_img{width: 160rpx; height: 120rpx; display: block; background-color:blue;}
+.list_c{padding-left: 28rpx; flex: 1; padding-right: 30rpx; }
+.list_c_t{height: 85rpx;line-height: 36rpx;}
+.list_title{font-size: 28rpx;  color: #000;}
+.list_c_b{clear: both; width: 382rpx;}
+.list_area_box{ float: left; width: 280rpx; overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap; line-height: 1;}
+.list_area{ font-size: 24rpx; color:#808080;}
+.list_icon_box{float: left; width: 102rpx; line-height: 1;}
+.list_icon_year{display: inline-block; height: 34rpx;line-height: 34rpx;  box-sizing: border-box; padding: 0 5rpx; border: 1px solid #66c8fa; border-radius: 3rpx; font-size: 20rpx; color:#66c8fa;}
+.bottomBar{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    height: 120rpx;
+    background: #fff;
+    border-color: #ebebeb;
+    display: flex;
+}
+.csBar{
+    width: 150rpx;
+    height: 120rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.csBarIcon{
+    width: 48rpx;
+    height: 48rpx;
+    background-image: url("https://img.58cdn.com.cn/olympia/img/shenghuo/final/im_bg.png");
+    background-repeat: no-repeat;
+    background-position: 1px -71px;
+    background-size: 48px;
+}
+.csBar text{
+    font-size: 24rpx;
+    color: #666;
+}
+.telBar,.weiBar{
+    height: 100%;
+    flex: 1;
+    font-size: 26rpx;
+    background-color: #F1A82A;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.telBarIcon,.weiBarIcon{
+    width: 48rpx;
+    height: 48rpx;
+}
+.weiBar{
+    background-color: #ff552e
+}
+.telBarIcon,.weiBarIcon{
+    width: 50rpx;
+    height: 50rpx;
+    background-image: url(http://img.58cdn.com.cn/olympia/img/shenghuo/final/im_bg.png);
+    background-size: 100rpx;
+    background-position: 0 0;
+    margin-bottom: 4rpx;
+}
+.weiBarIcon{
+    background-position: 0 -48rpx;
+}
+.maskBg{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: .7;
+    background-color: #000;
+    top: 0;
+    left: 0;
+    z-index: 2001;
+}
+.alertTel{
+    position: fixed;
+    width: 540rpx;
+    height: 354rpx;
+    z-index: 2001;
+    left: 50%;
+    top: 50%;
+    margin-left: -270rpx;
+    margin-top: -177rpx;
+    background: #FFFFFF;
+    border-radius: 0.0533333rem;
+    box-sizing: border-box;
+    padding: 60rpx 0;
+}
+.statusArea{
+    font-size: 28rpx;
+    color: #666;
+    text-align: center;
+}
+.telArea{
+    text-align: center;
+    color: #FF552E;
+    font-size: 36rpx;
+    font-family: PingFangSC-Semibold;
+}
+.textArea{
+    font-size: 28rpx;
+    color: #999;
+    text-align: center;
+    padding-bottom: 30rpx;
+}
+.callArea{
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 320rpx;
+    margin: 0 auto;
+    background-color: rgb(255, 85, 46);
+    color: #fff;
+    position: relative;
+    text-align: center;
+}
+.callArea text{
+    padding-left: 60rpx;
+    font-size: 30rpx;
+}
+.callArea text::before{
+    content: '';
+    display: block;
+    position: absolute;
+    background: url(//img.58cdn.com.cn/olympia/img/shenghuo/ico_alert_telapp@3x.png) no-repeat center;
+    width: 34rpx;
+    height: 34rpx;
+    left: 80rpx;
+    top: 22rpx;
+    background-size:34rpx 34rpx;
+}
+.closeTelInfo{
+    position: absolute;
+    background: url(//img.58cdn.com.cn/olympia/img/shenghuo/ico_alert_close.png) no-repeat center;
+    width: 72rpx;
+    height: 72rpx;
+    left: 236rpx;
+    top: 394rpx;
+    background-size: 90% auto;
+    z-index: 3001;
+}
+.commodity_main{
+    height: 60%;
+    position: fixed;
+    background: #fff;
+    z-index: 10001;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 0 30rpx;
+    box-sizing: border-box;
+
+}
+.commodity_close_btn{
+    right: 25rpx;
+    top: 24rpx;
+    position: absolute;
+    display: block;
+    width: 40rpx;
+    height: 40rpx;
+    overflow: hidden;
+}
+.commodity_img{
+    width: 224rpx;
+    height: 168rpx;
+    background: #fff;
+    border: 1px solid rgba(238,238,238,.6);
+    border-radius: 4px;
+    position: absolute;
+    top: -80rpx;
+}
+.commodity_img image{
+    width: 100%;
+    height: 100%;
+}
+.commodity_price{
+    padding: 24rpx 0 0 260rpx;
+    font-size: 40rpx;
+    color: #FF552E;
+}
+.pri_dw{
+    font-size: 28rpx;
+}
+.commodity_close_btn::before{
+    content: '';
+    transform: rotate(45deg);
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    margin-top: -1px;
+    background: #666;
+}
+.commodity_close_btn::after{
+    content: '';
+    transform: rotate(-45deg);
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    margin-top: -1px;
+    background: #666;
+}
+.commodity_tit{
+    color: #333;
+    height: 56rpx;
+    line-height: 56rpx;
+    font-size: 28rpx;
+    margin-top: 20rpx;
+}
+.commodity_type{
+   padding-bottom: 10rpx;
+   border-bottom: 2rpx solid #f3f3f3;
+}
+.commodity_text{
+    line-height: 56rpx;
+    font-size: 24rpx;
+    background: #f6f6f6;
+    padding: 5rpx 20rpx;
+    margin: 0 20rpx 20rpx 0;
+    border-radius: 2rpx;
+    color: #666;
+    display: inline-block;
+}
+.cur{
+    background: #FFEFEB;
+    color: #FF552E;
+}
+.commodity_des{
+    font-size: 28rpx;
+    line-height: 40rpx;
+    text-align: justify;
+    color: #666;
+    height:120rpx;
+}
+.commodity-tel{
+    display: block;
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #fff;
+    background: #FF552E;
+    text-align: center;
+    font-size: 30rpx;
+    margin-top: 60rpx;
+}
+.commodity-tel::before{
+    display: inline-block;
+    content: '';
+    width: 44rpx;
+    height: 44rpx;
+    background: url(https://img.58cdn.com.cn/olympia/img/shenghuo/final/sp_mdetail_new.png) no-repeat;
+    background-position: -20rpx -662rpx;
+    background-size: 126rpx 1476rpx;
+    vertical-align: middle;
+    margin-right: .21333rem
+}
+.jubao{
+    height: 80rpx;
+    padding: 30rpx;
+    margin: 30rpx 0 150rpx;    
+    background-color: #fff;
+    font-size: 26rpx;
+    position: relative;
+    padding-bottom: 160rpx;
+}
+.jubao text{
+    color: #ff552e;
+}
+.jbImg{
+    width: 65rpx;
+    height: 62rpx;
+    background: url(https://img.58cdn.com.cn/olympia/img/shenghuo/final/sp_mdetail_new.png) no-repeat;
+    background-position: -5rpx -770rpx;
+    background-size: 126rpx 1476rpx;
+    position: absolute;
+    right: 30rpx;
+    top: 40rpx;
+    border-left: 2rpx solid #f3f3f3;
+}
+.evaluation{
+    margin-top: 30rpx;
+    background-color: #fff;
+    
+}
+.evaluationTit{
+    height: 90rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 28rpx;
+    padding: 0 30rpx;
+    color: #000;
+    border-bottom: 2rpx solid #f3f3f3;
+}
+.evaluationLev text{
+    color: #FF552E
+}
+.evaluationHref{
+    color: #0E8ED8;
+}
+.evaluationHref::after{
+    content: "";
+    border: 15rpx solid #0E8ED8;
+    border-top-width: 10rpx;
+    border-bottom-width: 10rpx;
+    border-color: transparent transparent transparent #0E8ED8;
+    display: inline-block;
+    margin-left: 10rpx;
+}
+.evaluation_group {
+    margin-top: 10rpx;
+    padding: 30rpx;
+    background-color: #fff;
+}
+
+.evaluation_group_top {
+    overflow: hidden;
+}
+
+.user_img {
+    float: left;
+}
+
+.user_img image {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+}
+
+.user_info {
+    float: left;
+    position: relative;
+    width: 88%;
+    margin-left: 20rpx;
+}
+
+.user_name_box {
+    line-height: 26rpx;
+    height: 26rpx;
+}
+
+.user_name {
+    font-size: 26rpx;
+}
+
+.time {
+    font-size: 26rpx;
+    float: right;
+    line-height: 1;
+}
+
+.star_group {
+    line-height: 1;
+    margin-top: 13rpx;
+    width: 68px;
+    height: 12px;
+    overflow: hidden;
+    background: url(https://img.58cdn.com.cn/olympia/img/shenghuo/final/ico-allstars@2x.png) no-repeat 0 0;
+    background-size: 100%;
+    position: relative;
+    top: -1px;
+}
+
+.star_group .star {
+    display: inline-block;
+    width: 100%;
+    height: 12px;
+    overflow: hidden;
+    background: url(https://img.58cdn.com.cn/olympia/img/shenghuo/final/ico-allstars@2x.png) no-repeat 0 0;
+    background-size: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.star_group .star1 {
+    background-position: 0 -16px;
+}
+
+.star_group star1-half {
+    background-position: 0 -32px;
+}
+
+.star_group .star2 {
+    background-position: 0 -48px;
+}
+
+.star_group .star2-half {
+    background-position: 0 -64px;
+}
+
+.star_group .star3 {
+    background-position: 0 -80px;
+}
+
+.star_group star3-half {
+    background-position: 0 -96px;
+}
+
+.star_group .star4 {
+    background-position: 0 -112px;
+}
+
+.star_group star4-half {
+    background-position: 0 -128px;
+}
+
+.star_group .star5 {
+    background-position: 0 -144px;
+}
+
+.evaluation_group_desc {
+    padding-left: 80rpx;
+    font-size: 26rpx;
+}
+
+.evaluation_group_dialogue {
+    padding-left: 80rpx;
+    font-size: 26rpx;
+}
+
+.dial_seller {
+    background: none;
+    margin-top: 15rpx;
+    border-top: 1px solid #f6f6f6;
+    padding: 30rpx 0 0;
+}
+
+.redfont {
+    color: #ff552e;
+}
+.allPrint{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+.allPrint view{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slide-image{
+    width: 100%;
+    max-height: 80%;
+}
+@font-face {
+    font-family: iconfont-addr;
+    src: url(https://img.58cdn.com.cn/webfonts/shenghuo/huangye_final.woff) format("woff"),url(https://img.58cdn.com.cn/webfonts/shenghuo/huangye_final.ttf) format("truetype"),url(https://img.58cdn.com.cn/webfonts/shenghuo/huangye_final.svg#iconfont-addr) format("svg")
+}
+.mapIcon{
+    width: 32rpx;
+    height: 26rpx;
+    font-family: iconfont-addr!important;
+    font-size: 28rpx;
+    line-height: 30rpx;
+    margin-left: 10rpx;
+    color: #c7c7c7
+}

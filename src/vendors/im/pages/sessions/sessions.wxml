@@ -1,0 +1,4 @@
+<!--sessions.wxml-->
+<import src="../../templates/session/list.wxml"/>
+
+<template is="session-list" data="{{sessionList: sessionList, loadStatus: loadStatus}}"/>

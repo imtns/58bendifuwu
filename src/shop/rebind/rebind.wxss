@@ -1,0 +1,6 @@
+/* shop/rebind/rebind.wxss */
+.share_btn{
+  background: #1AAE18;
+  color: #fff;
+  width: 90%;
+}

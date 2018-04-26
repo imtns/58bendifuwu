@@ -1,0 +1,33 @@
+/*商家、用户信息页面的css @zhaoxuxu @2017-7-1*/
+/*之前信息页面的样式很乱，之后通用的样式请尽量放在这里并在用的地方引用*/
+page{
+  background: #efeff4;
+}
+.basic_info{
+  height: 184rpx;
+  display: flex;
+  padding-left: 30rpx;
+  padding-top: 40rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+  background: #fff;
+}
+.avatar{
+  border-radius: 50%;
+  width: 102rpx;
+  height: 102rpx;
+}
+.name_gender_contactCount{
+  padding-left: 20rpx;
+}
+.contactCount_text{
+  font-size: 24rpx;
+  color: #999999;
+}
+.contactCount_num{
+  color: #ff9a83;
+}
+.button_con{
+  margin: 60rpx auto 0;
+  width: 90%;
+}

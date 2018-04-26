@@ -1,0 +1,113 @@
+/* shop/msglist/msglist.wxss */
+
+view, text{
+  font-family: PingFangSC-Regular,PingFang,"MicroSoft Yaihei";
+}
+.time_tag{
+  float: right;
+  font-family: PingFangSC-Regular;
+  font-size: 20rpx;
+  color: #999999;
+  padding-left: 20rpx;
+  padding-top: 6rpx;
+}
+.msg_con {
+  display: flex;
+  height: 170rpx;
+  margin-left: 30rpx;
+  padding-right: 30rpx;
+  border-bottom: 1rpx solid #ededed;
+  align-items: center;
+}
+
+/*引导页 s*/
+.user_guide, .shop_guide{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #efeff4;
+}
+.guide_tip_con{
+  background: #FFEFE7;
+  width: 100%;
+  height: 70rpx;
+}
+.guide_tip_icon{
+  width: 32rpx;
+  height: 28rpx;
+  margin-left: 30rpx;
+  margin-right: 15rpx;
+  vertical-align: -5rpx;
+}
+.guide_tip_text{
+  line-height: 70rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #FF552E;
+}
+.dis_block{
+  display: block;
+}
+.guide_title, .guide_content1{
+  text-align: center;
+  font-size: 34rpx;
+  color: #666666;
+  letter-spacing: 0;
+  line-height: 60rpx;
+  font-weight: 400;
+}
+.guide_title1{
+  margin-top: 30%;
+}
+.guide_content1_pic{
+  width: 60rpx;
+  height: 60rpx;
+  margin: 0 20rpx;
+  vertical-align: -14rpx;
+}
+.guide_content1{
+  margin-top: 60rpx;
+}
+.guide_pointer_icon{
+  width: 55rpx;
+  height: 86rpx;
+  margin-right: 27rpx;
+}
+.guide_pointer_con{
+  position: absolute;
+  bottom: 10rpx;
+  left: 62.5%;
+  display: flex;
+  width: 285rpx;
+  margin-left: -20rpx;
+}
+.guide_pointer_text1, .guide_pointer_text2{
+  display: block;
+  font-family: .PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #666666;
+  letter-spacing: 0;
+  line-height: 34rpx;
+}
+.shop_guide_content{
+  width: 100%;
+  height: 368rpx;
+  position: absolute;
+  top: 50%;
+  margin-top: -184rpx;
+}
+.shop_guide_img{
+  width: 300rpx;
+  height: 251rpx;
+  margin: auto;
+  display: block;
+}
+.shop_guide_text{
+  display: block;
+  height: 46rpx;
+  text-align: center;
+  padding-top: 95rpx;
+}
+/*引导页 e*/
