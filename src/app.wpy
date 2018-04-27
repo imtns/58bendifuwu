@@ -36,7 +36,6 @@ export default class extends wepy.app {
             navigationBarTitleText: 'WeChat',
             navigationBarTextStyle: 'black',
         },
-
     }
 
     onLaunch() {
@@ -80,8 +79,10 @@ module.exports = {
     getUserInfo() {
         console.log('ha');
     },
+    onLaunch() {
+        console.log('my on launch');
+    },
 };
-
 </script>
 
 <style lang='scss'>

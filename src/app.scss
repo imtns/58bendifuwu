@@ -1,3 +1,386 @@
-.container{
+@import 'style/weui';
+@import 'style/wx-ui';
+
+page {
+    height: 100%;
+    font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 200rpx 0;
+    box-sizing: border-box;
+}
+
+.padding {
+    padding: 20rpx;
+}
+
+.padding_half {
+    padding: 20rpx;
+}
+
+.graySpace {
+    color: #999;
+    padding-left: 40rpx;
+    background: #eee;
+    font-size: 12px;
+    min-height: 30rpx;
+    font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.item-avatar .text_box,
+.item-avatar-lg .text_box {
+    display: flex;
+    flex-direction: column
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.name {
+    font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+    font-size: 32rpx;
+}
+
+.item-avatar-sm .name,
+.item-avatar-xs .name {
+    font-size: 30rpx;
+    padding-left: 10rpx;
+    position: relative;
+    top: -1px;
+}
+
+.message {
+    font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+    font-size: 26rpx;
+    color: #999;
+    padding-top: 4px;
+}
+
+.item-avatar-lg,
+.item-avatar-md,
+.item-avatar-sm,
+.item-avatar-xs {
+    display: flex;
+    padding: 20rpx 30rpx;
+    border-bottom: 1rpx solid #eee;
+    cursor: pointer;
+    position: relative;
+}
+
+.item-avatar-lg image {
+    float: left;
+    width: 125rpx;
+    height: 125rpx;
+    box-sizing: border-box
+}
+
+.item-avatar-md image {
+    float: left;
+    width: 85rpx;
+    height: 85rpx;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.item-avatar-sm image {
+    float: left;
+    width: 65rpx;
+    height: 65rpx;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.item-avatar-lg image {
+    border-radius: 4px;
+}
+
+.address {
+    font-size: 28rpx;
+    position: relative;
+    top: 5px;
+}
+
+.item-avatar-md .marks {
+    position: absolute;
+    top: 0px;
+    left: 90rpx;
+    width: 40rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    background: red;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    font-size: 28rpx;
+}
+
+.item-avatar-lg .item-text,
+.item-avatar-md .item-text,
+.item-avatar-sm .item-text,
+.item-avatar-xs .item-text {
+    padding-left: 10px;
+}
+
+.item-avatar-md .item-time {
+    position: absolute;
+    right: 20rpx;
+}
+
+.clearfix {
+    overflow: hidden;
+}
+
+.icon::before {
+    font-size: 70rpx
+}
+
+.floatR {
+    float: right;
+}
+
+#gender_icon {
+    width: 18rpx;
+    height: 30rpx;
+    margin-left: 12rpx;
+    margin-top: 6rpx;
+}
+
+/*打电话弹层 s*/
+
+.call_mask {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.49);
+    top: 0;
+    left: 0;
+}
+
+.call_con text {
+    text-align: center;
+    display: block;
+    font-family: PingFangSC-Regular;
+}
+
+.call_con {
+    width: 560rpx;
+    height: 329rpx;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1rpx solid grey;
+    margin-top: -165rpx;
+    margin-left: -280rpx;
+    background: white;
+    border-radius: 8rpx;
+}
+
+.call_title {
     font-size: 36rpx;
+    color: #000000;
+    padding-top: 40rpx;
+}
+
+.call_number {
+    font-size: 32rpx;
+    color: #ff552e;
+    padding-top: 10rpx;
+}
+
+.call_text {
+    font-size: 24rpx;
+    color: #3a3a3a;
+    padding-top: 4rpx;
+}
+
+.call_tick {
+    display: inline !important;
+    color: #ff552e;
+}
+
+.call_btn_con {
+    height: 100rpx;
+    border-top: 2rpx solid #e5e5e5;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+}
+
+.call_left_btn,
+.call_right_btn {
+    width: 40%;
+    flex-grow: 1;
+    line-height: 100rpx;
+    height: 100rpx;
+    font-size: 36rpx;
+    color: #02BB00;
+}
+
+.call_left_btn {
+    border-right: 2rpx solid #e5e5e5;
+    color: #000;
+}
+
+/*打电话弹层 e*/
+
+/*打电话弹层 s*/
+
+.call_mask,
+.copy_mask {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 188;
+    background: rgba(0, 0, 0, 0.49);
+    top: 0;
+    left: 0;
+}
+
+.call_con text {
+    font-family: PingFangSC-Regular;
+}
+
+.call_con {
+    width: 560rpx;
+    height: 390rpx;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1rpx solid grey;
+    margin-top: -145rpx;
+    margin-left: -280rpx;
+    background: white;
+    border-radius: 8rpx;
+    z-index: 188;
+}
+
+.call_title {
+    font-size: 36rpx;
+    color: #000000;
+    padding-top: 40rpx;
+}
+
+.call_number {
+    font-size: 32rpx;
+    color: #ff552e;
+    padding-top: 10rpx;
+}
+
+.call_text {
+    font-size: 32rpx;
+    color: #333;
+    padding: 40rpx;
+}
+
+.call_text text {
+    color: red;
+}
+
+.call_tick {
+    display: inline !important;
+    color: #ff552e;
+}
+
+.call_btn_con {
+    height: 90rpx;
+    border-top: 2rpx solid #e5e5e5;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+}
+
+.call_left_btn,
+.call_right_btn {
+    width: 40%;
+    flex-grow: 1;
+    line-height: 90rpx;
+    height: 90rpx;
+    font-size: 32rpx;
+    color: #ff552e;
+    text-align: center;
+}
+
+.call_left_btn {
+    border-right: 2rpx solid #e5e5e5;
+    color: #333;
+}
+
+/*打电话弹层 e*/
+
+/*复制弹层  */
+
+.box3 {
+    position: fixed;
+    width: 560rpx;
+    height: 250rpx;
+    top: 50%;
+    left: 50%;
+    margin-left: -280rpx;
+    margin-top: -125rpx;
+    border-radius: 8px;
+    background: #fff;
+    z-index: 189;
+}
+
+.box3-main {
+    margin-top: 107rpx;
+}
+
+.copyCare {
+    text-align: center;
+    font-size: 26rpx;
+    color: #000;
+    margin-bottom: 42rpx;
+}
+
+.copyLink {
+    float: left;
+    width: 348rpx;
+    height: 84rpx;
+    line-height: 84rpx;
+    border-radius: 8px;
+    padding-left: 3rpx;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 3rpx;
+    color: #4d4d4d;
+    margin-left: 5rpx;
+    margin-right: 25rpx;
+    border: none
+}
+
+.copy {
+    float: left;
+    width: 225rpx;
+    height: 88rpx;
+    text-align: center;
+    line-height: 88rpx;
+    color: #002f3f;
+    font-size: 34rpx
 }
