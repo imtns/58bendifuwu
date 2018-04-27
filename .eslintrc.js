@@ -11,18 +11,19 @@ module.exports = {
   plugins: [
     'html'
   ],
+  globals: { wx: true },
   settings: {
     "import/resolver": {
       "node": {
         "extensions": [
-          ".js",
-          ".wpy"
+          ".js"
         ]
       }
     },
-    'html/html-extensions': ['.html', '.wpy']
+    'html/html-extensions': ['.html']
   },
   'rules': {
+    "semi": [2, "always"],
     'linebreak-style': 0,
     'indent': [2, 4],
     'radix': ['error', 'as-needed'],

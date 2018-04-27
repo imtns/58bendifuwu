@@ -1,88 +1,87 @@
 <script>
-import wepy from 'wepy';
-import 'wepy-async-function';
+import wepy from 'wepy'
+import 'wepy-async-function'
 
 export default class extends wepy.app {
-    config = {
-        pages: [
-            'discovery/daleiye/daleiye',
-            'me/coupon/coupon',
-            'me/order/order',
-            'me/meNew',
-            'contacts/contacts',
-            'discovery/xiangqingye/xiangqingye',
-            'discovery/liebiaoye/liebiaoye',
-            'msglist/msglist',
-            'me/me',
-            'shop/room/room',
-            'shop/userinfo/userinfo',
-            'shop/rebind/rebind',
-            'user/room/room',
-            'user/shopinfo/shopinfo',
-            'me/robot',
-            'index/index',
-            'weiliao/room',
-            'errorpage/errorpage',
-            'me/trade/trade',
-            'vendors/im/pages/chat/chat',
-            'vendors/im/pages/sessions/sessions',
-            'business/business',
-            'discovery/comment/comment',
-            'pages/index',
-        ],
-        window: {
-            backgroundTextStyle: 'light',
-            navigationBarBackgroundColor: '#fff',
-            navigationBarTitleText: 'WeChat',
-            navigationBarTextStyle: 'black',
-        },
+  config = {
+    pages: [
+      'contacts/contacts',
+      'discovery/daleiye/daleiye',
+      'me/coupon/coupon',
+      'me/order/order',
+      'me/meNew',
+      'discovery/xiangqingye/xiangqingye',
+      'discovery/liebiaoye/liebiaoye',
+      'msglist/msglist',
+      'me/me',
+      'shop/room/room',
+      'shop/userinfo/userinfo',
+      'shop/rebind/rebind',
+      'user/room/room',
+      'user/shopinfo/shopinfo',
+      'me/robot',
+      'index/index',
+      'weiliao/room',
+      'errorpage/errorpage',
+      'me/trade/trade',
+      'vendors/im/pages/chat/chat',
+      'vendors/im/pages/sessions/sessions',
+      'business/business',
+      'discovery/comment/comment',
+      'pages/index'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
     }
+  }
 
-    onLaunch() {
-        console.log('on launch');
-    }
+  onLaunch() {
+    console.log('on launch')
+  }
 }
 
-/* eslint-disable no-undef */
-const os = wx.getSystemInfoSync().platform;
-const accesstoken = wx.getStorageSync('token');
-const ppu = wx.getStorageSync('ppu');
-const uid = wx.getStorageSync('uid');
-const imtoken = wx.getStorageSync('im_token');
+const os = wx.getSystemInfoSync().platform
+const accesstoken = wx.getStorageSync('token')
+const ppu = wx.getStorageSync('ppu')
+const uid = wx.getStorageSync('uid')
+const imtoken = wx.getStorageSync('im_token')
 
 const globalData = {
-    os,
-    accesstoken,
-    ppu,
-    uid,
-    imtoken,
-    tokenFirstReady: false, // launch 后首次token可用
-    domain: 'https://bossapi.58.com',
-    userInfo: null,
-    city: 'bj',
-    netType: '',
-    hyname: '',
-    token: '',
-    userType: 0,
-    testHeader: {
-        version: '7',
-        channel: '5',
-        id58: '',
-        ip: '10.252.22.236',
-        'content-type': 'application/json',
-    },
-    listCookie: '',
-};
+  os,
+  accesstoken,
+  ppu,
+  uid,
+  imtoken,
+  tokenFirstReady: false, // launch 后首次token可用
+  domain: 'https://bossapi.58.com',
+  userInfo: null,
+  city: 'bj',
+  netType: '',
+  hyname: '',
+  token: '',
+  userType: 0,
+  testHeader: {
+    version: '7',
+    channel: '5',
+    id58: '',
+    ip: '10.252.22.236',
+    'content-type': 'application/json'
+  },
+  listCookie: ''
+}
 
 module.exports = {
-    globalData,
-    getUserInfo() {
-        console.log('ha');
-    },
-    onLaunch() {
-        console.log('my on launch');
-    },
-};
+  globalData,
+  getUserInfo() {
+    console.log('ha')
+  },
+  onLaunch() {
+    console.log('my on launch')
+  }
+}
 </script>
 
 <style lang='scss'>

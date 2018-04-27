@@ -1,4 +1,5 @@
 var util = require('../utils/util.js');
+const app = require('../../app');
 Page({
   data:{
       role:'',
@@ -20,19 +21,19 @@ Page({
     getProfile();
 
     function getProfile(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(getProfile);
+      if(!app.globalData.tokenFirstReady){
+        app.login(getProfile);
         return;
       }
       wx.request({
-          url: getApp().globalData.domain + '/smallapp/user/profile', 
+          url: app.globalData.domain + '/smallapp/user/profile', 
           header: {
               'access-token': wx.getStorageSync('token')
           },
           success: function(res) {
               console.log(res);
               if(res.data.code == 10){
-                  getApp().login(getProfile);
+                  app.login(getProfile);
                   return;
               }
               if (res.data.code==1){
@@ -69,7 +70,7 @@ Page({
       this.onshowFn();
   },
   onshowFn:function(){
-    var hyname = getApp().globalData.hyname;
+    var hyname = app.globalData.hyname;
     console.log("选择的行业是："+hyname);
     if(hyname){
       var _self = this;
@@ -79,12 +80,12 @@ Page({
       });
       setProfile();
       function setProfile(){
-          if(!getApp().globalData.tokenFirstReady){
-            getApp().login(setProfile);
+          if(!app.globalData.tokenFirstReady){
+            app.login(setProfile);
             return;
           }
           wx.request({
-            url: getApp().globalData.domain + '/smallapp/user/profile-set', 
+            url: app.globalData.domain + '/smallapp/user/profile-set', 
               data:"trade="+_self.data.me.trade,
               method:'POST',
               header: {
@@ -93,7 +94,7 @@ Page({
               },
               success: function(res) {
                   if(res.data.code == 10){
-                      getApp().login(setProfile);
+                      app.login(setProfile);
                       return;
                   }
                   var jsondata = res.data;
@@ -114,12 +115,12 @@ Page({
     });
     setProfile();
     function setProfile(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(setProfile);
+        if(!app.globalData.tokenFirstReady){
+          app.login(setProfile);
           return;
         }
         wx.request({
-            url: getApp().globalData.domain + '/smallapp/user/profile-set', 
+            url: app.globalData.domain + '/smallapp/user/profile-set', 
             data:"address="+_self.data.me.address,
             method:'POST',
             header: {
@@ -128,7 +129,7 @@ Page({
             },
             success: function(res) {
                 if(res.data.code == 10){
-                    getApp().login(setProfile);
+                    app.login(setProfile);
                     return;
                 }
                 var jsondata = res.data;
@@ -148,12 +149,12 @@ Page({
     });
     setProfile();
     function setProfile(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(setProfile);
+        if(!app.globalData.tokenFirstReady){
+          app.login(setProfile);
           return;
         }
         wx.request({
-          url: getApp().globalData.domain + '/smallapp/user/profile-set', 
+          url: app.globalData.domain + '/smallapp/user/profile-set', 
             data:"phone="+_self.data.me.phone,
             method:'POST',
             header: {
@@ -162,7 +163,7 @@ Page({
             },
             success: function(res) {
                 if(res.data.code == 10){
-                    getApp().login(setProfile);
+                    app.login(setProfile);
                     return;
                 }
                 var jsondata = res.data;
@@ -183,12 +184,12 @@ Page({
     
         setProfile();
         function setProfile(){
-            if(!getApp().globalData.tokenFirstReady){
-              getApp().login(setProfile);
+            if(!app.globalData.tokenFirstReady){
+              app.login(setProfile);
               return;
             }
             wx.request({
-              url: getApp().globalData.domain + '/smallapp/user/profile-set', 
+              url: app.globalData.domain + '/smallapp/user/profile-set', 
                 data:"intro="+_self.data.me.intro,
                 method:'POST',
                 header: {
@@ -197,7 +198,7 @@ Page({
                 },
                 success: function(res) {
                     if(res.data.code == 10){
-                        getApp().login(setProfile);
+                        app.login(setProfile);
                         return;
                     }
                     var jsondata = res.data;
@@ -218,12 +219,12 @@ Page({
     });
     setProfile();
     function setProfile(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(setProfile);
+        if(!app.globalData.tokenFirstReady){
+          app.login(setProfile);
           return;
         }
         wx.request({
-          url: getApp().globalData.domain + '/smallapp/user/profile-set', 
+          url: app.globalData.domain + '/smallapp/user/profile-set', 
             data:"trade="+_self.data.me.trade,
             method:'POST',
             header: {
@@ -232,7 +233,7 @@ Page({
             },
             success: function(res) {
                 if(res.data.code == 10){
-                    getApp().login(setProfile);
+                    app.login(setProfile);
                     return;
                 }
                 var jsondata = res.data;
@@ -252,13 +253,13 @@ Page({
     });
     setProfile();
     function setProfile(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(setProfile);
+        if(!app.globalData.tokenFirstReady){
+          app.login(setProfile);
           return;
         }
        
         wx.request({
-          url: getApp().globalData.domain + '/smallapp/user/profile-set', 
+          url: app.globalData.domain + '/smallapp/user/profile-set', 
             data:"age="+_self.data.me.age,
             method:'POST',
             header: {
@@ -267,7 +268,7 @@ Page({
             },
             success: function(res) {
                 if(res.data.code == 10){
-                    getApp().login(setProfile);
+                    app.login(setProfile);
                     return;
                 }
                 var jsondata = res.data;
@@ -289,13 +290,13 @@ Page({
     
         setProfile();
         function setProfile(){
-            if(!getApp().globalData.tokenFirstReady){
-              getApp().login(setProfile);
+            if(!app.globalData.tokenFirstReady){
+              app.login(setProfile);
               return;
             }
            
             wx.request({
-              url: getApp().globalData.domain + '/smallapp/user/profile-set', 
+              url: app.globalData.domain + '/smallapp/user/profile-set', 
                 data:"position="+_self.data.me.position,
                 method:'POST',
                 header: {
@@ -304,7 +305,7 @@ Page({
                 },
                 success: function(res) {
                     if(res.data.code == 10){
-                        getApp().login(setProfile);
+                        app.login(setProfile);
                         return;
                     }
                     var jsondata = res.data;
@@ -321,7 +322,7 @@ Page({
     // 页面显示
     
       var _self = this;
-        var profile_set_url = getApp().globalData.domain + '/smallapp/shop/refresh';
+        var profile_set_url = app.globalData.domain + '/smallapp/shop/refresh';
         
         wx.request({
           url: profile_set_url + "?uid=" + _self.data.me.uid,

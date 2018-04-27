@@ -1,4 +1,5 @@
 var util = require('../utils/util.js');
+const app = require('../../app');
 Page({
   data:{
       role:'',
@@ -12,18 +13,18 @@ Page({
     });
     getProfile();
     function getProfile(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(getProfile);
+      if(!app.globalData.tokenFirstReady){
+        app.login(getProfile);
         return;
       }
       wx.request({
-          url: getApp().globalData.domain + '/smallapp/user/profile', 
+          url: app.globalData.domain + '/smallapp/user/profile', 
           header: {
               'access-token': wx.getStorageSync('token')
           },
           success: function(res) {
               if(res.data.code == 10){
-                  getApp().login(getProfile);
+                  app.login(getProfile);
                   return;
               }
               if (res.data.code==1){

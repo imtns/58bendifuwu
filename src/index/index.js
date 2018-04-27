@@ -1,4 +1,4 @@
-var app = getApp()
+const app = require('../../app');
 Page({
   data: {
     motto: '请扫描58同城本地服务帖子二维码！',

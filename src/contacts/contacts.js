@@ -71,8 +71,8 @@ Page({
     var self = this;
     searchQueryRequest();
     function searchQueryRequest(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(searchQueryRequest);
+      if(!app.globalData.tokenFirstReady){
+        app.login(searchQueryRequest);
         return;
       }
       wx.request({
@@ -95,7 +95,7 @@ Page({
               contacts: res.data.ret
             });
           } else if(res.data.code==10){
-            getApp().login(searchQueryRequest);
+            app.login(searchQueryRequest);
           } else{
             if(res.data.code != 0){
               console.log(res.msg);
@@ -118,8 +118,8 @@ Page({
   //搜索浮层建议搜索类别
   loadSearchSuggest: function(){
     var self = this;
-    if(!getApp().globalData.tokenFirstReady){
-      getApp().login(self.loadSearchSuggest);
+    if(!app.globalData.tokenFirstReady){
+      app.login(self.loadSearchSuggest);
       return;
     }
     wx.request({
@@ -132,7 +132,7 @@ Page({
       },
       success: function(res) {
         if(res.data.code == 10){
-          getApp().login(self.loadSearchSuggest);
+          app.login(self.loadSearchSuggest);
         }
         if(res.data.code === 1 && Array.isArray(res.data.ret)){
           res.data.ret = res.data.ret.slice(0, 6);
@@ -147,8 +147,8 @@ Page({
   },
   loadContacts: function(){
     var self = this;
-    if(!getApp().globalData.tokenFirstReady){
-      getApp().login(self.loadContacts);
+    if(!app.globalData.tokenFirstReady){
+      app.login(self.loadContacts);
       return;
     }
       
@@ -186,7 +186,7 @@ Page({
           wx.setStorageSync('addressBook', addressBook);
 
         } else if(res.data.code==10){
-          getApp().login(self.loadContacts);
+          app.login(self.loadContacts);
         } else{
           console.error('API REQUEST ERROR. Something went wrong when request "/wechat/huangye/user/contacts", and the response is:\n', res);
         }

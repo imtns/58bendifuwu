@@ -1,5 +1,6 @@
 var util = require('../../utils/util.js');
 var im = require('../../utils/IMInit.js');
+const app = require('../../app');
 Page({
   data:{
     shop:"",
@@ -25,16 +26,16 @@ Page({
 
     getShopInfo();
     function getShopInfo(){
-      if(!getApp().globalData.tokenFirstReady){
-          getApp().login(getShopInfo);
+      if(!app.globalData.tokenFirstReady){
+          app.login(getShopInfo);
           return;
       }
       wx.request({
-          url: getApp().globalData.domain+'/smallapp/user/shop-info', 
+          url: app.globalData.domain+'/smallapp/user/shop-info', 
           data:{id:options.id},
           header: {
               'access-token': wx.getStorageSync('token'),
-              'id58': getApp().globalData.testHeader["id58"],
+              'id58': app.globalData.testHeader["id58"],
               "version": "7",
               "channel": "5",
               "ip": "10.252.22.236",
@@ -42,7 +43,7 @@ Page({
           },
           success: function(res) {
                 if(res.data.code == 10){
-                    getApp().login(getShopInfo);
+                    app.login(getShopInfo);
                     return;
                 }
                 if (res.data.code == 1){
@@ -109,12 +110,12 @@ Page({
     });
     setShopProfile();
     function setShopProfile(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(setShopProfile);
+      if(!app.globalData.tokenFirstReady){
+        app.login(setShopProfile);
         return;
       }
       wx.request({
-          url: getApp().globalData.domain+'/smallapp/user/shop-set', 
+          url: app.globalData.domain+'/smallapp/user/shop-set', 
           data:"id="+_self.data.shop.id+"&accept="+_self.data.shop.accept,
           method:'POST',
           header: {
@@ -123,7 +124,7 @@ Page({
           },
           success: function(res) {
               if(res.data.code == 10){
-                  getApp().login(setShopProfile);
+                  app.login(setShopProfile);
                   return;
               }
               var jsondata = res.data;
