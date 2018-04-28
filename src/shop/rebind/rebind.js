@@ -1,6 +1,7 @@
 // shop/rebind/rebind.js
 var tk;//获取页面传过来的参数token
 
+const app = require('../../app');
 Page({
   data:{
     qrcode:'',
@@ -19,13 +20,13 @@ Page({
     var _self = this;
 
     wx.request({
-      url: getApp().globalData.domain+'/smallapp/im-shop/qrcode', 
+      url: app.globalData.domain+'/smallapp/im-shop/qrcode', 
       header: {
           'access-token': tk
       },
       success: function(res) {
         if(res.data.code == 10){
-            getApp().login(_self.getQrcode);
+            app.login(_self.getQrcode);
             return;
         }
         if(res.data.code==1){

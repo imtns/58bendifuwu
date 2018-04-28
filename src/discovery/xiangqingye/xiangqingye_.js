@@ -5,6 +5,7 @@ var timerId = null;//定时器
 var urlMap = null;//首次加载是否展示地图
 var urlTel = null;//首次加载是否展示电话弹窗
 var im = require('../../utils/IMInit.js');
+import globalDataService from '../../globalDataService.js';
 Page({
 
   /**
@@ -93,7 +94,8 @@ Page({
   onLoad: function (options) {
 
     if (app.globalData.testHeader["id58"] == "") {
-      app.globalData.testHeader["id58"] = util.getId58();
+      globalDataService.set('id58',util.getId58())
+      //app.globalData.testHeader["id58"] = util.getId58();
     }
     urlMap = false;
     urlTel = false;
@@ -246,8 +248,8 @@ Page({
     console.log(e);
     getShopInfo();
     function getShopInfo(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(getShopInfo);
+      if(!app.globalData.tokenFirstReady){
+        app.login(getShopInfo);
         return;
       }
       wx.request({
@@ -267,7 +269,7 @@ Page({
             //开始聊天
             openRoom();
           } else if(res.data.code==10){
-            getApp().login(getShopInfo);
+            app.login(getShopInfo);
           } else{
             console.error('API REQUEST ERROR. Something went wrong when request "/smallapp/im-shop/shop-info", and the response is:\n', res);
           }

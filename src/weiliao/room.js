@@ -1,5 +1,6 @@
 // weiliao/room.js
 var util = require('../utils/util.js');
+const app = require('../../app');
 Page({
 
   /**
@@ -68,19 +69,19 @@ Page({
 
     getShopMsgRecord();
     function getShopMsgRecord(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(getShopMsgRecord);
+      if(!app.globalData.tokenFirstReady){
+        app.login(getShopMsgRecord);
         return;
       }
       wx.request({
-        url: getApp().globalData.domain + '/smallapp/weiliao/shop-msg-record',
+        url: app.globalData.domain + '/smallapp/weiliao/shop-msg-record',
         data: { id: options.id, first_msg_id: currentMsgId},
         header: {
           'access-token': wx.getStorageSync('token')
         },
         success: function (res) {
           if(res.data.code == 10){
-              getApp().login(getShopMsgRecord);
+              app.login(getShopMsgRecord);
               return;
           }
           _self.setData({
@@ -146,7 +147,7 @@ Page({
     function getShopMsgRecord(){
 
       wx.request({
-        url: getApp().globalData.domain + '/smallapp/weiliao/shop-msg-record',
+        url: app.globalData.domain + '/smallapp/weiliao/shop-msg-record',
         data: { id: optionsData.id, first_msg_id: 0},
         header: {
           'access-token': wx.getStorageSync('token')
@@ -222,12 +223,12 @@ Page({
       var content = e.detail.value;
       shopSend();
       function shopSend(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(shopSend);
+        if(!app.globalData.tokenFirstReady){
+          app.login(shopSend);
           return;
         }
         wx.request({
-          url: getApp().globalData.domain + '/smallapp/weiliao/shop-send',
+          url: app.globalData.domain + '/smallapp/weiliao/shop-send',
           data: "id=" + _self.data.user_id + "&content=" + content + "&type=1",
           method: 'POST',
           header: {
@@ -236,7 +237,7 @@ Page({
           },
           success: function (res) {
             if(res.data.code == 10){
-                getApp().login(shopSend);
+                app.login(shopSend);
                 return;
             }
             var jsondata = res.data;
@@ -273,12 +274,12 @@ Page({
         var tempFilePaths = res.tempFilePaths;
         sendFile();
         function sendFile(){
-          if(!getApp().globalData.tokenFirstReady){
-            getApp().login(sendFile);
+          if(!app.globalData.tokenFirstReady){
+            app.login(sendFile);
             return;
           }
           wx.uploadFile({
-            url: getApp().globalData.domain + '/smallapp/weiliao/shop-send-file',
+            url: app.globalData.domain + '/smallapp/weiliao/shop-send-file',
             filePath: tempFilePaths[0],
             formData: { id: _self.data.user_id, type: 2 ,content:"content"},
             header: {
@@ -288,7 +289,7 @@ Page({
             name: 'file',
             success: function (res) {
               if(res.data.code == 10){
-                  getApp().login(sendFile);
+                  app.login(sendFile);
                   return;
               }
               var jsondata = JSON.parse(res.data);
@@ -383,19 +384,19 @@ Page({
       });
       shopMsgRecord();
       function shopMsgRecord(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(shopMsgRecord);
+        if(!app.globalData.tokenFirstReady){
+          app.login(shopMsgRecord);
           return;
         }
         wx.request({
-          url: getApp().globalData.domain + '/smallapp/weiliao/shop-msg-record',
+          url: app.globalData.domain + '/smallapp/weiliao/shop-msg-record',
           data: { id: _self.data.user_id, first_msg_id: currentMsgId },
           header: {
             'access-token': wx.getStorageSync('token')
           },
           success: function (res) {
             if(res.data.code == 10){
-                getApp().login(shopMsgRecord);
+                app.login(shopMsgRecord);
                 return;
             }
             _self.setData({
@@ -433,21 +434,21 @@ Page({
   },
   newMsg: function () {
     var _self = this;
-    if(!getApp().globalData.tokenFirstReady){
-      getApp().login(_self.newMsg);
+    if(!app.globalData.tokenFirstReady){
+      app.login(_self.newMsg);
       return;
     }
     var uid = _self.data.user_id;
     if (_self.data.getNewMsg) {
       wx.request({
-        url: getApp().globalData.domain + '/smallapp/weiliao/shop-msg',
+        url: app.globalData.domain + '/smallapp/weiliao/shop-msg',
         data: { id: uid },
         header: {
           'access-token': wx.getStorageSync('token')
         },
         success: function (res) {
           if(res.data.code == 10){
-              getApp().login(_self.newMsg);
+              app.login(_self.newMsg);
               return;
           }
           _self.setData({

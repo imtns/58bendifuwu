@@ -1,10 +1,10 @@
 import  util  from '../../utils/util.js';
 import { get } from '../../utils/ajax.js';
 var im = require('../../utils/IMInit.js');
+const app = require('../../app');
 var timerId = null;
 var urlMap = null;//首次加载是否展示地图
 var urlTel = null;//首次加载是否展示电话弹窗
-const app = getApp();
 const host = 'https://xiaochengxu.58.com'
 
 Page({

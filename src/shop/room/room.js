@@ -1,7 +1,7 @@
 // shop/room/room.js
 
 var util = require('../../utils/util.js');
-
+const app = require('../../app');
 Page({
   data:{
     sendType:"input",
@@ -80,19 +80,19 @@ Page({
     getMsgRecord();
 
     function getMsgRecord(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(getMsgRecord);
+      if(!app.globalData.tokenFirstReady){
+        app.login(getMsgRecord);
         return;
       }
       wx.request({
-        url: getApp().globalData.domain+'/smallapp/im-shop/msg-record', 
+        url: app.globalData.domain+'/smallapp/im-shop/msg-record', 
         data:{id:options.id},
         header: {
             'access-token': wx.getStorageSync('token')
         },
         success: function(res) {
           if(res.data.code == 10){
-              getApp().login(getMsgRecord);
+              app.login(getMsgRecord);
               return;
           }
           _self.setData({
@@ -145,7 +145,7 @@ Page({
     function getMsgRecord(){
 
       wx.request({
-        url: getApp().globalData.domain+'/smallapp/im-shop/msg-record', 
+        url: app.globalData.domain+'/smallapp/im-shop/msg-record', 
         data:{id:optionsData.id},
         header: {
             'access-token': wx.getStorageSync('token')
@@ -199,12 +199,12 @@ Page({
       var content = e.detail.value;
       sendReq();
       function sendReq(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(sendReq);
+        if(!app.globalData.tokenFirstReady){
+          app.login(sendReq);
           return;
         }
         wx.request({
-          url: getApp().globalData.domain+'/smallapp/im-shop/send', 
+          url: app.globalData.domain+'/smallapp/im-shop/send', 
           data:"id="+_self.data.user_id+"&content="+content+"&type=1&from=2",
           method:'POST',
           header: {
@@ -213,7 +213,7 @@ Page({
           },
           success: function(res) {
             if(res.data.code == 10){
-                getApp().login(sendReq);
+                app.login(sendReq);
                 return;
             }
             var jsondata = res.data;
@@ -256,12 +256,12 @@ Page({
         var tempFilePaths = res.tempFilePaths;
         sendFile();
         function sendFile(){
-          if(!getApp().globalData.tokenFirstReady){
-            getApp().login(sendFile);
+          if(!app.globalData.tokenFirstReady){
+            app.login(sendFile);
             return;
           }
           wx.uploadFile({
-            url: getApp().globalData.domain+'/smallapp/im-shop/send', 
+            url: app.globalData.domain+'/smallapp/im-shop/send', 
             filePath:tempFilePaths[0],
             formData:{id:_self.data.user_id,type:2,from:2,content:'img'},
             header: {
@@ -271,7 +271,7 @@ Page({
             name:'file',
             success: function(res) {
               if(res.data.code == 10){
-                  getApp().login(sendFile);
+                  app.login(sendFile);
                   return;
               }
               var jsondata = JSON.parse(res.data);
@@ -322,12 +322,12 @@ Page({
         var tempFilePath = res.tempFilePath 
         sendFile();
         function sendFile(){
-          if(!getApp().globalData.tokenFirstReady){
-            getApp().login(sendFile);
+          if(!app.globalData.tokenFirstReady){
+            app.login(sendFile);
             return;
           }
           wx.uploadFile({
-            url: getApp().globalData.domain+'/smallapp/im-shop/send', 
+            url: app.globalData.domain+'/smallapp/im-shop/send', 
             filePath:tempFilePath,
             formData:{id:_self.data.user_id,type:3,from:2,remark:parseInt(_self.data.voice_time/1000),content:'voice'},
             header: {
@@ -337,7 +337,7 @@ Page({
             name:'file',
             success: function(res) {
               if(res.data.code == 10){
-                  getApp().login(sendFile);
+                  app.login(sendFile);
                   return;
               }
               var jsondata = JSON.parse(res.data);
@@ -462,19 +462,19 @@ Page({
       });
       getMsgRecord();
       function getMsgRecord(){
-        if(!getApp().globalData.tokenFirstReady){
-          getApp().login(getMsgRecord);
+        if(!app.globalData.tokenFirstReady){
+          app.login(getMsgRecord);
           return;
         }
         wx.request({
-          url: getApp().globalData.domain+'/smallapp/im-shop/msg-record', 
+          url: app.globalData.domain+'/smallapp/im-shop/msg-record', 
           data:{id:_self.data.user_id,first_msg_id:currentMsgId},
           header: {
               'access-token': wx.getStorageSync('token')
           },
           success: function(res) {
             if(res.data.code == 10){
-                getApp().login(getMsgRecord);
+                app.login(getMsgRecord);
                 return;
             }
             _self.setData({
@@ -512,21 +512,21 @@ Page({
   },
   newMsg:function(){
     var _self = this;
-    if(!getApp().globalData.tokenFirstReady){
-      getApp().login(_self.newMsg);
+    if(!app.globalData.tokenFirstReady){
+      app.login(_self.newMsg);
       return;
     }
     var uid = _self.data.user_id;
     if(_self.data.getNewMsg){
       wx.request({
-          url: getApp().globalData.domain+'/smallapp/im-shop/msg', 
+          url: app.globalData.domain+'/smallapp/im-shop/msg', 
           data:{id:uid},
           header: {
               'access-token': wx.getStorageSync('token')
           },
           success: function(res) {
             if(res.data.code == 10){
-                getApp().login(_self.newMsg);
+                app.login(_self.newMsg);
                 return;
             }
             _self.setData({

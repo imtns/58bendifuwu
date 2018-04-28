@@ -1,6 +1,6 @@
 <script>
-import wepy from 'wepy';
-import 'wepy-async-function';
+import wepy from 'wepy'
+import 'wepy-async-function'
 
 const im = require('./utils/IMInit.js');
 const _im = require('./vendors/im/index.js');
@@ -217,74 +217,40 @@ const app = {
 };
 
 export default class extends wepy.app {
-    config = {
-        pages: [
-            'discovery/daleiye/daleiye',
-            'me/coupon/coupon',
-            'me/order/order',
-            'me/meNew',
-            'contacts/contacts',
-            'discovery/xiangqingye/xiangqingye',
-            'discovery/liebiaoye/liebiaoye',
-            'msglist/msglist',
-            'me/me',
-            'shop/room/room',
-            'shop/userinfo/userinfo',
-            'shop/rebind/rebind',
-            'user/room/room',
-            'user/shopinfo/shopinfo',
-            'me/robot',
-            'index/index',
-            'weiliao/room',
-            'errorpage/errorpage',
-            'me/trade/trade',
-            'vendors/im/pages/chat/chat',
-            'vendors/im/pages/sessions/sessions',
-            'business/business',
-            'discovery/comment/comment',
-            'pages/index'
-        ],
-        tabBar: {
-            list: [
-                {
-                    pagePath: 'discovery/daleiye/daleiye',
-                    text: '首页',
-                    iconPath: 'image/a1.png',
-                    selectedIconPath: 'image/a2.png'
-                },
-                {
-                    pagePath: 'vendors/im/pages/sessions/sessions',
-                    text: '消息',
-                    iconPath: 'image/a3.png',
-                    selectedIconPath: 'image/a4.png'
-                },
-                {
-                    pagePath: 'business/business',
-                    text: '优惠',
-                    iconPath: 'image/a5.png',
-                    selectedIconPath: 'image/a6.png'
-                },
-                {
-                    pagePath: 'me/meNew',
-                    text: '我的',
-                    iconPath: 'image/a7.png',
-                    selectedIconPath: 'image/a8.png'
-                }
-            ],
-            selectedColor: '#ff552e'
-        },
-        window: {
-            navigationBarTitleText: '消息',
-            enablePullDownRefresh: false
-        },
-        networkTimeout: {
-            request: 10000,
-            connectSocket: 10000,
-            uploadFile: 10000,
-            downloadFile: 10000
-        },
-        debug: false
+  config = {
+    pages: [
+      'contacts/contacts',
+      'discovery/daleiye/daleiye',
+      'me/coupon/coupon',
+      'me/order/order',
+      'me/meNew',
+      'discovery/xiangqingye/xiangqingye',
+      'discovery/liebiaoye/liebiaoye',
+      'msglist/msglist',
+      'me/me',
+      'shop/room/room',
+      'shop/userinfo/userinfo',
+      'shop/rebind/rebind',
+      'user/room/room',
+      'user/shopinfo/shopinfo',
+      'me/robot',
+      'index/index',
+      'weiliao/room',
+      'errorpage/errorpage',
+      'me/trade/trade',
+      'vendors/im/pages/chat/chat',
+      'vendors/im/pages/sessions/sessions',
+      'business/business',
+      'discovery/comment/comment',
+      'pages/index'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
     }
+  }
 
     onLaunch(options) {
         console.log('app Lanch1');

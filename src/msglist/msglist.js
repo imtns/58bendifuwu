@@ -1,5 +1,6 @@
 // shop/msglist/msglist.js
 var util = require('../utils/util.js');
+const app = require('../../app');
 Page({
   data:{
     role: '',
@@ -25,13 +26,13 @@ Page({
   },
   getProfile: function(){
     var _self = this;
-    if(!getApp().globalData.tokenFirstReady){
-      getApp().login(_self.getProfile);
+    if(!app.globalData.tokenFirstReady){
+      app.login(_self.getProfile);
       return;
     }
     var token = wx.getStorageSync('token');
     wx.request({
-      url: getApp().globalData.domain + '/smallapp/im-' + _self.data.role + '/profile', 
+      url: app.globalData.domain + '/smallapp/im-' + _self.data.role + '/profile', 
         header: {
             'access-token': token
         },
@@ -45,7 +46,7 @@ Page({
         }
     });
     wx.request({
-        url: getApp().globalData.domain+'/smallapp/im-user/profile', 
+        url: app.globalData.domain+'/smallapp/im-user/profile', 
         header: {
             'access-token': token
         },
@@ -56,7 +57,7 @@ Page({
                 time: res.data.time * 1000
               });
             } else if(res.data.code==10){
-              getApp().login(_self.getProfile);
+              app.login(_self.getProfile);
               return;
             }
         }
@@ -81,19 +82,19 @@ Page({
     });
     getMsgList();
     function getMsgList(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(getMsgList);
+      if(!app.globalData.tokenFirstReady){
+        app.login(getMsgList);
         return;
       }
      
       wx.request({
-        url: getApp().globalData.domain + '/smallapp/im-' + _self.data.role + '/msg-list', 
+        url: app.globalData.domain + '/smallapp/im-' + _self.data.role + '/msg-list', 
         header: {
             'access-token': wx.getStorageSync('token')
         },
         success: function(res) {
           if(res.data.code == 10){
-              getApp().login(getMsgList);
+              app.login(getMsgList);
               return;
           } else if (res.data.code == 11){
             wx.setStorageSync('role', 'user');
@@ -123,18 +124,18 @@ Page({
     if (_self.data.role == "shop"){
       getShopWeiliaoMsgList();
       function getShopWeiliaoMsgList(){
-        // if(!getApp().globalData.tokenFirstReady){
-        //   getApp().login(getShopWeiliaoMsgList);
+        // if(!app.globalData.tokenFirstReady){
+        //   app.login(getShopWeiliaoMsgList);
         //   return;
         // }
         wx.request({
-          url: getApp().globalData.domain + '/smallapp/weiliao/shop-msg-list',
+          url: app.globalData.domain + '/smallapp/weiliao/shop-msg-list',
           header: {
             'access-token': wx.getStorageSync('token')
           },
           success: function (res) {
             // if(res.data.code == 10){
-            //     getApp().login(getShopWeiliaoMsgList);
+            //     app.login(getShopWeiliaoMsgList);
             //     return;
             // }
             if (res.data.code == 0 && res.data.data.msg_list!=undefined) {

@@ -1,3 +1,4 @@
+import globalDataService from '../../globalDataService.js';
 Page({
 
   data: {
@@ -6,7 +7,8 @@ Page({
 
   urlFn:function(e){
       var name = e.currentTarget.dataset.name;
-      getApp().globalData.hyname = name;
+      globalDataService.set('hyname',name)
+      //app.globalData.hyname = name;
   },
 
 })

@@ -1,3 +1,4 @@
+const app = require('../../app');
 Page({
   data:{
       shop:""
@@ -7,19 +8,19 @@ Page({
     var _self = this;
     getShopInfo();
     function getShopInfo(){
-      if(!getApp().globalData.tokenFirstReady){
-        getApp().login(getShopInfo);
+      if(!app.globalData.tokenFirstReady){
+        app.login(getShopInfo);
         return;
       }
       wx.request({
-          url: getApp().globalData.domain+'/smallapp/im-user/shop-info', 
+          url: app.globalData.domain+'/smallapp/im-user/shop-info', 
           data:{id:5},
           header: {
               'access-token': wx.getStorageSync('token')
           },
           success: function(res) {
               if(res.data.code == 10){
-                  getApp().login(getShopInfo);
+                  app.login(getShopInfo);
                   return;
               }
               _self.setData({
