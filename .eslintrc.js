@@ -24,6 +24,9 @@ module.exports = {
     'html/html-extensions': ['.html', '.wpy']
   },
   'rules': {
+    "no-nested-ternary": 0, 
+    "no-param-reassign": 0,
+    "semi": [2, "always"],
     'linebreak-style': 0,
     'indent': [2, 4],
     'radix': ['error', 'as-needed'],
