@@ -137,8 +137,7 @@ Page({
         console.log(arr2);
         globalDataService.set(
             'listCookie',
-            this.data.tagCookie + 
-                wx.getStorageSync('cookieuid') +
+            this.data.tagCookie + wx.getStorageSync('cookieuid') +
                 wx.getStorageSync('id58') +
                 arr2.join(';'),
         );
@@ -152,10 +151,10 @@ Page({
      * 获取城市
      */
     getCity() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             // 获得城市信息
-            const _url = 'https://bossapi.58.com/smallapp/common/city';
-            get(_url, {}, (e, res) => {
+            const url = 'https://bossapi.58.com/smallapp/common/city';
+            get(url, {}, (e, res) => {
                 if (e) {
                     console.log(e);
                     return false;
