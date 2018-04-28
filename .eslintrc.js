@@ -7,21 +7,20 @@ module.exports = {
   env: {
     browser: true
   },
-  globals: { wx: true },
   extends: 'airbnb-base',
   plugins: [
     'html'
   ],
+  globals: { wx: true },
   settings: {
     "import/resolver": {
       "node": {
         "extensions": [
-          ".js",
-          ".wpy"
+          ".js"
         ]
       }
     },
-    'html/html-extensions': ['.html', '.wpy']
+    'html/html-extensions': ['.html']
   },
   'rules': {
     "no-nested-ternary": 0, 
