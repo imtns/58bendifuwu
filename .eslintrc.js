@@ -23,6 +23,8 @@ module.exports = {
     'html/html-extensions': ['.html']
   },
   'rules': {
+    "no-nested-ternary": 0, 
+    "no-param-reassign": 0,
     "semi": [2, "always"],
     'linebreak-style': 0,
     'indent': [2, 4],
