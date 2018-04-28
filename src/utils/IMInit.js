@@ -1,7 +1,8 @@
 var im = require('../vendors/im/index.js');
 var self = this;
 var isInit = false;
-const app = require('../../app');
+
+
 function imInit(im_token, optionsmb) {
   console.log('初始化im开始');
   var uid = wx.getStorageSync('uid');
@@ -135,7 +136,8 @@ function getIMTokenPromise(cb, optionsmb) {
       callPassport();
     }
     wx.request({
-      url: app.globalData.domain + 'smallapp/imtoken/get',
+      // TODO: 将域名写活
+      url: 'https://bossapi.58.com/smallapp/imtoken/get',
       header: {
         'ppu': wx.getStorageSync('ppu'),
         'ticket': '3f1f53c877bbe8eb',//小程序标识符 用于小程序的区分
