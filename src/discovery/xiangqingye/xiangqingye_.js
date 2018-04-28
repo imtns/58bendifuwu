@@ -94,7 +94,7 @@ Page({
   onLoad: function (options) {
 
     if (app.globalData.testHeader["id58"] == "") {
-      globalDataService.set('id58',util.getId58())
+      globalDataService.set('testHeader.id58',util.getId58())
       //app.globalData.testHeader["id58"] = util.getId58();
     }
     urlMap = false;

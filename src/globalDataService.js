@@ -12,4 +12,7 @@ module.exports = {
         }
         obj[keys[index]] = value;
     },
+    get(){
+        
+    }
 };
