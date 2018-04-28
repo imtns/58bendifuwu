@@ -135,7 +135,6 @@ Page({
             });
         }
         console.log(arr2);
-        globalDataService.set('testHeader.a.b.c',100)
         globalDataService.set(
             'listCookie',
             this.data.tagCookie + wx.getStorageSync('cookieuid') +
