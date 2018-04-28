@@ -13,7 +13,8 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.98",
 	"appid": "wxc81edb242dec62d4",
-	"projectname": "bendifuwu-wepy",
+    "projectname": "bendifuwu-wepy",
+    "miniprogramRoot": "./dist",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

@@ -30,7 +30,7 @@ Page({
     onLoad(o) {
         const {
             city, listName, tagCookie, title = '列表页',
-        } = o.city;
+        } = o;
         console.log(o);
         wx.setNavigationBarTitle({
             title: title,

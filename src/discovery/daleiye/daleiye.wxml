@@ -6,7 +6,7 @@
         <view class="title" wx:else bindtap="changeCateFun" data-locallistname="{{item.type}}" data-index="{{index}}">{{item.title}}</view>
     </block>
     </scroll-view>
-    <scroll-view scroll-y="ture" class="showBox" style="height:{{height}}px"  scroll-top="{{scrollTopNumber}}">
+    <scroll-view scroll-y="true" class="showBox" style="height:{{height}}px"  scroll-top="{{scrollTopNumber}}">
         <swiper wx:if="{{banner==0}}" autoplay="true" class="swiperTop" indicator-dots="true" indicator-color="#e0e0e0" indicator-active-color="#ff552e">
             <swiper-item>
                 <image src="https://pic1.58cdn.com.cn/p1/n_v2e765ae698d2e46889427246baa6f49dd.jpg" class="slide-image" mode="scaleToFill" />

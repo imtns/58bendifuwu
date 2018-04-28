@@ -252,15 +252,12 @@ Page({
     /**
      * 跳转
      */
-    navigatorFun(data) {
-        const listName = data.currentTarget.dataset.listname;
-        const cateId = data.currentTarget.dataset.cateid;
-        const cateName = data.currentTarget.dataset.catename;
-        const title = data.currentTarget.dataset.title;
+    navigatorFun(e) {
+        const { listname: listName, cateid: cateId, title } = e.currentTarget.dataset;
+        const { cityId } = this.data;
         wx.navigateTo({
             url: `../liebiaoye/liebiaoye?listName=${listName}&city=${this.data.city}&cityId=${
-                this.data.cityId
-            }&title=${title}`,
+                cityId}&title=${title}`,
         });
     },
     onShareAppMessage() {},
