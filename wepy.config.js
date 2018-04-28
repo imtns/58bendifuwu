@@ -4,7 +4,7 @@ const prod = process.env.NODE_ENV === 'production'
 
 const config = {
   wpyExt: '.wpy',
-  eslint: true,
+  eslint: false,
   cliLogs: !prod,
   compilers: {
     sass: {

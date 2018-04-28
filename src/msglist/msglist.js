@@ -1,6 +1,6 @@
 // shop/msglist/msglist.js
 var util = require('../utils/util.js');
-const app = require('../../app');
+const app = require('../app');
 Page({
   data:{
     role: '',

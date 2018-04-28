@@ -1,6 +1,6 @@
 // contacts/contacts.js
 const util = require('../utils/util.js');
-const app = require('../app.wpy');
+const app = require('../app');
 /* eslint-disable no-undef */
 Page({
     /**

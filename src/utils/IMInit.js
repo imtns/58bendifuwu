@@ -1,7 +1,7 @@
 var im = require('../vendors/im/index.js');
 var self = this;
 var isInit = false;
-const app = require('../../app');
+const app = require('../app');
 function imInit(im_token, optionsmb) {
   console.log('初始化im开始');
   var uid = wx.getStorageSync('uid');

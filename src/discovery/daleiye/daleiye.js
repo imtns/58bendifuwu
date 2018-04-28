@@ -125,7 +125,7 @@ Page({
                 }
                 if (i.includes('sessionid')) {
                     arr2.push(i);
-                }
+                } 
             });
         } else {
             arr.forEach(i => {
@@ -135,6 +135,7 @@ Page({
             });
         }
         console.log(arr2);
+        globalDataService.set('testHeader.a.b.c',100)
         globalDataService.set(
             'listCookie',
             this.data.tagCookie + wx.getStorageSync('cookieuid') +
