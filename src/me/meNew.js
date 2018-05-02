@@ -49,4 +49,10 @@ Page({
             url: url,
         });
     },
+    callService() {
+        wx.makePhoneCall({
+            // TODO: 填写正确的客服电话
+            phoneNumber: '40056782991',
+        });
+    },
 });
