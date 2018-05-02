@@ -1,5 +1,5 @@
 const im = require('../vendors/im/index.js');
-const isInit = false;
+let isInit = false;
 
 
 function imInit(im_token, optionsmb) {

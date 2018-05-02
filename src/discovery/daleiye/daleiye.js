@@ -16,6 +16,7 @@ Page({
         scrollTopNumber: 0,
         city: 'bj',
         cityId: 1,
+        tabName: '推荐服务',
         onSelect: 0,
         banner: 0,
         height: 0,
@@ -232,9 +233,10 @@ Page({
         listTit[selectIndex].isSelect = true;
         listTit[this.data.onSelect].isSelect = false;
         this.setData({
-            onSelect: event.target.dataset.index,
+            onSelect: selectIndex,
             listTit: listTit,
             scrollTopNumber: 0,
+            tabName: listTit[selectIndex].title,
         });
         if (event.target.dataset.locallistname == 'hyjk') {
             this.setData({
@@ -259,5 +261,18 @@ Page({
                 cityId}&title=${title}`,
         });
     },
+
+    viewAll() {
+        const { tabName } = this.data;
+        const title = `全部${tabName}`;
+        const listName = '';
+        const cityId = '';
+        // TODO: 跳转页面 需要获取全部栏目数据的列表
+        // wx.navigateTo({
+        //     url: `/discovery/liebiaoye/liebiaoye?listName=${listName}&city=${this.data.city}&cityId=${
+        //         cityId}&title=${title}`,
+        // });
+    },
+
     onShareAppMessage() {},
 });

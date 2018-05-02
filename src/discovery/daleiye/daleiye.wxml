@@ -29,5 +29,6 @@
                 <template is="normaltemp" data="{{listData:item}}"/>
             </block>
         </view>
+        <button class="view-all" bindtap="viewAll">全部{{ tabName }} ></button>
     </scroll-view>
 </view>
