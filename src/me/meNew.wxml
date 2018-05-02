@@ -10,31 +10,27 @@
         </view>
     </view>
     <view class="list_ul">
-        <view class="grid">
-            <view class="list_li" bindtap="tradeUrl" data-url="/me/order/order">
-                <image src="/image/dingdan.png" class="image1"></image>
-                <text class="title">我的订单</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </view>
-            <view class="list_li" bindtap="tradeUrl" data-url="/me/coupon/coupon">
-                <image src="/image/youhui.png" class="image1"></image>
-                <text class="title">我的优惠券</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </view>
+        <view class="list_li" bindtap="tradeUrl" data-url="/me/order/order">
+            <image src="/image/dingdan.png" class="image1"></image>
+            <text class="title">我的订单</text>
+            <image src="/image/icon_more.png" class="image2"></image>
         </view>
-        <view class="grid">
-            <view class="list_li" bindtap="tradeUrl" data-url="/me/me">
-                <image src="/image/area.png" class="image1"></image>
-                <text class="title">我的信息</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </view>
-            <view class="list_li" bindtap="callService" data-url="/me/me">
-                <image src="/image/area.png" class="image1"></image>
-                <text class="title">客服热线</text>
-                <!-- 填写正确的客服电话 -->
-                <text class="phone">400-5678-XXXX</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </view>
+        <view class="list_li" bindtap="tradeUrl" data-url="/me/coupon/coupon">
+            <image src="/image/youhui.png" class="image1"></image>
+            <text class="title">我的优惠券</text>
+            <image src="/image/icon_more.png" class="image2"></image>
+        </view>
+        <view class="list_li" bindtap="tradeUrl" data-url="/me/me">
+            <image src="/image/area.png" class="image1"></image>
+            <text class="title">我的信息</text>
+            <image src="/image/icon_more.png" class="image2"></image>
+        </view>
+        <view class="list_li" bindtap="callService" data-url="/me/me">
+            <image src="/image/area.png" class="image1"></image>
+            <text class="title">客服热线</text>
+            <!-- 填写正确的客服电话 -->
+            <text class="phone">400-810-7258</text>
+            <image src="/image/icon_more.png" class="image2"></image>
         </view>
     </view>
 </view>
