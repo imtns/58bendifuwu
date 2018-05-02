@@ -1,21 +1,23 @@
 //sessions.js
-var im = require('../../../..//utils/IMInit.js');
+const im = require('../../../..//utils/IMInit.js');
 
-var _im = require('../../index');
-var _timeFormat = require('../../utils/timeFormat.js');
+const _im = require('../../index');
+const _timeFormat = require('../../utils/timeFormat.js');
 // 图片路径添加https前缀
-var _convertUrl = require('../../utils/util').convertUrl;
-var _config = require('../../global/config');
+const _convertUrl = require('../../utils/util').convertUrl;
+const _config = require('../../global/config');
 
-var _sdk;
-var _have_more = true; // 是否仍有未加载的会话
-var _load_count = 0; // 已加载会话数量
-var _first_min_count = 15; // 首页占满需加载会话数量(暂时定死)
-var _getSessions; // 获取会话列表方法
+let _sdk;
+let _have_more = true; // 是否仍有未加载的会话
+let _load_count = 0; // 已加载会话数量
+let _first_min_count = 15; // 首页占满需加载会话数量(暂时定死)
+let _getSessions; // 获取会话列表方法
 
 // 会话列表中最后一条消息内容格式处理
 var _sessionLastMsg = session => {
-    let content = session.msg.content || {'type': 'text'};
+    let content = session.msg.content || {
+        'type': 'text'
+    };
     let status = session.msg.status || 'SUCCESS';
     let lastMsg = '';
     switch (status) {
@@ -86,7 +88,7 @@ Page({
                     appId: 'wx2a9c6eeb1c44a284',
                     path: 'pages/index/index',
                     extraData: {},
-                    envVersion: 'release',//trial release
+                    envVersion: 'release', //trial release
                     success(res) {
                         // 打开成功
                         console.log('打开成功！');
@@ -113,7 +115,7 @@ Page({
         // 会话列表更新时，更新UI会话列表
         handleSession = () => {
             let sessions = _sdk.getAllSessions();
-            
+
             if (sessions.length === 0) {
                 this.setData({
                     loadStatus: {
@@ -125,14 +127,14 @@ Page({
             }
             // 外部session列表处理
             _config.get('sessions-converter')(sessions, sessions => {
-            
+
                 _load_count = sessions.length;
                 let unread = _sdk.getAllUnreadAmount();
                 let userkeys = sessions.map(session => ({
                     'user_id': session.user.user_id,
                     'user_source': session.user.user_source
                 }));
-                
+
                 _sdk.getContact(userkeys, contacts => {
                     sessions.forEach(session => {
                         let session_user = session.user;
@@ -158,7 +160,7 @@ Page({
                         // 最后一条消息内容及状态
                         _sessionLastMsg(session);
                     });
-                    
+
                     // 更新会话列表
                     this.setData({
                         sessionList: sessions,
@@ -231,10 +233,10 @@ Page({
             handleSession();
     },
     onUnload: function () {
-      // changed
-      if (!_sdk) {
-        return;
-      }
+        // changed
+        if (!_sdk) {
+            return;
+        }
         // 恢复默认设置
         _have_more = true;
         _load_count = 0;

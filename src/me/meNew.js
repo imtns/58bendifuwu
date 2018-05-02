@@ -49,4 +49,9 @@ Page({
             url: url,
         });
     },
+    callService() {
+        wx.makePhoneCall({
+            phoneNumber: '4008107258',
+        });
+    },
 });
