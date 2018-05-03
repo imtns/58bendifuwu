@@ -21,7 +21,7 @@ page {
     font-size: 28rpx;
     line-height: 1;
     color: #333;
-    padding-top: 10rpx;
+    padding-top: 20rpx;
 }
 
 .list_li {
@@ -61,4 +61,29 @@ page {
         font-size: 28rpx;
         color: #333;
     }
+}
+
+.avator-back {
+    width: 120rpx;
+    height: 120rpx;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-image: linear-gradient(-180deg, #FF9E88 0%, #FFCACA 100%);
+    overflow: hidden;
+}
+
+.avator-head {
+    width: 37rpx;
+    height: 37rpx;
+    background-image: linear-gradient(12deg, #FFFFFF 6%, #FFDEDE 100%);;
+    border-radius: 50%;
+    margin: 35rpx auto 0;
+}
+
+.avator-body {
+    width: 76rpx;
+    height: 43rpx;
+    margin: 0 auto;
+    background-image: linear-gradient(-180deg, #FFFFFF 0%, #FFC8C7 86%);
+    border-radius: 76rpx 76rpx 0 0;
 }
