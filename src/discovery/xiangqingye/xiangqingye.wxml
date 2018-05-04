@@ -1,42 +1,23 @@
 <!-- 基本信息 -->
 <view class="baseInfo">
-    <view class="baseTit">
-        {{infoTitle}}
+    <view class="baseTit">{{infoTitle}}</view>
+    <view class="tags">
+        <view class="tag">上门服务</view>
+        <view class="tag">上门服务</view>
+        <view class="tag">上门服务</view>
     </view>
-    <view class="baseDate">
+    <!-- <view class="baseDate">
         <text>发布时间 {{postDate}}</text>
-        <!-- <text>已有{{liulan}}浏览</text> -->
-    </view>
-    <view class="baseDetal">
-        <text class="bdName">服务类型</text>
-        <text class="bdValue">{{objectType}}</text>
-    </view>
-    <view class="baseDetal" wx:if="{{serviceRange.length>0}}">
-        <text class="bdName">服务区域</text>
-        <view class="bdValue serviceRange">
-            <block wx:for="{{serviceRange}}">
-                {{item.localName}}
-            </block>
-        </view>
-    </view>
-    <view class="baseDetal">
-        <text class="bdName">联系商家</text>
-        <text class="bdValue">{{goblianxiren}}</text>
-        <view class="baseTel" bindtap="call_tick"></view>
-    </view>
-    <view class="baseDetal">
-        <text class="bdName">商家地址</text>
-        <text class="bdValue bdAddress" bindtap="onmapFun">{{commparamMap['商家地址']}}</text>
-        <view class="mapIcon"></view>
-    </view>
+        <text>已有{{liulan}}浏览</text>
+    </view> -->
 </view>
 <!-- 标签信息 -->
 <view class="markBox">
-    <block wx:if="{{renzheng.geren_renzheng_state||renzheng.qiye_renzheng_state}}"> 
+    <block wx:if="{{renzheng.geren_renzheng_state||renzheng.qiye_renzheng_state}}">
         <view class="markList">
-            <view class="markTitle">
+            <!-- <view class="markTitle">
                 认证
-            </view>
+            </view> -->
             <block wx:if="{{renzheng.qiye_renzheng_state}}">
                 <view class="markDes">
                     <view class="successIcon">
@@ -52,9 +33,31 @@
                     </view>
                     <text>个人认证</text>
                 </view>
-            </block>            
+            </block>
         </view>
     </block>
+</view>
+<view class="baseInfo">
+    <view class="baseDetal">
+        <text class="bdName">服务类型</text>
+        <text class="bdValue">{{objectType}}</text>
+    </view>
+    <view class="baseDetal" wx:if="{{serviceRange.length>0}}">
+        <text class="bdName">服务区域</text>
+        <view class="bdValue serviceRange">
+            <block wx:for="{{serviceRange}}">{{item.localName}}</block>
+        </view>
+    </view>
+    <view class="baseDetal">
+        <text class="bdName">联系商家</text>
+        <text class="bdValue">{{goblianxiren}}</text>
+        <view class="baseTel" bindtap="call_tick"></view>
+    </view>
+    <view class="baseDetal">
+        <text class="bdName">商家地址</text>
+        <text class="bdValue bdAddress" bindtap="onmapFun">{{commparamMap['商家地址']}}</text>
+        <view class="mapIcon"></view>
+    </view>
 </view>
 <!-- 标签信息End -->
 <!-- 选择服务
@@ -71,27 +74,14 @@
 </view>
  选择服务End -->
 <!-- tab切换 -->
-<view class="tabBox">
+<!-- tab切换End -->
+<!-- 详情描述 -->
+<!-- <view class="tabBox">
     <view class="tabItem select">
         服务详情
         <view class="tabLine"></view>
     </view>
-</view>
-<!-- tab切换End -->
-<!-- 详情描述 -->
-<view class="detail">
-    <view class="detailMark" wx:if="{{otherEntity.extendMap.supportlabelList!==undefined}}">
-        <view wx:for="{{otherEntity.extendMap.supportlabelList}}">{{item}}</view>
-    </view>
-    <view class="detailMain">
-        <view class="detailTit">服务描述</view>
-        <view class="detailDes {{detailShow?'':'show'}}">{{infocontent}}</view>
-        <view class="{{detailShow?'detailMoreShow':'detailMore'}}">
-            <text bindtap="detailShow">{{detailShow?'展开更多':'收起更多'}}</text>
-            <view class="dmArrow"></view>
-        </view>
-    </view>
-</view>
+</view> -->
 <!-- 详情描述End -->
 <!-- 相册 -->
 <scroll-view class="imgList" scroll-x="true" wx:if="{{commercializationMap.picSmallList!==undefined}}">
@@ -142,10 +132,13 @@
             <text class="ftMark">会员{{wltEntity.wltserviceYears}}年</text>
         </view>
         <view class="firmMarkBox">
-            <view class="firmLevel {{extendMap.level_level>=13?'huangguan':extendMap.level_level>=10?'zuanshi':extendMap.level_level>=7?'huangjin':extendMap.level_level>=4?'baiyin':'qingtong'}}">会员{{wltEntity.wltserviceYears}}年</view>
+            <view class="firmLevel {{extendMap.level_level>=13?'huangguan':extendMap.level_level>=10?'zuanshi':extendMap.level_level>=7?'huangjin':extendMap.level_level>=4?'baiyin':'qingtong'}}">
+                会员{{wltEntity.wltserviceYears}}年
+            </view>
             <view class="firmPerc">
                 超过
-                <text>{{extendMap.level_rank}}</text>同行
+                <text>{{extendMap.level_rank}}</text>
+                同行
             </view>
         </view>
     </view>
@@ -177,27 +170,155 @@
         </view>
     </view>
     <view class="firmBottomBox">
-        <view class="telButton" bindtap="call_tick"> 联系商家 </view>
+        <view class="telButton" bindtap="call_tick">联系商家</view>
+    </view>
+    <view class="ChooseService">
+        <view class="serviceName">选择服务</view>
+        <view class="serviceValue">查看全部6个服务</view>
+    </view>
+    <view class="ChooseService">
+        <view class="serviceName">分店信息</view>
+        <view class="serviceValue">查看全部4家分店电话</view>
     </view>
 </view>
+<view class="detail">
+    <!-- <view class="detailMark" wx:if="{{otherEntity.extendMap.supportlabelList!==undefined}}">
+        <view wx:for="{{otherEntity.extendMap.supportlabelList}}">{{item}}</view>
+    </view> -->
+    <view class="detailMain">
+        <view class="detailTit">服务描述</view>
+        <view class="detailDes {{detailShow?'':'show'}}">{{infocontent}}</view>
+        <view class="{{detailShow?'detailMoreShow':'detailMore'}}">
+            <text bindtap="detailShow">{{detailShow?'展开更多':'收起更多'}}</text>
+            <view class="dmArrow"></view>
+        </view>
+    </view>
+</view>
+
 <!-- 商家信息End -->
+<view class="mod-view view-coupon">
+    <!-- <view class="coupon-shadow">
+        <view class="coupon-box table"  bindtap="receiveCoupon">
+            <view class="cell one-text coupon-left">8.5<text class="coupon-discount">折</text></view>
+            <view class="cell coupon-right">
+                <view class="first-row one-text">满299可用</view>
+                <view class="second-row one-text">仅限家庭保洁服务类</view>
+                <view class="last-row" >2018.06.08-2018.07.01</view>
+                <view class="receive-button">立即领取</view>
+            </view>
+        </view>
+    </view> -->
+        <view class="mod-view view-coupon2 font-normal">
+        <scroll-view scroll-x class="coupons-scroll">
+            <view class="coupon2-wrap">
+                <view class="coupon2-shadow mr-10">
+                    <view class="table coupon2 font-normal">
+                        <view class="cell coupon2-left">
+                            <!-- <view class="one-text">￥
+                                <text class="font-large2">2</text>
+                            </view> -->
+                            <view class="one-text">
+                                <text class="font-large2">2</text>折
+                            </view>
+                            <view class="one-text">满233可用</view>
+                            <view  class="font-yellow2 one-text mt-5">2018.06.20前有效</view>
+                            <!-- <view wx:elif="{{item.validAfterDays>0}}" class="font-yellow2 one-text mt-5">领取后30天可用</view>
+                            <view wx:else class="font-yellow2 one-text mt-5">领取后立即使用</view> -->
+                        </view>
+                        <view class="cell coupon2-right">点击领取</view>
+                    </view>
+                </view>
+                <view class="coupon2-shadow mr-10">
+                    <view class="table coupon2 font-normal">
+                        <view class="cell coupon2-left">
+                            <!-- <view class="one-text">￥
+                                <text class="font-large2">2</text>
+                            </view> -->
+                            <view class="one-text">
+                                <text class="font-large2">2</text>折
+                            </view>
+                            <view class="one-text">满233可用</view>
+                            <view  class="font-yellow2 one-text mt-5">2018.06.20前有效</view>
+                            <!-- <view wx:elif="{{item.validAfterDays>0}}" class="font-yellow2 one-text mt-5">领取后30天可用</view>
+                            <view wx:else class="font-yellow2 one-text mt-5">领取后立即使用</view> -->
+                        </view>
+                        <view class="cell coupon2-right">点击领取</view>
+                    </view>
+                </view>
+                <view class="coupon2-shadow mr-10">
+                    <view class="table coupon2 font-normal">
+                        <view class="cell coupon2-left">
+                            <!-- <view class="one-text">￥
+                                <text class="font-large2">2</text>
+                            </view> -->
+                            <view class="one-text">
+                                <text class="font-large2">2</text>折
+                            </view>
+                            <view class="one-text">满233可用</view>
+                            <view  class="font-yellow2 one-text mt-5">2018.06.20前有效</view>
+                            <!-- <view wx:elif="{{item.validAfterDays>0}}" class="font-yellow2 one-text mt-5">领取后30天可用</view>
+                            <view wx:else class="font-yellow2 one-text mt-5">领取后立即使用</view> -->
+                        </view>
+                        <view class="cell coupon2-right">点击领取</view>
+                    </view>
+                </view>
+                <view  class="table coupon2 none-coupon font-normal mr-20">
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</view>
+<!-- 评论 -->
+<view class="commentContainer">
+    <view class="commentTip">
+        <text class="commentNum">评价(27)</text>
+        <view>
+            总分:
+            <text class="commentScore">5.0分</text>
+        </view>
+    </view>
+    <view class="commentBlock">
+        <view class="thumbContainer">
+            <image src="../../image/fx_1.png" class="thumb"></image>
+        </view>
+        <view class="commentInfo">
+            <view class="info">
+                <view class="nameContainer">
+                    <view class="nickName">天堂猫</view>
+                    <view class="stars">
+                        <image class="star" src="../../image/commentStar.png"></image>
+                        <image class="star" src="../../image/commentStar.png"></image>
+                        <image class="star" src="../../image/commentStar.png"></image>
+                        <image class="star" src="../../image/commentStar.png"></image>
+                        <image class="star" src="../../image/commentStar.png"></image>
+                    </view>
+                </view>
+                <text class="commentDate">2018-03-23</text>
+            </view>
+
+            <view class="comment">服务态度好，服务专业，服务准时，搬了15件家具，收了1400，不过总体还是不错的</view>
+        </view>
+    </view>
+</view>
+<!-- 评论End -->
 <!-- 底部悬浮 -->
 <view class="bottomBar">
-<!-- 
-    <view class="csBar" bindtap="goodsShow">
+    <!-- <view class="csBar" bindtap="goodsShow">
         <view class="csBarIcon"></view>
         <text>服务</text>
+    </view> -->
+    <view class="telBar" bindtap="call_tick">
+        <view class="miniBarIcon"></view>
+        <text>小程序</text>
     </view>
--->
     <view class="telBar" bindtap="call_tick">
         <view class="telBarIcon"></view>
         <text>电话</text>
     </view>
-    <view class="weiBar" bindtap="goChat" data-userid= "{{userid}}" data-infoid="{{infoId}}">
+    <view class="weiBar" bindtap="goChat" data-userid="{{userid}}" data-infoid="{{infoId}}">
         <view class="weiBarIcon"></view>
         <text>微聊</text>
     </view>
-
 </view>
 <!-- 底部悬浮End -->
 <!-- 背景 -->
@@ -214,22 +335,24 @@
     </view>
     <view class="closeTelInfo" bindtap="cancel_call"></view>
 </view> -->
-
 <!-- 打电话谈层  s -->
-
-<!--打电话谈层  s-->
+<!-- 打电话谈层  s -->
 <view class="call_mask" hidden="{{call.hidden}}">
-  <view class="call_con">
-    <text class="call_title">拨打电话</text>
-    <text class="call_number">{{call.teleNumber}}</text>
-    <text class="call_text">(电话<text class="call_tick">{{call.tick}}</text>秒后失效，请尽快拨打)</text>
-    <view class="call_btn_con">
-      <text class="call_left_btn" bindtap="cancel_call">取消</text>
-      <text class="call_right_btn" bindtap="call">拨打</text>
+    <view class="call_con">
+        <text class="call_title">拨打电话</text>
+        <text class="call_number">{{call.teleNumber}}</text>
+        <text class="call_text">
+            (电话
+            <text class="call_tick">{{call.tick}}</text>
+            秒后失效，请尽快拨打)
+        </text>
+        <view class="call_btn_con">
+            <text class="call_left_btn" bindtap="cancel_call">取消</text>
+            <text class="call_right_btn" bindtap="call">拨打</text>
+        </view>
     </view>
-  </view>
 </view>
-<!--打电话谈层  e-->
+<!-- 打电话谈层  e -->
 <!-- 打电话谈层  e -->
 <!-- 电话弹窗End -->
 <!-- 全部服务
@@ -259,17 +382,19 @@
  全部服务End -->
 <!-- 举报 -->
 <view class="jubao">
-    <view>办理服务前请勿付
-        <text>订金、押金</text>等费用！</view>
-    <view>请先确认对方资质，谨防上当受骗！</view>
-    <view class="jbImg">
+    <view>
+        办理服务前请勿付
+        <text>订金、押金</text>
+        等费用！
     </view>
+    <view>请先确认对方资质，谨防上当受骗！</view>
+    <view class="jbImg"></view>
 </view>
 <!-- 举报End -->
-<swiper class="allPrint" hidden="{{imgShow}}" bindtap="hiddenFun"  wx:if="{{commercializationMap.picBigList!==undefined}}" current="{{apCurrent}}">
+<swiper class="allPrint" hidden="{{imgShow}}" bindtap="hiddenFun" wx:if="{{commercializationMap.picBigList!==undefined}}" current="{{apCurrent}}">
     <swiper-item wx:for="{{commercializationMap.picBigList}}">
         <view>
-            <image src="{{item}}" class="slide-image" mode="widthFix"/>
+            <image src="{{item}}" class="slide-image" mode="widthFix" />
         </view>
     </swiper-item>
 </swiper>

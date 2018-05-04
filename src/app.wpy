@@ -1,7 +1,6 @@
 <script>
 import wepy from 'wepy';
 import 'wepy-async-function';
-
 const im = require('./utils/IMInit.js');
 const _im = require('./vendors/im/index.js');
 
@@ -357,6 +356,7 @@ export default class extends wepy.app {
             console.log('1038------gfl onShow');
             if (!options.referrerInfo) {
                 console.log('options.referrerInfo为空');
+                
                 return false;
             }
             if (!options.referrerInfo.extraData) {

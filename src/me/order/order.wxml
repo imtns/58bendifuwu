@@ -1,9 +1,0 @@
-<view>
-    <view class='msg_box'>
-      <image src="/image/nomsg.png" class='msg_no_img'></image>
-      <view class='msg_txt_box'>
-        <view>您还没有下过单哦~</view>
-        <view>快去发现更多你需要的吧</view>
-      </view>
-    </view>
-</view>

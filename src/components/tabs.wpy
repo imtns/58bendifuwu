@@ -1,0 +1,77 @@
+<template>
+    <repeat for="{{tabList}}" key="index" index="index" item="tab">
+        <view bindtap="tabClick" data-index="{{index}}" class="order-tabs-tab {{tab.selected ?'order-tabs-active':''}}" id="{{tab.id}}">
+            {{tab.name}}
+        </view>
+    </repeat>
+</template>
+<script>
+import wepy from 'wepy'
+var currentStatus = 0
+export default class Tabs extends wepy.component {
+  data = {
+    spaceDistance: 189,
+    tabList: [
+      {
+        name: '待接单',
+        id: 0,
+        selected: true
+      },
+      {
+        name: '待服务',
+        id: 1,
+        selected: false
+      },
+      {
+        name: '已评价',
+        id: 2,
+        selected: false
+      },
+      {
+        id: 3,
+        name: '全部',
+        selected: false
+      }
+    ]
+  }
+  methods = {
+    tabClick(e) {
+      var id = e.currentTarget.id,
+        index = e.currentTarget.dataset.index
+      if (id == currentStatus) return
+      this.data.tabList.forEach(item => {
+        if (item.id == id) {
+          currentStatus = item.id
+          this.$emit('tabClick', {
+            scrollValue: 0,
+            loadComplete: false,
+            orderList: [],
+            pageNum: 1,
+            currentStatus,
+            noOrder: true,
+            left: index * this.data.spaceDistance + 60
+          })
+          item.selected = true
+        } else {
+          item.selected = false
+        }
+      })
+    }
+  }
+  onLoad() {
+  }
+}
+</script>
+<style>
+.order-tabs-tab {
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  font-size: 30rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+}
+.order-tabs-active {
+  color: rgb(248, 85, 47);
+}
+</style>
