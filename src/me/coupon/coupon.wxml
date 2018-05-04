@@ -1,9 +1,69 @@
 <view>
-    <view class='msg_box'>
-      <image src="/image/nomsg.png" class='msg_no_img'></image>
-      <view class='msg_txt_box'>
-        <view>这里空空的~~</view>
-        <view>快去领取优惠券装满它</view>
-      </view>
+    <view class="body">
+        <view class="tab-wrap" wx:if="{{reserveId===undefined}}">
+            <view class="tab-item {{couponStatus=='2'?'item-selected':''}}" bindtap="onTabItem" data-status="2">可使用</view>
+            <view class="tab-item {{couponStatus=='1'?'item-selected':''}}" bindtap="onTabItem" data-status="1">已使用</view>
+            <view class="tab-item {{couponStatus=='3'?'item-selected':''}}" bindtap="onTabItem" data-status="3">已过期</view>
+        </view>
+        <view class="list-wrap">
+            <block wx:for="{{vm}}" wx:for-item="coupon" wx:key="{{coupon.consumerCuponId}}" wx:for-index="idx">
+                <navigator url="/pages/coupon/couponDetail?couponId={{coupon.consumerCuponId}}&reserveId={{reserveId}}" wx:if="{{couponStatus=='2'}}"
+                    class="coupon-box">
+                    <view class="cell coupon-left">
+                        <view class="coupon-value" wx:if="{{coupon.couponType=='1'}}">
+                            ￥
+                            <text class="coupon-money">{{coupon.reliefAmount}}</text>
+                        </view>
+                        <view class="coupon-value" wx:else>
+                            <text class="coupon-money">{{coupon.couponDiscard/10}}</text> 折
+                        </view>
+                        <view class="coupon-text">{{coupon.couponType=='1'?'代金券':'折扣券'}}</view>
+                    </view>
+                    <view class="split-line"></view>
+                    <view class="coupon-right">
+                        <view class="first-row">
+                            满{{coupon.limitAmount}}可用
+                        </view>
+                        <view class="second-row single-row">{{coupon.subTitle}}</view>
+                        <view class="last-row" wx:if="{{coupon.validType===1}}">{{coupon.validStartDate}}-{{coupon.validEndDate}}</view>
+                        <view class="last-row" wx:elif="{{coupon.validAfterDays>0}}">领取后{{coupon.validAfterDays}}天可用</view>
+                        <view class="last-row" wx:else>领取后立即生效</view>
+                        <view class="use-button" catchtap="onUseCoupon" data-index="{{idx}}">立即使用</view>
+                    </view>
+                </navigator>
+                <view wx:else class="coupon-box">
+                    <view class="coupon-left">
+                        <view class="coupon-value used-font" wx:if="{{coupon.couponType=='1'}}">
+                            ￥
+                            <text class="coupon-money used-font">{{coupon.reliefAmount}}</text>
+                        </view>
+                        <view class="coupon-value used-font" wx:else>
+                            <text class="coupon-money used-font">{{coupon.couponDiscard/10}}</text> 折
+                        </view>
+                        <view class="coupon-text used-font">{{coupon.couponType=='1'?'代金券':'折扣券'}}</view>
+                    </view>
+                    <view class="split-line"></view>
+                    <view class="coupon-right {{couponStatus==='1'?'used-stamp':''}}">
+                        <view class="first-row used-font">
+                            满{{coupon.limitAmount}}可用
+                        </view>
+                        <view class="second-row used-font single-row">{{coupon.subTitle}}</view>
+                        <view class="last-row used-font" wx:if="{{coupon.validType=='1'}}">{{coupon.validStartDate}}-{{coupon.validEndDate}}</view>
+                        <view class="last-row used-font" wx:elif="{{coupon.validAfterDays>0}}">领取后{{coupon.validAfterDays}}天可用</view>
+                        <view class="last-row used-font" wx:else>领取后立即生效</view>
+                        <view class="use-button used-button">立即使用</view>
+                    </view>
+                </view>
+            </block>
+            <block wx:if="{{!vm || vm.length===0}}">
+                <view class='msg_box'>
+                    <image src="/image/nomsg.png" class='msg_no_img'></image>
+                    <view class='msg_txt_box'>
+                        <view>这里空空的~~</view>
+                        <view>快去领取优惠券装满它</view>
+                    </view>
+                </view>
+            </block>
+        </view>
     </view>
 </view>
