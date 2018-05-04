@@ -1,4 +1,15 @@
 <!--sessions.wxml-->
-<import src="../../templates/session/list.wxml"/>
-
-<template is="session-list" data="{{sessionList: sessionList, loadStatus: loadStatus}}"/>
+<!-- <import src="../../templates/session/list.wxml"/> -->
+<!-- <block wx:if="isLogin">
+    <template is="session-list" data="{{sessionList: sessionList, loadStatus: loadStatus}}"/>
+</block> -->
+<!-- <block wx:else> -->
+    <view class="loginFrame">    
+        <view class="thumb">
+            <image src="../../../../image/empty.png"></image>
+        </view>
+        <view>您还没有登录</view>
+        <view>无法同步对话消息哦</view>
+        <view class="loginButton">点击登录</view>
+    </view>
+<!-- </block> -->

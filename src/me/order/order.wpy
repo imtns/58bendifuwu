@@ -1,0 +1,263 @@
+<template>
+  <view class="body">
+    <view class="order-tabs-container">
+      <tabs></tabs>
+       <view style="left:{{left}}rpx" class="order-tabs-underline"></view>
+    </view>
+    <view class="order-view">
+      <scroll-view wx:if="{{orderList.length>0}}" lower-threshold="70" scroll-top="{{scrollValue}}" bindscrolltolower="reachBottom" style="height:91vh" scroll-y="true">
+        <navigator wx:for="{{orderList}}" wx:for-index="idx" wx:for-item="item" wx:key="{{item.id}}" open-type="navigate" url="orderDetail?orderId={{item.id}}">
+          <view class="mod-view mod-order">
+            <view class="order-orderNo">
+              <view class="order-No">订单号: {{item.id}}</view>
+              <view class="order-status">{{status[item.status]}}</view>
+            </view>
+            <view class="order-line"></view>
+            <view class="order-info">
+              <text class="order-info-title">服务名称: {{item.serviceName}}</text>
+              <text class="order-info-detail">服务时间: {{item.startTime}} 至 {{item.endTime}}</text>
+              <text class="order-info-detail">下单时间: {{item.createTime}}</text>
+              <text class="order-info-detail order-info-detail-address">
+                服务地址: {{item.consumerAddressJson.fullAddress}}
+              </text>
+            </view>
+            <view class="order-line"></view>
+            <view class="order-price">
+              <text class="order-price-name">共计费用</text>
+              <text class="order-price-value">￥{{item.originalAmount}}</text>
+            </view>
+          </view>
+        </navigator>
+      </scroll-view>
+      <view class="order-empty" hidden="{{!noOrder}}">
+        <image class="order-empty-icon" src="../../image/empty.png"></image>
+        <text>还没有订单</text>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import Tabs from '../../components/tabs'
+var loadComplete = false,
+  pageNum = 1,
+  pageSize = 10,
+  orderList = []
+export default class Order extends wepy.page {
+  components = {
+    tabs: Tabs
+  }
+  data = {
+    left: 60,
+    scrollValue: 0,
+    status: {
+      0: '待接单',
+      1: '待服务',
+      2: '已评价',
+      3: '全部'
+    },
+    orderList: [],
+    currentStatus:0,
+    noOrder: true
+  }
+  events = {
+    tabClick: params => {
+      pageNum = params.pageNum
+      Object.assign(this, params)
+      this.getOrder()
+    }
+  }
+  getOrder() {
+    console.log('getOrder')
+    // get(
+    //   getOrderUrl,
+    //   {
+    //     status: currentStatus == 3 ? '' : currentStatus,
+    //     pageNum,
+    //     pageSize
+    //   },
+    //   (e, response) => {
+    //     if (e) {
+    //       toast('出现异常')
+    //       return
+    //     }
+    //     if (pageNum == 1 && !response.length) {
+    //       this.noOrder = false;
+    //       this.orderList: null;
+    //     } else {
+    //       if (pageNum == 1) {
+    //         orderList = []
+    //       }
+    //       if (!response.length && !fromRating) {
+    //         loadComplete = true
+    //         toast('没有更多订单')
+    //         return
+    //       }
+    //       response.map(item => {
+    //           (item.serviceAddress = JSON.parse(item.serviceAddress)),
+    //           (item.consumerAddressJson = JSON.parse(item.consumerAddressJson)),
+    //           (item.startTime = formatTimeExtra(item.startTime)),
+    //           (item.endTime = formatTimeExtra(item.endTime)),
+    //           (item.createTime = formatTimeExtra(item.createTime, true))
+    //       })
+    //       orderList.push(...response)
+    //       this.orderList = orderList
+    //     }
+    //   }
+    // )
+  }
+}
+</script>
+<style>
+.order-view {
+  z-index: 1;
+  position: relative;
+  top: 108rpx;
+}
+
+.order-tabs {
+  z-index: 99;
+}
+
+.mod-order {
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.order-orderNo {
+  font-size: 30rpx;
+  float: left;
+  width: 100%;
+}
+
+.order-No {
+  float: left;
+}
+
+.order-status {
+  color: #ff552e;
+  float: right;
+}
+
+.order-line {
+  position: relative;
+  width: 110%;
+  display: inline-block;
+  background: rgb(236, 236, 236);
+  height: 1rpx;
+  margin: 30rpx -30rpx 1rpx;
+}
+
+.order-info {
+  width: 100%;
+}
+
+.order-info-title {
+  margin-top: 20rpx;
+  font-size: 32rpx;
+  width: 100%;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 10rpx;
+}
+
+.order-info-detail {
+  width: 100%;
+  display: inline-block;
+  font-size: 28rpx;
+  margin-top: 10rpx;
+}
+.order-info-detail-address {
+  width: 600rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.order-price {
+  font-size: 28rpx;
+  display: flex;
+  width: 100%;
+  padding: 30rpx 0;
+  align-items: center;
+}
+
+.order-price-name {
+  flex: 1;
+  text-align: left;
+}
+
+.order-price-value {
+  flex: 1;
+  color: #ff552e;
+  text-align: right;
+}
+.order-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin-top: 200rpx;
+  font-size: 30rpx;
+  color: #ccc;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+.order-empty-icon {
+  width: 260rpx;
+  height: 260rpx;
+}
+/*  加载更多   */
+
+.weui-loading {
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-animation: weuiLoading 1s steps(12, end) infinite;
+  animation: weuiLoading 1s steps(12, end) infinite;
+  background: transparent
+    url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4=)
+    no-repeat;
+  background-size: 100%;
+}
+
+.weui-loadmore {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 26rpx;
+  text-align: center;
+  padding: 6rpx 0;
+  background: rgb(238, 238, 238);
+}
+
+.weui-loadmore__tips {
+  display: inline-block;
+  vertical-align: middle;
+}
+.order-tabs-container {
+  border-top: 1px solid rgb(236, 236, 236);
+  display: flex;
+  height: 88rpx;
+  align-items: center;
+  background: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+.order-tabs-underline {
+  text-align: center;
+  bottom: 0px;
+  height: 4rpx;
+  width: 60rpx;
+  transition: 0.4s;
+  position: absolute;
+  background: rgb(248, 85, 47);
+  transition: 0.4s;
+}
+</style>
