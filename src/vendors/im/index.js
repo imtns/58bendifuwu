@@ -1,3 +1,4 @@
+/* eslint-disable */
 var SDK = require('./sdk/index');
 var extend = require('./utils/extend');
 var config = require('./global/config');
@@ -85,6 +86,7 @@ var _isLogined = function () {
 
 module.exports = {
     init: function (options) {
+        console.log("--------------------初始化im  -ZZZZZZZZZZZZZZZZZZZZZZ ----------------------------")
         var sdkoptions = options.sdk;
         var uiconfig = options.ui;
         var defaultsdkopts = {
@@ -102,16 +104,16 @@ module.exports = {
         };
         extend(defaultsdkopts, sdkoptions);
         config.set(uiconfig);
-
         _sdk = new SDK(defaultsdkopts);
         _sdk.start();
-
+        console.log("---cccccccccc-----------------------------------------")
         _me = {
             "user_id": defaultsdkopts.user_id,
             "user_source": defaultsdkopts.source
         };
     },
     sdk: function () {
+        
         return _sdk;
     },
     // 获取当前用户：user_id, user_source

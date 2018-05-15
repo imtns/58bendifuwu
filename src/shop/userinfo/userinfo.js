@@ -1,5 +1,6 @@
 const util = require('../../utils/util.js');
 const app = require('../../app');
+
 Page({
     data: {
         user: '',
@@ -8,19 +9,9 @@ Page({
         // 页面初始化 options为页面跳转所带来的参数
         const _self = this;
         options.role && wx.setStorageSync('role', options.role);
+        const urlId = options.id;
+        const storageData = wx.getStorageSync('userlistData');
 
-        const url_id = options.id;
-        const storage_data = wx.getStorageSync('userlistData');
-        if (storage_data) {
-            if (storage_data[url_id]) {
-                console.log('读取缓存数据');
-                _self.setData({
-                    user: storage_data[url_id],
-                });
-            }
-        }
-
-        getUserInfo();
         function getUserInfo() {
             if (!app.globalData.tokenFirstReady) {
                 app.login(getUserInfo);
@@ -33,14 +24,13 @@ Page({
                     'access-token': wx.getStorageSync('token'),
                 },
                 success(res) {
-                    if (res.data.code == 10) {
+                    if (res.data.code === 10) {
                         app.login(getUserInfo);
                         return;
                     }
                     _self.setData({
                         user: res.data.ret.user,
                     });
-
                     // 设置缓存
                     const kid = res.data.ret.user.id;
                     const userlistData = {};
@@ -48,16 +38,12 @@ Page({
                     resUser.time = res.data.time;
                     userlistData[kid] = resUser;
                     // 深层复制
-                    const userlistDatas = util.constDeepMixin(
-                        userlistData,
-                        wx.getStorageSync('userlistData'),
-                    );
+                    const userlistDatas = util.constDeepMixin(userlistData, wx.getStorageSync('userlistData'));
                     // 管理缓存
                     let timestamp = Date.parse(new Date()) / 1000; // 获取当前时间戳
                     timestamp -= 259200; // 三天前时间戳
-                    let x;
-                    for (x in userlistDatas) {
-                        const time = userlistDatas[x].time; // 获取时间戳
+                    Object.keys(userlistDatas).forEach(x => {
+                        const { time } = userlistDatas[x]; // 获取时间戳
                         if (time) {
                             if (timestamp > time) {
                                 // 三天前>缓存时间 删除
@@ -65,12 +51,21 @@ Page({
                                 delete userlistDatas[x];
                             }
                         }
-                    }
+                    });
                     // 设置最新的缓存
                     wx.setStorageSync('userlistData', userlistDatas);
                 },
             });
         }
+        if (storageData) {
+            if (storageData[urlId]) {
+                console.log('读取缓存数据');
+                _self.setData({
+                    user: storageData[urlId],
+                });
+            }
+        }
+        getUserInfo();
     },
     onReady() {
         // 页面渲染完成
@@ -87,14 +82,13 @@ Page({
     bindTopInput(e) {
         //   console.log(e.detail.value);
         const _self = this;
-        if (_self.data.user == '') {
+        if (_self.data.user === '') {
             return;
         }
         _self.data.user.top = e.detail.value ? 1 : 2;
         this.setData({
             user: _self.data.user,
         });
-        userSet();
         function userSet() {
             if (!app.globalData.tokenFirstReady) {
                 app.login(userSet);
@@ -109,28 +103,24 @@ Page({
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 success(res) {
-                    if (res.data.code == 10) {
+                    if (res.data.code === 10) {
                         app.login(userSet);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code == 1) {
                     }
                 },
             });
         }
+        userSet();
     },
     bindRemarkInput(e) {
         //   console.log(e.detail.value);
         const _self = this;
-        if (_self.data.user == '') {
+        if (_self.data.user === '') {
             return;
         }
         _self.data.user.remark = e.detail.value;
         this.setData({
             user: _self.data.user,
         });
-        userSet();
         function userSet() {
             if (!app.globalData.tokenFirstReady) {
                 app.login(userSet);
@@ -145,18 +135,14 @@ Page({
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 success(res) {
-                    if (res.data.code == 10) {
+                    if (res.data.code === 10) {
                         app.login(userSet);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code == 1) {
                     }
                 },
             });
         }
+        userSet();
     },
-
     sendMsg() {
         console.log(this.data);
         const _self = this;

@@ -1,11 +1,12 @@
-import { get } from '../../utils/ajax.js';
+import { get } from '../../utils/ajax';
+import { track } from '../../utils/track';
 
 const util = require('../../utils/util.js');
 const app = require('../../app');
 
 let timerId = null;
 const host = 'https://xiaochengxu.58.com';
-
+let isScrolled = false;
 Page({
     /**
      * 页面的初始数据
@@ -14,6 +15,7 @@ Page({
         city: 'bj', // 城市
         listName: 'banjia', // 类目
         listArr: [], // 列表页数据
+        cateid: 0,
         page: 1, // 分页
         call: {
             // 400
@@ -29,9 +31,17 @@ Page({
      */
     onLoad(o) {
         const {
-            city, listName, tagCookie, title = '列表页',
+            city,
+            listName,
+            tagCookie,
+            cateid,
+            title = '列表页',
         } = o;
         console.log(o);
+        track('show', {
+            cateid,
+            pagetype: 'liebiaoye', // 页面类型，没有置空【必填】
+        });
         wx.setNavigationBarTitle({
             title: title,
         });
@@ -40,16 +50,19 @@ Page({
                 city: city,
                 listName: listName,
                 tagCookie: tagCookie,
+                cateid,
                 title: title,
             });
         } else {
             this.setData({
                 city: city,
                 listName: listName,
+                cateid,
                 title: title,
             });
         }
         if (!city) {
+            /* eslint no-underscore-dangle: 0 */
             const _url = 'https://bossapi.58.com/smallapp/common/city';
             get(_url, {}, (e, res) => {
                 if (e) {
@@ -63,6 +76,7 @@ Page({
                 } else {
                     console.error('bossapi.city');
                 }
+                return true;
             });
         }
         this.getListData();
@@ -98,11 +112,7 @@ Page({
             });
         }
         console.log(arr2);
-        app.globalData.listCookie =
-            this.data.tagCookie +
-            wx.getStorageSync('cookieuid') +
-            wx.getStorageSync('id58') +
-            arr2.join(';');
+        app.globalData.listCookie = this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';');
     },
     /**
      * 获取列表页数据
@@ -110,7 +120,10 @@ Page({
     getListData() {
         const that = this;
         let header = {};
-        wx.showLoading({ title: '加载中', mask: true });
+        wx.showLoading({
+            title: '加载中',
+            mask: true,
+        });
         if (app.globalData.listCookie) {
             header = {
                 'content-type': 'application/json',
@@ -125,7 +138,9 @@ Page({
         }
         wx.request({
             url: `${host}/${this.data.city}/${this.data.listName}/pn${this.data.page}`,
-            data: { openId: wx.getStorageSync('token') },
+            data: {
+                openId: wx.getStorageSync('token'),
+            },
             method: 'GET',
             dataType: 'json',
             header: header,
@@ -136,8 +151,7 @@ Page({
                     listArr: listNewArr,
                 });
                 if (!app.globalData.listCookie) {
-                    const setcookie =
-                        response.header['Set-Cookie'] || response.header['set-cookie'];
+                    const setcookie = response.header['Set-Cookie'] || response.header['set-cookie'];
                     that.updataCookie(setcookie);
                 }
             },
@@ -149,10 +163,20 @@ Page({
             },
         });
     },
+    scroll() {
+        if (!isScrolled) {
+            track('click', {
+                cateid: this.data.cateid,
+                clickTag: `scroll_${this.data.listName}`,
+                pagetype: 'liebiaoye', // 页面类型，没有置空【必填】
+            });
+            isScrolled = true;
+        }
+    },
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom() {
+    reachBottom() {
         const page = this.data.page + 1;
         this.setData({
             page: page,
@@ -217,7 +241,7 @@ Page({
             if (self.data.call.tick > 1) {
                 self.setData({
                     call: util.constDeepMixin(self.data.call, {
-                        tick: --self.data.call.tick,
+                        tick: self.data.call.tick -= 1,
                     }),
                 });
             } else {

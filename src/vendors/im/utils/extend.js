@@ -1,3 +1,4 @@
+/* eslint-disable */
 var class2type = (function () {
     var class2type = {};
     var arr = "Boolean Number String Function Array Date RegExp Object Error Symbol".split(" ");

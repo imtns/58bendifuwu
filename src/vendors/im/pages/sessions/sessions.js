@@ -1,6 +1,7 @@
+/* eslint-disable */
 //sessions.js
-const im = require('../../../..//utils/IMInit.js');
-
+const im = require('../../../../utils/IMInit.js');
+import { track } from '../../../../utils/track.js';
 const _im = require('../../index');
 const _timeFormat = require('../../utils/timeFormat.js');
 // 图片路径添加https前缀
@@ -75,12 +76,14 @@ Page({
         },
         isLogin:!!wx.getStorageSync('ppu')
     },
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function (options) {
-
-        var self = this;
+    login(){
+        if (!wx.getStorageSync('ppu')) {
+            this.checkPPU()
+        }else{
+            this.goLogin()
+        }
+    },
+    checkPPU(){
         if (!wx.getStorageSync('ppu')) {
             console.log("没有ppu")
             try {
@@ -105,15 +108,27 @@ Page({
                 });
             }
         }
+    },
+    onLoad(){
+        track('show',{
+            pagetype: "xiaoxi", // 页面类型，没有置空【必填】
+        })
+        this.checkPPU()
+    },
+    delayFun(){
+        this.setData({
+            isLogin: !!wx.getStorageSync('ppu')
+        })
+        var self = this;
+       
         //有改动
         // if (!_im.me()) {
         //     return;
         // }
-
         _sdk = _im.sdk();
-
         // 会话列表更新时，更新UI会话列表
         handleSession = () => {
+             
             let sessions = _sdk.getAllSessions();
 
             if (sessions.length === 0) {
@@ -181,7 +196,7 @@ Page({
         _sdk.listen('sessionChanged', handleSession);
         // 未读消息数变更时，更新会话列表
         _sdk.listen('unreadChanged', handleSession);
-
+       
         // 初次进入页面加载会话列表，保证铺满屏幕(每个会话item所占高度：148 rpx)
         /*wx.getSystemInfo({
          success: function (res) {
@@ -227,10 +242,20 @@ Page({
                 }, 5000);
             });
         }
-
         // 再次进入页面时，加载sdk已经查询出的会话列表
         if (_sdk.getAllSessions().length > 0)
             handleSession();
+    },
+    goLogin(){
+        setTimeout(() => {
+            this.delayFun()
+        }, 500);
+    },
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onShow: function (options) {
+        this.goLogin()
     },
     onUnload: function () {
         // changed

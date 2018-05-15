@@ -6,59 +6,37 @@
     </repeat>
 </template>
 <script>
-import wepy from 'wepy'
-var currentStatus = 0
+import wepy from 'wepy';
+
+let currentStatus = 0;
 export default class Tabs extends wepy.component {
-  data = {
-    spaceDistance: 189,
-    tabList: [
-      {
-        name: '待接单',
-        id: 0,
-        selected: true
-      },
-      {
-        name: '待服务',
-        id: 1,
-        selected: false
-      },
-      {
-        name: '已评价',
-        id: 2,
-        selected: false
-      },
-      {
-        id: 3,
-        name: '全部',
-        selected: false
-      }
-    ]
-  }
+  props = {
+      tabList: Array,
+      spaceDistance: Number,
+      left: Number,
+  };
+  data = {};
   methods = {
-    tabClick(e) {
-      var id = e.currentTarget.id,
-        index = e.currentTarget.dataset.index
-      if (id == currentStatus) return
-      this.data.tabList.forEach(item => {
-        if (item.id == id) {
-          currentStatus = item.id
-          this.$emit('tabClick', {
-            scrollValue: 0,
-            loadComplete: false,
-            orderList: [],
-            pageNum: 1,
-            currentStatus,
-            noOrder: true,
-            left: index * this.data.spaceDistance + 60
-          })
-          item.selected = true
-        } else {
-          item.selected = false
-        }
-      })
-    }
-  }
+      tabClick(e) {
+          const { id } = e.currentTarget;
+          const { index } = e.currentTarget.dataset;
+          if (id === currentStatus) return;
+          this.tabList.forEach(item => {
+              if (item.id === id) {
+                  currentStatus = item.id;
+                  this.$emit('tabClick', {
+                      id,
+                      left: (index * this.spaceDistance) + this.left,
+                  });
+                  item.selected = true;
+              } else {
+                  item.selected = false;
+              }
+          });
+      },
+  };
   onLoad() {
+      console.log(this.tabList);
   }
 }
 </script>

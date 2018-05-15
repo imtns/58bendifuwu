@@ -1,35 +1,38 @@
 <template>
   <view class="body">
     <view class="order-tabs-container">
-      <tabs></tabs>
+       <tab :tabList="tabList" :spaceDistance="spaceDistance" :left="left"></tab>
        <view style="left:{{left}}rpx" class="order-tabs-underline"></view>
     </view>
     <view class="order-view">
-      <scroll-view wx:if="{{orderList.length>0}}" lower-threshold="70" scroll-top="{{scrollValue}}" bindscrolltolower="reachBottom" style="height:91vh" scroll-y="true">
-        <navigator wx:for="{{orderList}}" wx:for-index="idx" wx:for-item="item" wx:key="{{item.id}}" open-type="navigate" url="orderDetail?orderId={{item.id}}">
-          <view class="mod-view mod-order">
-            <view class="order-orderNo">
-              <view class="order-No">订单号: {{item.id}}</view>
-              <view class="order-status">{{status[item.status]}}</view>
+      <scroll-view  lower-threshold="70" scroll-top="{{scrollValue}}" bindscrolltolower="reachBottom" style="height:91vh" scroll-y="true">
+        <repeat for="{{orderList}}" key="index" index="index" item="item">
+          <view class="order" wx:if="{{item.status == currentStatus}}">
+              <view class="mod-order">
+                <view class="order-orderNo"  data-shopid="{{item.shopId}}"  bindtap="goShop">
+                  <view class="order-No">{{item.shopName}}</view>
+                  <view class="order-status">进店<view class="arrow"></view></view>
+                </view>
+                <view class="order-line"></view>
+                <view data-orderid="{{item.orderId}}" bindtap="goOrderDetail">
+                  <view class="order-info">
+                    <text class="order-info-title">服务名称: {{item.serviceType}}</text>
+                    <text class="order-info-detail">服务时间: {{item.serviceTime}}</text>
+                    <text class="order-info-detail">下单时间: {{item.orderTime}}</text>
+                    <text class="order-info-detail order-info-detail-address">服务地址: {{item.serviceAddress}}</text>
+                    <text class="order-info-detail">订单号: {{item.orderId}}</text>
+                  </view>
+                  <view class="order-line"></view>
+                  <view class="order-price">
+                    <text class="order-price-name">共计费用</text>
+                    <text class="order-price-value">￥{{item.totalAmount}}</text>
+                  </view>
+                </view>
+              </view>
             </view>
-            <view class="order-line"></view>
-            <view class="order-info">
-              <text class="order-info-title">服务名称: {{item.serviceName}}</text>
-              <text class="order-info-detail">服务时间: {{item.startTime}} 至 {{item.endTime}}</text>
-              <text class="order-info-detail">下单时间: {{item.createTime}}</text>
-              <text class="order-info-detail order-info-detail-address">
-                服务地址: {{item.consumerAddressJson.fullAddress}}
-              </text>
-            </view>
-            <view class="order-line"></view>
-            <view class="order-price">
-              <text class="order-price-name">共计费用</text>
-              <text class="order-price-value">￥{{item.originalAmount}}</text>
-            </view>
-          </view>
-        </navigator>
+        </repeat>
       </scroll-view>
-      <view class="order-empty" hidden="{{!noOrder}}">
+      <view class="order-empty" hidden="{{noOrder}}">
         <image class="order-empty-icon" src="../../image/empty.png"></image>
         <text>还没有订单</text>
       </view>
@@ -37,74 +40,93 @@
   </view>
 </template>
 <script>
-import wepy from 'wepy'
-import Tabs from '../../components/tabs'
-var loadComplete = false,
-  pageNum = 1,
-  pageSize = 10,
-  orderList = []
+import wepy from 'wepy';
+import Tab from '../../components/tabs';
+import { get } from '../../utils/ajax';
+import { GET_ORDERLIST } from '../../utils/url';
+import { formatTime } from '../../utils/date';
+
+
+const pageNum = 1;
+const pageSize = 10;
+
 export default class Order extends wepy.page {
   components = {
-    tabs: Tabs
-  }
+      tab: Tab,
+  };
   data = {
-    left: 60,
-    scrollValue: 0,
-    status: {
-      0: '待接单',
-      1: '待服务',
-      2: '已评价',
-      3: '全部'
-    },
-    orderList: [],
-    currentStatus:0,
-    noOrder: true
-  }
+      spaceDistance: 189,
+      left: 60,
+      scrollValue: 0,
+      tabList: [
+          {
+              name: '待接单',
+              id: 1,
+              selected: true,
+          },
+          {
+              name: '待服务',
+              id: 2,
+              selected: false,
+          },
+          {
+              name: '已评价',
+              id: 3,
+              selected: false,
+          },
+          {
+              name: '全部',
+              id: 0,
+              selected: false,
+          },
+      ],
+      orderList: [],
+      currentStatus: 1,
+      noOrder: true,
+  };
   events = {
-    tabClick: params => {
-      pageNum = params.pageNum
-      Object.assign(this, params)
-      this.getOrder()
-    }
+      tabClick: value => {
+          this.currentStatus = value.id;
+          this.left = value.left;
+      },
+  };
+  goShop(e) {
+      const { shopid } = e.currentTarget.dataset;
+      console.log(shopid);
+      // wx.navigateTo({
+      //   url: 'test?id=1'
+      // })
   }
-  getOrder() {
-    console.log('getOrder')
-    // get(
-    //   getOrderUrl,
-    //   {
-    //     status: currentStatus == 3 ? '' : currentStatus,
-    //     pageNum,
-    //     pageSize
-    //   },
-    //   (e, response) => {
-    //     if (e) {
-    //       toast('出现异常')
-    //       return
-    //     }
-    //     if (pageNum == 1 && !response.length) {
-    //       this.noOrder = false;
-    //       this.orderList: null;
-    //     } else {
-    //       if (pageNum == 1) {
-    //         orderList = []
-    //       }
-    //       if (!response.length && !fromRating) {
-    //         loadComplete = true
-    //         toast('没有更多订单')
-    //         return
-    //       }
-    //       response.map(item => {
-    //           (item.serviceAddress = JSON.parse(item.serviceAddress)),
-    //           (item.consumerAddressJson = JSON.parse(item.consumerAddressJson)),
-    //           (item.startTime = formatTimeExtra(item.startTime)),
-    //           (item.endTime = formatTimeExtra(item.endTime)),
-    //           (item.createTime = formatTimeExtra(item.createTime, true))
-    //       })
-    //       orderList.push(...response)
-    //       this.orderList = orderList
-    //     }
-    //   }
-    // )
+  goOrderDetail(e) {
+      const orderId = e.currentTarget.dataset.orderid;
+      console.log(orderId);
+      wx.navigateTo({
+          url: `orderDetail?orderId=${orderId}`,
+      });
+  }
+  config = {
+      navigationBarTitleText: '我的订单',
+  };
+  onLoad() {
+      this.getOrder();
+  }
+  async getOrder() {
+      try {
+          const { data } = await get(GET_ORDERLIST, {
+              pageSize,
+              pageNum,
+          });
+          data.map(item => {
+              item.orderTime = formatTime(item.orderTime, true);
+              item.serviceTile = formatTime(item.serviceTile, true);
+              return item;
+          });
+          this.orderList = data;
+          this.$apply();
+          console.log(data);
+      } catch (e) {
+          console.log(e);
+      }
   }
 }
 </script>
@@ -118,17 +140,24 @@ export default class Order extends wepy.page {
 .order-tabs {
   z-index: 99;
 }
-
+.order {
+  margin-bottom: 20rpx;
+}
 .mod-order {
   background: white;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  padding: 0 30rpx;
+  position: relative;
 }
 
 .order-orderNo {
-  font-size: 30rpx;
-  float: left;
+  font-size: 28rpx;
+  height: 88rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -139,15 +168,28 @@ export default class Order extends wepy.page {
 .order-status {
   color: #ff552e;
   float: right;
+  margin-right: 10rpx;
 }
 
+.arrow {
+  top: 45rpx;
+}
+.arrow::after {
+  display: block;
+  content: '';
+  height: 23rpx;
+  width: 23rpx;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAWCAYAAAD0OH0aAAAANUlEQVR42mMwNDSc/T9U77+DgwMPAzEApBiGidKErGFU09DRRF0NJDlpVDFFsUl21BNbCAAAC6zb8PuVP8EAAAAASUVORK5CYII=')
+    no-repeat;
+  background-size: contain;
+}
 .order-line {
   position: relative;
   width: 110%;
   display: inline-block;
   background: rgb(236, 236, 236);
   height: 1rpx;
-  margin: 30rpx -30rpx 1rpx;
+  margin: 0 -30rpx 1rpx;
 }
 
 .order-info {
@@ -155,19 +197,19 @@ export default class Order extends wepy.page {
 }
 
 .order-info-title {
-  margin-top: 20rpx;
+  margin-top: 30rpx;
   font-size: 32rpx;
   width: 100%;
   font-weight: bold;
   display: inline-block;
-  margin-bottom: 10rpx;
+  overflow: hidden;
 }
 
 .order-info-detail {
   width: 100%;
   display: inline-block;
   font-size: 28rpx;
-  margin-top: 10rpx;
+  overflow: hidden;
 }
 .order-info-detail-address {
   width: 600rpx;
@@ -190,6 +232,7 @@ export default class Order extends wepy.page {
 
 .order-price-value {
   flex: 1;
+  font-size: 34rpx;
   color: #ff552e;
   text-align: right;
 }

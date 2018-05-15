@@ -1,0 +1,116 @@
+<template>
+<view class="body">
+  <view class="container_coupon">
+        <view class="coupon-title">满299元可用</view>
+        <!-- <view class="coupon-subtitle mt-10">满99元可用</view> -->
+        <!-- <view class="coupon-value">￥<text>20</text></view> -->
+        <view class="coupon-value"><text>2</text>折</view>
+        <view class="coupon-cate">仅限家庭保洁服务类</view>
+        <view class="coupon-period">2018.06.22-2018.06.30</view>
+        <view class="coupon-period">领取后5天可用</view>
+        <!-- <view class="coupon-period">领取后立即生效</view> -->
+        <view class="use-button" bindtap="useCoupon">立即使用</view>
+        <button class="share-button" open-type="share">分享给好友</button>
+        <view class="split-title">使用说明</view>
+        <view class="use-instro">暂无使用说明</view>
+    </view>
+</view>
+</template>
+<script>
+import wepy from 'wepy';
+
+export default class CouponDetail extends wepy.page {
+  config = {
+      navigationBarTitleText: '优惠券详情',
+  };
+}
+</script>
+<style lang="scss" scoped>
+.body {
+  height: 100vh;
+  padding: 30rpx 30rpx 0;
+  background: #ff552e;
+}
+.container_coupon {
+  padding: 60rpx 30rpx 30rpx;
+  background: #ffffff;
+  border-radius: 8rpx;
+  text-align: center;
+}
+.coupon-title {
+  font-size: 32rpx;
+  color: #333333;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.coupon-subtitle {
+  font-size: 28rpx;
+  color: #333333;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.coupon-value {
+  width: 340rpx;
+  line-height: 180rpx;
+  margin: 0 auto;
+  margin-top: 30rpx;
+  font-size: 80rpx;
+  color: #ff552e;
+  background: #fff
+    url('http://img.58cdn.com.cn/lbg/jianzhan/images/bg-coupon-detail.png')
+    no-repeat top left;
+  background-size: 100%;
+}
+.coupon-cate {
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  color: #333333;
+}
+.coupon-period {
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+.use-button,
+.share-button {
+  width: 460rpx;
+  line-height: 88rpx;
+  margin: 0 auto;
+  background: #ff552e;
+  border-radius: 4rpx;
+  font-size: 32rpx;
+  color: #ffffff;
+  margin-top: 30rpx;
+}
+.share-button {
+  background: #ffa100;
+}
+.split-title {
+  margin-top: 60rpx;
+  font-size: 28rpx;
+  color: #333333;
+}
+.split-title::before,
+.split-title::after {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  content: '';
+  width: 35%;
+  margin-right: 20rpx;
+  height: 1rpx;
+  background: #e7e7eb;
+}
+.split-title::after {
+  text-align: right;
+  margin-right: 0;
+  margin-left: 20rpx;
+}
+.use-instro {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #aaaaaa;
+}
+</style>
+
+

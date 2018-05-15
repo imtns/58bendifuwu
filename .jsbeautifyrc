@@ -1,0 +1,6 @@
+{
+	"brace_style": "collapse,preserve-inline",
+	"end_with_newline": false,
+	"max_preserve_newlines": 4,
+	"preserve_newlines": false
+}

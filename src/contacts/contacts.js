@@ -4,8 +4,8 @@ const app = require('../app');
 /* eslint-disable no-undef */
 Page({
     /**
-     * 页面的初始数据
-     */
+       * 页面的初始数据
+       */
     data: {
         search: {
             enterText: '取消',
@@ -23,7 +23,10 @@ Page({
     /* 搜索相关 start */
     showRealSearch() {
         this.setData({
-            search: util.constDeepMixin(this.data.search, { hidden: false, inputFocus: true }),
+            search: util.constDeepMixin(this.data.search, {
+                hidden: false,
+                inputFocus: true,
+            }),
         });
     },
     inputting(e) {
@@ -57,7 +60,10 @@ Page({
     },
     hideSearchMask() {
         this.setData({
-            search: util.constDeepMixin(this.data.search, { inputFocus: false, hidden: true }),
+            search: util.constDeepMixin(this.data.search, {
+                inputFocus: false,
+                hidden: true,
+            }),
         });
     },
     // 点击建议搜索关键词的handler
@@ -75,6 +81,7 @@ Page({
     // 发请求去查找
     searchQuery() {
         const self = this;
+
         function searchQueryRequest() {
             if (!app.globalData.tokenFirstReady) {
                 app.login(searchQueryRequest);
@@ -83,9 +90,8 @@ Page({
             wx.request({
                 url: `${app.globalData.domain}/smallapp/user/contacts-search`,
                 data: {
-                    keyword: self.data.search.searchSuggestValue
-                        ? self.data.search.suggestQueryValue
-                        : self.data.search.queryValue,
+                    keyword: self.data.search.searchSuggestValue ?
+                        self.data.search.suggestQueryValue : self.data.search.queryValue,
                 },
                 header: {
                     'content-type': 'application/json',
@@ -114,8 +120,8 @@ Page({
     /* 搜索相关 end */
 
     /**
-     * 生命周期函数--监听页面加载
-     */
+       * 生命周期函数--监听页面加载
+       */
     onLoad() {
         this.setData({
             isShangjia: wx.getStorageSync('role') === 'shop',
@@ -209,7 +215,7 @@ Page({
         // const week = ['日', '一', '二', '三', '四', '五', '六'];
         const date = util.dateToArray(new Date(primaryTimeStamp * 1000));
         let ret = '';
-        const ap = date.h < 12 ? '上午' : date.h > 12 ? '下午' : '中午';
+        const ap = (date.h < 12 ? '上午' : date.h) > 12 ? '下午' : '中午';
         if (date.y > sysdate.y) {
             ret = `${date.y}年${date.m}月${date.d}日 ${ap}${util.formatNumber(date.h)}:${util.formatNumber(date.i)}`;
         } else if (sysdate.m - date.m === 0 && sysdate.d - date.d === 1) {
@@ -223,13 +229,13 @@ Page({
     },
 
     /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
+       * 生命周期函数--监听页面初次渲染完成
+       */
     onReady() {},
 
     /**
-     * 生命周期函数--监听页面显示
-     */
+       * 生命周期函数--监听页面显示
+       */
     onShow() {
         const addressBook = wx.getStorageSync('addressBook');
         if (addressBook) {
@@ -242,27 +248,27 @@ Page({
     },
 
     /**
-     * 生命周期函数--监听页面隐藏
-     */
+       * 生命周期函数--监听页面隐藏
+       */
     onHide() {},
 
     /**
-     * 生命周期函数--监听页面卸载
-     */
+       * 生命周期函数--监听页面卸载
+       */
     onUnload() {},
 
     /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
+       * 页面相关事件处理函数--监听用户下拉动作
+       */
     onPullDownRefresh() {},
 
     /**
-     * 页面上拉触底事件的处理函数
-     */
+       * 页面上拉触底事件的处理函数
+       */
     onReachBottom() {},
 
     /**
-     * 用户点击右上角分享
-     */
+       * 用户点击右上角分享
+       */
     onShareAppMessage() {},
 });

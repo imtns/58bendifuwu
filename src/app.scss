@@ -4,6 +4,7 @@
 page {
     height: 100%;
     font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+    background: rgb(246, 246, 246);
 }
 
 .container {
@@ -15,7 +16,24 @@ page {
     padding: 200rpx 0;
     box-sizing: border-box;
 }
-
+.arrow {
+    position: absolute;
+    top: 39rpx;
+    right: 10rpx;
+  }
+  .arrow::after {
+    display: block;
+    content: '';
+    height: 23rpx;
+    width: 23rpx;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAWCAYAAAD0OH0aAAAAAXNSR0IArs4c6QAAANFJREFUOBFjNDY2ns3AwMDPy8ubdODAgS9ANl7ABJQ1A+LQz58/b3dwcODBqxooycTMzBwApB8BsQ0xmhhBJpqZmSn+/fv3AJApB8RHgM7zxOU8sAagIqI1wTUQqwlFAzGaMDQQ0oRVAz5NODXg0oRXA0zTnz9/DjMyMkoD+fdAMU0QABXD1eDVgBShINNBEaqP0Ao3A8JAUowS+1g14FIMMgpDAz7FGBoIKUbRQIxiuAZiFYM1kKIYpIEJmHE2AGmUoANJ4AIsQIlTQHyT2EIAAIrWo1oFrJTPAAAAAElFTkSuQmCC')
+      no-repeat;
+    background-size: contain;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 .padding {
     padding: 20rpx;
 }
@@ -121,7 +139,6 @@ page {
     position: relative;
     top: 5px;
 }
-
 .item-avatar-md .marks {
     position: absolute;
     top: 0px;

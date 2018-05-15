@@ -1,89 +1,101 @@
 page {
-    background: #f6f6f6;
+  background: #f6f6f6;
 }
 
 .top_box {
-    background: url(http://pic2.58.com/shangjiatong/yunying/bg_me.png) no-repeat 0 0;
-    background-size: 100% 100%;
-    width: 750rpx;
-    height: 290rpx;
-    text-align: center;
-    box-sizing: border-box;
-    padding-top: 60rpx;
+  background: url("http://pic2.58.com/shangjiatong/yunying/bg_me.png") no-repeat 0 0;
+  background-size: 100% 100%;
+  width: 750rpx;
+  height: 290rpx;
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 60rpx;
 }
 
 .top_box image {
-    width: 120rpx;
-    height: 120rpx;
+  width: 120rpx;
+  height: 120rpx;
 }
 
 .user_name {
-    font-size: 28rpx;
-    line-height: 1;
-    color: #333;
-    padding-top: 20rpx;
+  font-size: 28rpx;
+  line-height: 1;
+  color: #333;
+  padding-top: 20rpx;
+}
+
+button {
+  background-color: transparent;
+}
+
+button::after {
+  border: 0;
 }
 
 .list_li {
-    width: 100%;
-    height: 88rpx;
-    line-height: 88rpx;
-    border-bottom: 1px solid #f6f6f6;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-bottom: 1px solid #f6f6f6;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
 }
 
 .list_li .image1 {
-    margin: 17rpx 30rpx 0 17rpx;
-    width: 54rpx;
-    height: 54rpx;
+  margin: 17rpx 30rpx 0 17rpx;
+  width: 54rpx;
+  height: 54rpx;
 }
 
 .list_li .image2 {
-    margin: 30rpx 30rpx 0 0;
-    width: 16rpx;
-    height: 26rpx;
+  margin: 30rpx 30rpx 0 0;
+  width: 16rpx;
+  height: 26rpx;
 }
 
 .list_li {
-    .title {
-        float: left;
-        display: block;
-        line-height: 88rpx;
-        flex: 1;
-    }
-    .phone {
-        color: #ccc;
-        margin-right: 30rpx;
-    }
-    text {
-        font-size: 28rpx;
-        color: #333;
-    }
+  .title {
+    float: left;
+    display: block;
+    line-height: 88rpx;
+    flex: 1;
+  }
+
+  .phone {
+    color: #ccc;
+    margin-right: 30rpx;
+  }
+
+  text {
+    font-size: 28rpx;
+    color: #333;
+  }
 }
 
 .avator-back {
-    width: 120rpx;
-    height: 120rpx;
-    margin: 0 auto;
-    border-radius: 50%;
-    background-image: linear-gradient(-180deg, #FF9E88 0%, #FFCACA 100%);
-    overflow: hidden;
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-image: linear-gradient(-180deg, #FF9E88 0%, #FFCACA 100%);
+  overflow: hidden;
 }
 
 .avator-head {
-    width: 37rpx;
-    height: 37rpx;
-    background-image: linear-gradient(12deg, #FFFFFF 6%, #FFDEDE 100%);;
-    border-radius: 50%;
-    margin: 35rpx auto 0;
+  width: 37rpx;
+  height: 37rpx;
+  background-image: linear-gradient(12deg, #FFFFFF 6%, #FFDEDE 100%);
+  border-radius: 50%;
+  margin: 35rpx auto 0;
 }
 
 .avator-body {
-    width: 76rpx;
-    height: 43rpx;
-    margin: 0 auto;
-    background-image: linear-gradient(-180deg, #FFFFFF 0%, #FFC8C7 86%);
-    border-radius: 76rpx 76rpx 0 0;
+  width: 76rpx;
+  height: 43rpx;
+  margin: 0 auto;
+  background-image: linear-gradient(-180deg, #FFFFFF 0%, #FFC8C7 86%);
+  border-radius: 76rpx 76rpx 0 0;
 }
