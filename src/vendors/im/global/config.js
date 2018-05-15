@@ -1,3 +1,4 @@
+/* eslint-disable */
 var _config = {};
 _config['default-avatar'] = 'https://pic1.58cdn.com.cn/p1/n_v1bkuymc2tsxlfo5wrgb7a.png';
 // 消息转换器，将消息结构转换成相应ui的标准结构

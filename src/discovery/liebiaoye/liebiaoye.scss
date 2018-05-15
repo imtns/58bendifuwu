@@ -1,20 +1,19 @@
-.none { display: none;}
-.body{background-color: #fff;}
-.list{width: 100%; padding:30rpx 0; height: 188rpx; box-sizing: border-box; border-bottom: 1rpx solid #dedfe0;}
-.list_l{float: left; padding-left: 26rpx;}
-.list_img{width: 160rpx; height: 120rpx; display: block; background-color:#f9f9f9;}
-.list_c{float: left;padding-left: 28rpx;width: 382rpx;}
-.list_c_t{height: 96rpx;line-height: 36rpx;}
-.list_title{font-size: 28rpx;  color: #000;}
-.list_c_b{clear: both; width: 382rpx;}
-.list_area_box{ float: left; width: 280rpx; overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap; line-height: 1;}
-.list_area{ font-size: 24rpx; color:#808080;}
-.list_icon_box{float: left; width: 102rpx; line-height: 1;}
-.list_icon_year{display: inline-block; height: 34rpx;line-height: 34rpx;  box-sizing: border-box; padding: 0 5rpx; border: 1px solid #ff7d78; border-radius: 3rpx; font-size: 20rpx; color:#ff7d78;}
-.list_r{float: left; margin-left: 20rpx;border-left: 1px solid #dedfe0; height: 136rpx; width: 130rpx;}
-.list_tel{ margin: 30rpx 0 0 30rpx; width: 66rpx; height: 66rpx;}
-
-.return_top_box{ position: fixed; z-index: 10; right: 20px; bottom: 20px;}
-.return_top{width: 75rpx; height: 75rpx;}
+.none{display:none}
+.body{background-color:#fff}
+.list{width:100%;padding:30rpx 0;height:210rpx;box-sizing:border-box;border-bottom:1rpx solid #dedfe0;position:relative}
+.list_l{float:left;padding-left:26rpx}
+.list_img{width:200rpx;height:150rpx;display:block;background-color:#f9f9f9}
+.list_c{float:left;padding-left:20rpx;width:370rpx}
+.list_c_t{line-height:28rpx}
+.list_title{font-size:28rpx;color:#333}
+.list_c_b{clear:both;width:382rpx}
+.list_area_box{float:left;width:280rpx;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1}
+.list_area{font-size:24rpx;color:gray}
+.list_icon_box{float:left;line-height:1;position:absolute;bottom:30rpx}
+.list_icon_info{font-size:22rpx;float:left;padding:8rpx 10rpx;color:#a6a6a6;margin-right:20rpx;background:hsla(0,0%,65%,.1)}
+.list_icon_info_pink{color:#ff552e;background:rgba(255,85,46,.1)}
+.list_r{float:left;height:136rpx;width:130rpx}
+.list_comment{font-size:22rpx;color:#999;display:block;text-align:center;margin-top:32rpx}
+.list_tel{margin:0 0 0 30rpx;width:70rpx;height:70rpx}
+.return_top_box{position:fixed;z-index:10;right:20px;bottom:20px}
+.return_top{width:75rpx;height:75rpx}

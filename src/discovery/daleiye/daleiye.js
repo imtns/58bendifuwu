@@ -1,13 +1,12 @@
-import { util } from '../../utils/util.js';
-import regeneratorRuntime from '../../utils/regenerator-runtime/runtime.js';
-import { get } from '../../utils/ajax.js';
-import globalDataService from '../../globalDataService.js';
+import { get } from '../../utils/ajax';
+import globalDataService from '../../globalDataService';
+import { track } from '../../utils/track';
 
 const app = require('../../app');
 
 const host = 'https://xiaochengxu.58.com';
+/* eslint no-underscore-dangle: 0 */
 const _url = `${host}/shenghuo.shtml`;
-
 Page({
     /**
      * 页面的初始数据
@@ -21,79 +20,68 @@ Page({
         banner: 0,
         height: 0,
         /* 类别 */
-        listTit: [
-            {
-                title: '推荐服务',
-                type: 'hyjk',
-                isSelect: true,
-            },
-            {
-                title: '家政服务',
-                type: 'shenghuo',
-                isSelect: false,
-            },
-            {
-                title: '商务服务',
-                type: 'shangwu',
-                isSelect: false,
-            },
-            {
-                title: '招商加盟',
-                type: 'zhaoshang',
-                isSelect: false,
-            },
-            {
-                title: '汽车服务',
-                type: 'qichefw',
-                isSelect: false,
-            },
-            {
-                title: '教育培训',
-                type: 'jiaoyu',
-                isSelect: false,
-            },
-            {
-                title: '装修建材',
-                type: 'zhuangxiujc',
-                isSelect: false,
-            },
-            {
-                title: '婚庆摄影',
-                type: 'hunjiehunqing',
-                isSelect: false,
-            },
-            {
-                title: '旅游酒店',
-                type: 'lvyouxiuxian',
-                isSelect: false,
-            },
-            {
-                title: '休闲娱乐',
-                type: 'xiuxianyl',
-                isSelect: false,
-            },
-            {
-                title: '餐饮美食',
-                type: 'canyin',
-                isSelect: false,
-            },
-            {
-                title: '丽人美容',
-                type: 'liren',
-                isSelect: false,
-            },
-        ],
+        listTit: [{
+            title: '推荐服务',
+            type: 'hyjk',
+            isSelect: true,
+        }, {
+            title: '家政服务',
+            type: 'shenghuo',
+            isSelect: false,
+        }, {
+            title: '商务服务',
+            type: 'shangwu',
+            isSelect: false,
+        }, {
+            title: '招商加盟',
+            type: 'zhaoshang',
+            isSelect: false,
+        }, {
+            title: '汽车服务',
+            type: 'qichefw',
+            isSelect: false,
+        }, {
+            title: '教育培训',
+            type: 'jiaoyu',
+            isSelect: false,
+        }, {
+            title: '装修建材',
+            type: 'zhuangxiujc',
+            isSelect: false,
+        }, {
+            title: '婚庆摄影',
+            type: 'hunjiehunqing',
+            isSelect: false,
+        }, {
+            title: '旅游酒店',
+            type: 'lvyouxiuxian',
+            isSelect: false,
+        }, {
+            title: '休闲娱乐',
+            type: 'xiuxianyl',
+            isSelect: false,
+        }, {
+            title: '餐饮美食',
+            type: 'canyin',
+            isSelect: false,
+        }, {
+            title: '丽人美容',
+            type: 'liren',
+            isSelect: false,
+        }],
         hotTagData: {},
         HotCateData: {},
         mainData: [],
         cateData: [],
         tagCookie: 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;',
     },
-
     /**
      * 生命周期函数--监听页面加载
      */
-    async onLoad(options) {
+    async onLoad() {
+        track('show', {
+            pagetype: 'index', // 页面类型，没有置空【必填】
+        });
         wx.getSystemInfo({
             success: res => {
                 this.setData({
@@ -107,10 +95,10 @@ Page({
     // 获取cookie
     updataCookie(strCookie) {
         console.log(strCookie);
-        let str = strCookie,
-            arr = [],
-            arr2 = [],
-            str1 = str.split(';');
+        const str = strCookie;
+        let arr = [];
+        const arr2 = [];
+        const str1 = str.split(';');
         str1.forEach(i => {
             const temArr = i.split(',');
             arr = arr.concat(temArr);
@@ -126,7 +114,7 @@ Page({
                 }
                 if (i.includes('sessionid')) {
                     arr2.push(i);
-                } 
+                }
             });
         } else {
             arr.forEach(i => {
@@ -136,12 +124,7 @@ Page({
             });
         }
         console.log(arr2);
-        globalDataService.set(
-            'listCookie',
-            this.data.tagCookie + wx.getStorageSync('cookieuid') +
-                wx.getStorageSync('id58') +
-                arr2.join(';'),
-        );
+        globalDataService.set('listCookie', this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';'));
         // app.globalData.listCookie =
         //     this.data.tagCookie +
         //     wx.getStorageSync('cookieuid') +
@@ -150,7 +133,7 @@ Page({
     },
     /**
      * 获取城市
-     */ 
+     */
     getCity() {
         return new Promise((resolve) => {
             // 获得城市信息
@@ -167,11 +150,9 @@ Page({
                     });
                     resolve();
                 } else {
-                    console.error(
-                        'API REQUEST ERROR. Something went wrong when request "/smallapp/common/city", and the response is:\n',
-                        res,
-                    );
+                    console.error('API REQUEST ERROR. Something went wrong when request "/smallapp/common/city", and the response is:\n', res);
                 }
+                return true;
             });
         });
     },
@@ -188,7 +169,7 @@ Page({
             const data = res;
             console.log(data);
             console.log(resData);
-            data.mainData.forEach((element, index) => {
+            data.mainData.forEach((element) => {
                 element.listData.splice(3, element.listData.length - 2);
             });
             this.setData({
@@ -200,9 +181,10 @@ Page({
             // 加cookie
             console.log('---->', app);
             if (!app.globalData.listCookie) {
-                const _setcookie = resData.header['Set-Cookie'] || resData.header['set-cookie'];
-                that.updataCookie(_setcookie);
+                const setcookie = resData.header['Set-Cookie'] || resData.header['set-cookie'];
+                that.updataCookie(setcookie);
             }
+            return true;
         });
     },
     fresh(str) {
@@ -212,16 +194,17 @@ Page({
                 return false;
             }
             const data = res;
-            let bannerTopData = [];
-            if (data.bannerTopData) {
-                bannerTopData = data.bannerTopData.listData;
-            }
+            // let bannerTopData = [];
+            // if (data.bannerTopData) {
+            //     bannerTopData = data.bannerTopData.listData;
+            // }
             this.setData({
                 HotCateData: data.HotCateData,
                 hotTagData: [],
                 mainData: [],
                 cateData: data.cateData,
             });
+            return true;
         });
     },
     /**
@@ -229,16 +212,21 @@ Page({
      */
     changeCateFun(event) {
         const selectIndex = event.target.dataset.index;
-        const listTit = this.data.listTit;
+        const { listTit } = this.data;
+        const listname = event.target.dataset.locallistname;
         listTit[selectIndex].isSelect = true;
         listTit[this.data.onSelect].isSelect = false;
+        track('click', {
+            pagetype: 'index', // 页面类型，没有置空【必填】
+            clickTag: `lefttab_${selectIndex + 1}_${listname}`,
+        });
         this.setData({
             onSelect: selectIndex,
             listTit: listTit,
             scrollTopNumber: 0,
             tabName: listTit[selectIndex].title,
         });
-        if (event.target.dataset.locallistname == 'hyjk') {
+        if (event.target.dataset.locallistname === 'hyjk') {
             this.setData({
                 banner: 0,
             });
@@ -254,25 +242,23 @@ Page({
      * 跳转
      */
     navigatorFun(e) {
-        const { listname: listName, cateid: cateId, title } = e.currentTarget.dataset;
+        const {
+            listname: listName,
+            cateid,
+            title,
+        } = e.currentTarget.dataset;
         const { cityId } = this.data;
         wx.navigateTo({
             url: `../liebiaoye/liebiaoye?listName=${listName}&city=${this.data.city}&cityId=${
-                cityId}&title=${title}`,
+                cityId}&title=${title}&cateid=${cateid}`,
         });
     },
-
     viewAll() {
-        const { tabName } = this.data;
-        const title = `全部${tabName}`;
-        const listName = '';
-        const cityId = '';
+        // const { tabName } = this.data;
+        // const title = `全部${tabName}`;
+        // const listName = '';
+        // const cityId = '';
         // TODO: 跳转页面 需要获取全部栏目数据的列表
-        // wx.navigateTo({
-        //     url: `/discovery/liebiaoye/liebiaoye?listName=${listName}&city=${this.data.city}&cityId=${
-        //         cityId}&title=${title}`,
-        // });
     },
-
     onShareAppMessage() {},
 });

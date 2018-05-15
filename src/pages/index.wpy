@@ -4,15 +4,17 @@
     </view>
 </template>
 <script>
-import wepy from 'wepy'
-import { sleep } from '../utils'
+import wepy from 'wepy';
+import { sleep } from '../utils';
+
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: 'test'
-  }
+      navigationBarTitleText: 'test',
+  };
+
   async onLoad() {
-    await sleep()
-    console.log('onLoad')
+      await sleep();
+      console.log('onLoad');
   }
 }
 </script>

@@ -1,12 +1,11 @@
 const http = (method, ...props) => {
+    /* eslint prefer-const: ["error", {"destructuring": "all"}] */
     let [url, data, callback] = props;
     if (typeof data === 'function') {
         callback = data;
         data = {};
     }
-
     const sendData = Object.assign({}, data);
-
     wx.showLoading && wx.showLoading({ title: '加载中', mask: true });
     return wx.request({
         url: url,
@@ -14,7 +13,7 @@ const http = (method, ...props) => {
         method: method,
         dataType: 'json',
         header: {
-            "content-type": method === "GET" ? "application/json" : "application/x-www-form-urlencoded"
+            'content-type': method === 'GET' ? 'application/json' : 'application/x-www-form-urlencoded',
         },
         success(response) {
             callback && callback(null, response.data, response);
@@ -32,15 +31,8 @@ const http = (method, ...props) => {
         },
         complete() {
             wx.hideLoading && wx.hideLoading();
-        }
+        },
     });
 };
-
-
-module.exports.get = (...props) => {
-    return http('GET', ...props);
-};
-
-module.exports.post = (...props) => {
-    return http('POST', ...props);
-};
+module.exports.get = (...props) => http('GET', ...props);
+module.exports.post = (...props) => http('POST', ...props);

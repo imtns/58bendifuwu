@@ -1,6 +1,6 @@
 module.exports = {
-    "weappEnv": {
-        "appCode": "0",
-        "isProd": 1
-    }
-}
+    weappEnv: {
+        appCode: '0',
+        isProd: 1,
+    },
+};
