@@ -42,10 +42,7 @@ Page({
      */
     onLoad(options) {
         track('show', {
-<<<<<<< HEAD
-=======
             cateid: options.fullpath,
->>>>>>> huangxin
             area: options.city,
             pagetype: `xingqingye_${options.cate2ListName}`, // 页面类型，没有置空【必填】
         });

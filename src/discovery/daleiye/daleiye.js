@@ -243,21 +243,15 @@ Page({
      */
     navigatorFun(e) {
         const {
-<<<<<<< HEAD
-=======
             fullpath,
->>>>>>> huangxin
             listname: listName,
             cateid,
             title,
         } = e.currentTarget.dataset;
-<<<<<<< HEAD
-=======
         track('click', {
             cateid: fullpath,
             pagetype: 'index',
         });
->>>>>>> huangxin
         const { cityId } = this.data;
         wx.navigateTo({
             url: `../liebiaoye/liebiaoye?listName=${listName}&city=${this.data.city}&cityId=${
