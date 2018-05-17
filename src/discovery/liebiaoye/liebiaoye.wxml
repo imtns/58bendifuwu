@@ -1,0 +1,47 @@
+<view class="body">
+    <scroll-view scroll-y="true" style="height: 100vh;" enable-back-to-top="true" bindscrolltolower="reachBottom" bindscroll="scroll">
+        <navigator wx:for="{{listArr}}" url="/discovery/xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" bindtap="clickUrlFn">
+            <view class="list">
+                <view class="list_l">
+                    <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>
+                </view>
+                <view class="list_c">
+                    <view class="list_c_t">
+                        <text class="list_title">{{item.shortTitle}}</text>
+                    </view>
+                    <view class="list_c_b">
+                        <view class="list_area_box">
+							<text class="list_area">{{item.servicerange}}</text>
+						</view>
+                        <view class="list_icon_box">
+                            <!-- <text class="list_icon_info list_icon_info_pink">立减十元</text>
+                            <text class="list_icon_info">小程序</text> -->
+                            <text class="list_icon_info" wx:if="{{item.wltAge > 0}}">会员{{item.wltAge}}年</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="list_r" catchtap="call_tick" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}">
+                    <image src="http://img.58cdn.com.cn/ds/list/tels.png" class="list_tel"></image>
+                    <!-- <text class="list_comment">2条评论</text> -->
+                </view>
+            </view>
+        </navigator>
+    </scroll-view>
+</view>
+<!-- 打电话谈层  s -->
+<view class="call_mask" hidden="{{call.hidden}}">
+    <view class="call_con">
+        <text class="call_title">拨打电话</text>
+        <text class="call_number">{{call.teleNumber}}</text>
+        <text class="call_text">
+            (电话
+            <text class="call_tick">{{call.tick}}</text>
+            秒后失效，请尽快拨打)
+        </text>
+        <view class="call_btn_con">
+            <text class="call_left_btn" bindtap="cancel_call">取消</text>
+            <text class="call_right_btn" bindtap="call">拨打</text>
+        </view>
+    </view>
+</view>
+<!-- 打电话谈层  e -->

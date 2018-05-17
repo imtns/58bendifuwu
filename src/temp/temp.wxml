@@ -1,0 +1,46 @@
+<import src="titTemp.wxml"/>
+<!-- 热门推荐模块 -->
+<template name="lrtemp">
+    <template is="titleTemp" data="{{title:listData.title}}"/>
+    <view class="lrListBox">
+        <view class="lrBefore"></view>
+        <block wx:for="{{listData.listData}}">
+            <view class="lrListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}"  data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
+                <image class="lrListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
+                <text class="lrListText">{{item.title}}</text>
+            </view>
+        </block>
+        <view class="lrAfter"></view>
+    </view>
+</template>
+<!-- 热门模块 -->
+<template name="hyjktemp">
+    <template is="titleTemp" data="{{title:listData.title}}"/>
+    <view class="norListBox">
+        <block wx:for="{{listData.listData}}">
+            <view class="norListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
+                <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
+                <text class="norListText">{{item.title}}</text>
+            </view>
+        </block>
+    </view>
+</template>
+<!-- 普通模块 -->
+<template name="normaltemp">
+    <block wx:if="{{listData.imageListData.length!=0}}">
+        <block wx:if="{{listData.moreNode!=undefined}}">
+            <template is="titHrefTemp" data="{{title:listData.title,moreNode:listData.moreNode}}" />
+        </block>
+        <block wx:else>
+            <template is="titleTemp" data="{{title:listData.title}}" />
+        </block>
+        <view class="norListBox">
+            <block wx:for="{{listData.imageListData}}">
+                <view class="norListItem" bindtap="navigatorFun" data-pagetype="{{item.pagetype}}" data-fullpath="{{item.fullpath}}"  data-cateid="{{item.cateId}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
+                    <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
+                    <text class="norListText">{{item.title}}</text>
+                </view>
+            </block>
+        </view>
+    </block>
+</template>
