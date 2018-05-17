@@ -38,10 +38,6 @@ Page({
             title = '列表页',
         } = o;
         console.log(o);
-        track('show', {
-            cateid,
-            pagetype: 'liebiaoye', // 页面类型，没有置空【必填】
-        });
         wx.setNavigationBarTitle({
             title: title,
         });

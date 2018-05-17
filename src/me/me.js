@@ -1,6 +1,6 @@
+/* eslint-disable */
 const util = require('../utils/util.js');
 const app = require('../app');
-
 Page({
     data: {
         role: '',
@@ -17,35 +17,23 @@ Page({
         _self.setData({
             role: wx.getStorageSync('role'),
         });
-
-        function getProfile() {
-            // if (!app.globalData.tokenFirstReady) {
-            //     app.login(getProfile);
-            //     return;
-            // }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile`,
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                },
-                success(res) {
-                    console.log(res);
-                    if (res.data.code === 10) {
-                        app.login(getProfile);
-                        return;
-                    }
-                    if (res.data.code === 1) {
-                        _self.setData({
-                            me: res.data.ret.profile,
-                            hidden: true,
-                        });
-                        wx.setStorageSync('me', res.data.ret.profile);
-                        console.log(`role= ${_self.data.role}`);
-                    }
-                },
-            });
-        }
-        getProfile();
+        wx.request({
+            url: `${app.globalData.domain}/smallapp/user/profile`,
+            header: {
+                'access-token': wx.getStorageSync('token'),
+            },
+            success(res) {
+                console.log(res);
+                if (res.data.code === 1) {
+                    _self.setData({
+                        me: res.data.ret.profile,
+                        hidden: true,
+                    });
+                    wx.setStorageSync('me', res.data.ret.profile);
+                    console.log(`role= ${_self.data.role}`);
+                }
+            },
+        });
     },
     serviceIntroducePackupSwitch() {
         const _self = this;
@@ -63,268 +51,79 @@ Page({
             });
         }
     },
-
     onShow() {
-        this.onshowFn();
-    },
-    onshowFn() {
         const { hyname } = app.globalData;
-        console.log(`选择的行业是：${hyname}`);
-        function setProfile() {
-            const _self = this;
-            if (!app.globalData.tokenFirstReady) {
-                app.login(this.setProfile);
-                return;
-            }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile-set`,
-                data: `trade=${_self.data.me.trade}`,
-                method: 'POST',
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                success(res) {
-                    if (res.data.code === 10) {
-                        app.login(this.setProfile);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code === 1) {
-                        wx.setStorageSync('me', _self.data.me);
-                        console.log('有值，更新数据');
-                    }
-                },
-            });
-        }
         if (hyname) {
-            const _self = this;
-            _self.data.me.trade = hyname;
             this.setData({
-                me: _self.data.me,
+                ['me.trade']: hyname,
             });
-            setProfile();
+            this.setProfile()
         }
     },
-
     bindAddressInput(e) {
-        const _self = this;
-        _self.data.me.address = e.detail.value;
+        if (e.detail.value === '') return;
         this.setData({
-            me: _self.data.me,
+            ['me.address']: e.detail.value,
         });
-        function setProfile() {
-            if (!app.globalData.tokenFirstReady) {
-                app.login(setProfile);
-                return;
-            }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile-set`,
-                data: `address=${_self.data.me.address}`,
-                method: 'POST',
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                success(res) {
-                    if (res.data.code === 10) {
-                        app.login(setProfile);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code === 1) {
-                        wx.setStorageSync('me', _self.data.me);
-                    }
-                },
-            });
-        }
-        setProfile();
+        this.setProfile();
     },
     bindPhoneInput(e) {
-        const _self = this;
-        _self.data.me.phone = e.detail.value;
+        if (e.detail.value === '') return;
         this.setData({
-            me: _self.data.me,
+            ['me.phone']: e.detail.value,
         });
-        function setProfile() {
-            if (!app.globalData.tokenFirstReady) {
-                app.login(setProfile);
-                return;
-            }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile-set`,
-                data: `phone=${_self.data.me.phone}`,
-                method: 'POST',
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                success(res) {
-                    if (res.data.code === 10) {
-                        app.login(setProfile);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code === 1) {
-                        wx.setStorageSync('me', _self.data.me);
-                    }
-                },
-            });
-        }
-        setProfile();
+        this.setProfile();
     },
     bindIntroInput(e) {
-        const _self = this;
-        function setProfile() {
-            if (!app.globalData.tokenFirstReady) {
-                app.login(setProfile);
-                return;
-            }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile-set`,
-                data: `intro=${_self.data.me.intro}`,
-                method: 'POST',
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                success(res) {
-                    if (res.data.code === 10) {
-                        app.login(setProfile);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code === 1) {
-                        wx.setStorageSync('me', _self.data.me);
-                    }
-                },
-            });
-        }
-        if (e.detail.value !== '') {
-            _self.data.me.intro = e.detail.value;
-            _self.setData({
-                me: _self.data.me,
-            });
-
-            setProfile();
-        }
+        if (e.detail.value === '') return;
+        this.setData({
+            ['me.intro']: e.detail.value,
+        });
+        this.setProfile();
     },
     bindTradeInput(e) {
-        const _self = this;
-        _self.data.me.trade = e.detail.value;
+        if (e.detail.value === '') return;
         this.setData({
-            me: _self.data.me,
+            ['me.trade']: e.detail.value,
         });
-        function setProfile() {
-            if (!app.globalData.tokenFirstReady) {
-                app.login(setProfile);
-                return;
-            }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile-set`,
-                data: `trade=${_self.data.me.trade}`,
-                method: 'POST',
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                success(res) {
-                    if (res.data.code === 10) {
-                        app.login(setProfile);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code === 1) {
-                        wx.setStorageSync('me', _self.data.me);
-                    }
-                },
-            });
-        }
-        setProfile();
+        this.setProfile();
     },
     bindAgeInput(e) {
-        const _self = this;
-        _self.data.me.age = e.detail.value;
+        if (e.detail.value === '') return;
         this.setData({
-            me: _self.data.me,
+            ['me.age']: e.detail.value,
         });
-        function setProfile() {
-            if (!app.globalData.tokenFirstReady) {
-                app.login(setProfile);
-                return;
-            }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile-set`,
-                data: `age=${_self.data.me.age}`,
-                method: 'POST',
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                success(res) {
-                    if (res.data.code === 10) {
-                        app.login(setProfile);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code === 1) {
-                        wx.setStorageSync('me', _self.data.me);
-                    }
-                },
-            });
-        }
-        setProfile();
+        this.setProfile();
     },
     bindPositionInput(e) {
-        const _self = this;
-        function setProfile() {
-            if (!app.globalData.tokenFirstReady) {
-                app.login(setProfile);
-                return;
-            }
-            wx.request({
-                url: `${app.globalData.domain}/smallapp/user/profile-set`,
-                data: `position=${_self.data.me.position}`,
-                method: 'POST',
-                header: {
-                    'access-token': wx.getStorageSync('token'),
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                success(res) {
-                    if (res.data.code === 10) {
-                        app.login(setProfile);
-                        return;
-                    }
-                    const jsondata = res.data;
-                    if (jsondata.code === 1) {
-                        wx.setStorageSync('me', _self.data.me);
-                    }
-                },
-            });
-        }
-        if (e.detail.value !== '') {
-            _self.data.me.position = e.detail.value;
-            _self.setData({
-                me: _self.data.me,
-            });
-            setProfile();
-        }
+        if (e.detail.value === '') return;
+        this.setData({
+            ['me.position']: e.detail.value,
+        });
+        this.setProfile();
     },
-    refreshShopInfo() {
-        // 页面显示
-        const _self = this;
-        const profileSetUrl = `${app.globalData.domain}/smallapp/shop/refresh`;
+    setProfile() {
+        var that = this;
+        const data = {
+            phone: this.data.me.phone || '',
+            intro: this.data.me.intro || '',
+            trade: this.data.me.trade || '',
+            age: this.data.me.age || '',
+            position: this.data.me.position || '',
+        };
+        var val = Object.keys(data).reduce(function(a, k) { if(data[k]){ a.push(k + '=' + data[k])}; return a } , []).join('&')
+        console.log(val)
         wx.request({
-            url: `${profileSetUrl}?uid=${_self.data.me.uid}`,
-            method: 'GET',
+            url: `${app.globalData.domain}/smallapp/user/profile-set`,
+            data: val,
+            method: 'POST',
+            header: {
+                'access-token': wx.getStorageSync('token'),
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
             success(res) {
-                const jsondata = res.data;
-                if (jsondata.code === 1 && res.data.ret.profile) {
-                    _self.setData({
-                        me: res.data.ret.profile,
-                        hidden: true,
-                    });
-                    wx.setStorageSync('me', res.data.ret.profile);
+                if (res.data.code === 1) {
+                    wx.setStorageSync('me', that.data.me);
                 }
             },
         });

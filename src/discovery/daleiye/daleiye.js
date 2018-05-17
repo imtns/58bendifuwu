@@ -243,10 +243,15 @@ Page({
      */
     navigatorFun(e) {
         const {
+            fullpath,
             listname: listName,
             cateid,
             title,
         } = e.currentTarget.dataset;
+        track('click', {
+            cateid: fullpath,
+            pagetype: 'index',
+        });
         const { cityId } = this.data;
         wx.navigateTo({
             url: `../liebiaoye/liebiaoye?listName=${listName}&city=${this.data.city}&cityId=${

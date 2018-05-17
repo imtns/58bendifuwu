@@ -42,6 +42,7 @@ Page({
      */
     onLoad(options) {
         track('show', {
+            cateid: options.fullpath,
             area: options.city,
             pagetype: `xingqingye_${options.cate2ListName}`, // 页面类型，没有置空【必填】
         });

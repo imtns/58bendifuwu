@@ -1,7 +1,6 @@
 <!-- <loading hidden="{{hidden}}">
     加载中...
 </loading> -->
-
 <view>
     <view class="top_box">
         <!-- 如果已经登录了 -->
@@ -13,12 +12,16 @@
         </block>
         <!-- 如果未登录 -->
         <view wx:else bindtap="getUserInfo">
-            <view class="avator-back">
-                <view class="avator-head"></view>
-                <view class="avator-body"></view>
-            </view>
+            <button class="loginButton" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+                <view class="avator-back">
+                    <view class="avator-head"></view>
+                    <view class="avator-body"></view>
+                </view>
+            </button>
             <view class="user_name">
-                <button class="loginButton" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录查看更多</button>
+                <button class="loginButton" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+                    登录查看更多
+                </button>
             </view>
         </view>
     </view>
@@ -33,7 +36,7 @@
             <text class="title">我的优惠券</text>
             <image src="/image/icon_more.png" class="image2"></image>
         </view> -->
-        <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"  data-url="/me/me">
+        <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-url="/me/me">
             <image src="/image/area.png" class="image1"></image>
             <text class="title">我的信息</text>
             <image src="/image/icon_more.png" class="image2"></image>

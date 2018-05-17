@@ -274,6 +274,7 @@ export default class extends wepy.app {
       window: {
           navigationBarTitleText: '消息',
           enablePullDownRefresh: false,
+          qbDebugKey: 'bb77318dfc561f6361fdccc66bc887b31',
       },
       networkTimeout: {
           request: 10000,

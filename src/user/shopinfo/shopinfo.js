@@ -1,3 +1,4 @@
+/*  eslint-disable */
 const util = require('../../utils/util.js');
 const im = require('../../utils/IMInit.js');
 const app = require('../../app');
