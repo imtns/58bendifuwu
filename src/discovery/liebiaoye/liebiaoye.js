@@ -7,6 +7,7 @@ const app = require('../../app');
 let timerId = null;
 const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
+let noMoreData = false;
 Page({
     /**
      * 页面的初始数据
@@ -108,12 +109,14 @@ Page({
             });
         }
         console.log(arr2);
-        app.globalData.listCookie = this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';');
+        app.globalDataService.set('listCookie', this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';'));
+        // app.globalData.listCookie = this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';');
     },
     /**
      * 获取列表页数据
      */
     getListData() {
+        if (noMoreData) return;
         const that = this;
         let header = {};
         wx.showLoading({
@@ -142,6 +145,15 @@ Page({
             header: header,
             success(response) {
                 console.log(response);
+                if (!response.data.infos) {
+                    noMoreData = true;
+                    wx.showToast({
+                        title: '没有更多数据啦~',
+                        icon: 'none',
+                        duration: 1500,
+                    });
+                    return;
+                }
                 const listNewArr = that.data.listArr.concat(response.data.infos);
                 that.setData({
                     listArr: listNewArr,

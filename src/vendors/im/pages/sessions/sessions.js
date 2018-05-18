@@ -7,7 +7,7 @@ const _timeFormat = require('../../utils/timeFormat.js');
 // 图片路径添加https前缀
 const _convertUrl = require('../../utils/util').convertUrl;
 const _config = require('../../global/config');
-
+const app = require('../../../../app');
 let _sdk;
 let _have_more = true; // 是否仍有未加载的会话
 let _load_count = 0; // 已加载会话数量
@@ -74,6 +74,7 @@ Page({
             showLoading: true,
             loadInfo: ''
         },
+        isQB:!!app.globalData.isQB,
         isLogin:!!wx.getStorageSync('ppu')
     },
     login(){
