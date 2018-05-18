@@ -7,6 +7,7 @@ Page({
         me: {},
         hidden: false,
         url: '',
+        isQB: !!app.globalData.isQB,
     },
     onLoad() {
         track('show', {

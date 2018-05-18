@@ -33,11 +33,7 @@
     <view class="call_con">
         <text class="call_title">拨打电话</text>
         <text class="call_number">{{call.teleNumber}}</text>
-        <text class="call_text">
-            (电话
-            <text class="call_tick">{{call.tick}}</text>
-            秒后失效，请尽快拨打)
-        </text>
+        <text class="call_text">(电话<text class="call_tick">{{call.tick}}</text>秒后失效，请尽快拨打)</text>
         <view class="call_btn_con">
             <text class="call_left_btn" bindtap="cancel_call">取消</text>
             <text class="call_right_btn" bindtap="call">拨打</text>

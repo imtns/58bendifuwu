@@ -20,6 +20,7 @@ const globalData = {
     tokenFirstReady: false,
     domain: 'https://bossapi.58.com',
     userInfo: null,
+    isQB: wx.getSystemInfoSync().isQB || false, // 是否为QQ浏览器
     city: 'bj',
     netType: '',
     hyname: '',
@@ -115,25 +116,49 @@ const app = {
             });
         }
         console.log('login ...');
-        wx.login({
-            // 小程序登录，获取code
-            success(res) {
-                console.log('成功调取wx.login');
-                if (res.code) {
-                    getSmallAppToken(res.code);
-                } else {
-                    console.log(`获取用户登录态失败！${res.errMsg}`);
-                }
-            },
-            fail() {
-                console.error('Failed to call wx.login()');
-                wx.navigateTo({
-                    url: '/errorpage/errorpage?errMsg=Failed_to_call_wx.login()',
-                });
-            },
-        });
+        // const that = this;
+        if (app.globalData.isQB) {
+            // wx.qbLogin({
+            //     appkey: '58TONGCHENG', // 该appkey是QB分配给小程序开发者的，用于映射QB小程序在微信下的appid
+            //     type: '1', // 1: 微信换取的是openid，
+            //     // 2：微信换取的是unionid，不填该字段默认换取的是openid
+            //     // 3: 微信获取的是:openid+unionid
+            //     success(res) {
+            //         console.log('------------------------------QB--------------------------------');
+            //         console.log(that.objToString(res));
+            //     },
+            //     fail(e) {
+            //         console.log('------------------------------QBError--------------------------------');
+            //         console.log(that.objToString(e));
+            //     },
+            // });
+        } else {
+            wx.login({
+                // 小程序登录，获取code
+                success(res) {
+                    console.log('成功调取wx.login');
+                    if (res.code) {
+                        getSmallAppToken(res.code);
+                    } else {
+                        console.log(`获取用户登录态失败！${res.errMsg}`);
+                    }
+                },
+                fail() {
+                    console.error('Failed to call wx.login()');
+                    wx.navigateTo({
+                        url: '/errorpage/errorpage?errMsg=Failed_to_call_wx.login()',
+                    });
+                },
+            });
+        }
     },
-
+    objToString(obj) {
+        let str = '';
+        Object.keys(obj).forEach(p => {
+            str += `${p}::${obj[p]}\n`;
+        });
+        return str;
+    },
     loginMethodStatue: {
     // 如果token失效，可能同时有很多网络请求失败从而来调用 wx.login()
         callbackStack: [],
@@ -274,10 +299,7 @@ export default class extends wepy.app {
       window: {
           navigationBarTitleText: '消息',
           enablePullDownRefresh: false,
-<<<<<<< HEAD
-=======
-          qbDebugKey: 'bb77318dfc561f6361fdccc66bc887b31',
->>>>>>> huangxin
+          qbDebugKey: 'ba76308c5325636260463466bc887b31',
       },
       networkTimeout: {
           request: 10000,
@@ -289,6 +311,7 @@ export default class extends wepy.app {
   };
 
   onLaunch(options) {
+      console.log(wx.getSystemInfoSync().isQB);
       console.log('app Lanch1');
       console.log('app launch---scene', options.scene);
       wx.setStorageSync('scene', options.scene);

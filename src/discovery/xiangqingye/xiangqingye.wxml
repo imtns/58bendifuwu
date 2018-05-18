@@ -311,7 +311,7 @@
         <view class="telBarIcon"></view>
         <text>电话</text>
     </view>
-    <view class="weiBar" bindtap="goChat" data-userid="{{userid}}" data-infoid="{{infoId}}">
+    <view wx:if="{{!isQB}}" class="weiBar" bindtap="goChat" data-userid="{{userid}}" data-infoid="{{infoId}}">
         <view class="weiBarIcon"></view>
         <text>微聊</text>
     </view>

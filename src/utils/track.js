@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
 import { sendClickLog, sendTrackLog } from '../utils/maidian';
 
+const app = require('../app');
+
 module.exports.track = (type, params) => {
     const appid = 'wxc81edb242dec62d4';
-    const uid = wx.getStorageSync('token') || '';
+    const uid = wx.getStorageSync('token') || 'test';
 
     /* global getCurrentPages:true */
     const pages = getCurrentPages(); // 获取加载的页面
@@ -14,7 +16,7 @@ module.exports.track = (type, params) => {
     const trackURL = {
         cate: params.cateid || '', // 表现类别全路径，没有置空【必填】
         area: params.area || '', // 表现地域全路径，没有置空【必填】
-        pagetype: params.pagetype || '', // 页面类型，没有置空【必填】
+        pagetype: app.globalData.isQB ? `${params.pagetype}_QB` : (params.pagetype || ''), // 页面类型，没有置空【必填】
         page: params.page || '', // 二级页面类型，没有置空
         pagePath: url, // 小程序路径【必填】
         refPagePath: prevUrl || '', // 上一级路径，没有置空【必填】

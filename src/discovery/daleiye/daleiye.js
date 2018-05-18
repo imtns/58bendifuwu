@@ -1,5 +1,4 @@
 import { get } from '../../utils/ajax';
-import globalDataService from '../../globalDataService';
 import { track } from '../../utils/track';
 
 const app = require('../../app');
@@ -78,7 +77,13 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    async onLoad() {
+    async onLoad(options) {
+        const tagCookie = decodeURIComponent(options.tagCookie || '');
+        if (tagCookie) {
+            this.setData({
+                tagCookie,
+            });
+        }
         track('show', {
             pagetype: 'index', // 页面类型，没有置空【必填】
         });
@@ -94,6 +99,7 @@ Page({
     },
     // 获取cookie
     updataCookie(strCookie) {
+        if (app.globalData.isQB) return;
         console.log(strCookie);
         const str = strCookie;
         let arr = [];
@@ -124,12 +130,7 @@ Page({
             });
         }
         console.log(arr2);
-        globalDataService.set('listCookie', this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';'));
-        // app.globalData.listCookie =
-        //     this.data.tagCookie +
-        //     wx.getStorageSync('cookieuid') +
-        //     wx.getStorageSync('id58') +
-        //     arr2.join(';');
+        app.globalData.listCookie = this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';');
     },
     /**
      * 获取城市
@@ -179,10 +180,9 @@ Page({
                 cateData: [],
             });
             // 加cookie
-            console.log('---->', app);
             if (!app.globalData.listCookie) {
-                const setcookie = resData.header['Set-Cookie'] || resData.header['set-cookie'];
-                that.updataCookie(setcookie);
+                const _setcookie = resData.header['Set-Cookie'] || resData.header['set-cookie'];
+                that.updataCookie(_setcookie);
             }
             return true;
         });

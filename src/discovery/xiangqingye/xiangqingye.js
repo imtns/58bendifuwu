@@ -14,6 +14,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        isQB: app.globalData.isQB,
         detailShow: true, // 控制服务描述展示
         imgShow: true, // 控制图片展示
         bgShow: true, // 控制背景展示
