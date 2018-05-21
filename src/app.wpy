@@ -239,15 +239,15 @@ const app = {
 export default class extends wepy.app {
   config = {
       pages: [
-          'discovery/daleiye/daleiye',
+          'discovery/daleiye',
           'me/coupon/coupon',
           'me/coupon/couponDetail',
           'me/order/order',
           'me/order/orderDetail',
           'me/order/orderRating',
           'me/meNew',
-          'discovery/xiangqingye/xiangqingye',
-          'discovery/liebiaoye/liebiaoye',
+          'discovery/xiangqingye',
+          'discovery/liebiaoye',
           'me/me',
           'me/robot',
           'index/index',
@@ -261,7 +261,7 @@ export default class extends wepy.app {
       tabBar: {
           list: [
               {
-                  pagePath: 'discovery/daleiye/daleiye',
+                  pagePath: 'discovery/daleiye',
                   text: '首页',
                   iconPath: 'image/a1.png',
                   selectedIconPath: 'image/a2.png',

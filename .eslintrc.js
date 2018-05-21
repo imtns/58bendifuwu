@@ -38,6 +38,7 @@ module.exports = {
         'no-unused-expressions': ["error", {
             "allowShortCircuit": true
         }],
+        "consistent-return": 0,
         "space-before-function-paren": 0,
         'max-len': [2, 180, 4, {"ignoreUrls": true}],
         // allow paren-less arrow functions

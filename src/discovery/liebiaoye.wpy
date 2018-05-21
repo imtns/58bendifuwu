@@ -1,7 +1,7 @@
 <template>
 <view class="body">
     <scroll-view scroll-y="true" style="height: 100vh;" enable-back-to-top="true" bindscrolltolower="reachBottom" >
-        <navigator wx:for="{{listArr}}" url="/discovery/xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" bindtap="clickUrlFn">
+        <navigator wx:for="{{listArr}}" url="/discovery/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" bindtap="clickUrlFn">
             <view class="list">
                 <view class="list_l">
                     <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>
@@ -34,11 +34,7 @@
     <view class="call_con">
         <text class="call_title">拨打电话</text>
         <text class="call_number">{{call.teleNumber}}</text>
-        <text class="call_text">
-            (电话
-            <text class="call_tick">{{call.tick}}</text>
-            秒后失效，请尽快拨打)
-        </text>
+        <text class="call_text">(电话<text class="call_tick">{{call.tick}}</text>秒后失效，请尽快拨打)</text>
         <view class="call_btn_con">
             <text class="call_left_btn" bindtap="cancel_call">取消</text>
             <text class="call_right_btn" bindtap="call">拨打</text>
@@ -50,17 +46,19 @@
 <script>
 import wepy from 'wepy';
 
-import { get } from '../../utils/ajax';
-import { track } from '../../utils/track';
+import { get } from '../utils/ajax';
+import { track } from '../utils/track';
 
-const util = require('../../utils/util.js');
-const app = require('../../app');
+const util = require('../utils/util.js');
+const app = require('../app');
 
 let timerId = null;
 const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
 let noMoreData = false;
-export default class Coupon extends wepy.page {
+
+let tagCookie = '';
+export default class Liebiaoye extends wepy.page {
   /**
    * 页面的初始数据
    */
@@ -76,7 +74,6 @@ export default class Coupon extends wepy.page {
           tick: 0,
           hidden: true,
       },
-      tagCookie: 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;',
       title: '列表页',
   };
   /**
@@ -84,47 +81,43 @@ export default class Coupon extends wepy.page {
    */
   onLoad(o) {
       const {
-          city, listName, tagCookie, cateid, title = '列表页',
+          city, listName, cateid, title = '列表页',
       } = o;
+      if (o.tagCookie) {
+          tagCookie = decodeURIComponent(o.tagCookie || '');
+      }
+      track('show', {
+          cateid,
+          spm: tagCookie,
+          pagetype: 'liebiaoye', // 页面类型，没有置空【必填】
+      });
       console.log(o);
       wx.setNavigationBarTitle({
           title: title,
       });
-      if (tagCookie) {
-          this.setData({
-              city: city,
-              listName: listName,
-              tagCookie: tagCookie,
-              cateid,
-              title: title,
-          });
-      } else {
-          this.setData({
-              city: city,
-              listName: listName,
-              cateid,
-              title: title,
-          });
-      }
+      this.city = city;
+      this.listName = listName;
+      this.cateid = cateid;
+      this.title = title;
       if (!city) {
       /* eslint no-underscore-dangle: 0 */
           const _url = 'https://bossapi.58.com/smallapp/common/city';
           get(_url, {}, (e, res) => {
               if (e) {
                   console.log(e);
-                  return false;
+                  return;
               }
               if (res.code === 0) {
-                  this.setData({
-                      city: res.data.city,
-                  });
+                  this.city = res.data.city;
+                  this.$apply();
+                  this.getListData();
               } else {
                   console.error('bossapi.city');
               }
-              return true;
           });
+      } else {
+          this.getListData();
       }
-      this.getListData();
   }
   updataCookie(strCookie) {
       console.log(strCookie);
@@ -158,7 +151,7 @@ export default class Coupon extends wepy.page {
       }
       console.log(arr2);
       app.globalData.listCookie =
-      this.data.tagCookie +
+      tagCookie +
       wx.getStorageSync('cookieuid') +
       wx.getStorageSync('id58') +
       arr2.join(';');
@@ -183,12 +176,12 @@ export default class Coupon extends wepy.page {
       } else {
           header = {
               'content-type': 'application/json',
-              cookie: that.data.tagCookie,
+              cookie: tagCookie,
           };
       }
       wx.request({
-          url: `${host}/${this.data.city}/${this.data.listName}/pn${
-              this.data.page
+          url: `${host}/${this.city}/${this.listName}/pn${
+              this.page
           }`,
           data: {
               openId: wx.getStorageSync('token'),
@@ -207,10 +200,9 @@ export default class Coupon extends wepy.page {
                   });
                   return;
               }
-              const listNewArr = that.data.listArr.concat(response.data.infos);
-              that.setData({
-                  listArr: listNewArr,
-              });
+              const listNewArr = that.listArr.concat(response.data.infos);
+              that.listArr = listNewArr;
+              that.$apply();
               if (!app.globalData.listCookie) {
                   const setcookie =
             response.header['Set-Cookie'] || response.header['set-cookie'];
@@ -228,8 +220,8 @@ export default class Coupon extends wepy.page {
   scroll() {
       if (!isScrolled) {
           track('click', {
-              cateid: this.data.cateid,
-              clickTag: `scroll_${this.data.listName}`,
+              cateid: this.cateid,
+              clickTag: `scroll_${this.listName}`,
               pagetype: 'liebiaoye', // 页面类型，没有置空【必填】
           });
           isScrolled = true;
@@ -239,10 +231,8 @@ export default class Coupon extends wepy.page {
    * 页面上拉触底事件的处理函数
    */
   reachBottom() {
-      const page = this.data.page + 1;
-      this.setData({
-          page: page,
-      });
+      const page = this.page + 1;
+      this.page = page;
       this.getListData();
   }
   // 点击帖子
@@ -283,14 +273,13 @@ export default class Coupon extends wepy.page {
           header: app.globalData.testHeader,
           success(res) {
               if (res.data.code === 0) {
-                  self.setData({
-                      call: util.constDeepMixin(self.data.call, {
-                          teleNumber:
-                parseInt(res.data.data[0]) + 1 ? res.data.data : '服务忙',
-                          tick: 180,
-                          hidden: false,
-                      }),
+                  self.call = util.constDeepMixin(self.call, {
+                      teleNumber:
+              parseInt(res.data.data[0]) + 1 ? res.data.data : '服务忙',
+                      tick: 180,
+                      hidden: false,
                   });
+                  self.$apply();
                   self.callTimer();
               } else {
                   console.error('400电话异常\n', res);
@@ -302,20 +291,18 @@ export default class Coupon extends wepy.page {
       const self = this;
       clearInterval(timerId);
       timerId = setInterval(() => {
-          if (self.data.call.tick > 1) {
-              self.setData({
-                  call: util.constDeepMixin(self.data.call, {
-                      tick: (self.data.call.tick -= 1),
-                  }),
+          if (self.call.tick > 1) {
+              this.call = util.constDeepMixin(self.call, {
+                  tick: (self.call.tick -= 1),
               });
+              this.$apply();
           } else {
               clearInterval(timerId);
-              self.setData({
-                  call: util.constDeepMixin(self.data.call, {
-                      tick: 0,
-                      hidden: true,
-                  }),
+              this.call = util.constDeepMixin(self.call, {
+                  tick: 0,
+                  hidden: true,
               });
+              this.$apply();
           }
       }, 1000);
   }
@@ -323,17 +310,15 @@ export default class Coupon extends wepy.page {
   cancel_call() {
       const self = this;
       clearInterval(timerId);
-      self.setData({
-          call: util.constDeepMixin(self.data.call, {
-              tick: 0,
-              hidden: true,
-          }),
+      this.call = util.constDeepMixin(self.call, {
+          tick: 0,
+          hidden: true,
       });
   }
   call() {
       const self = this;
       wx.makePhoneCall({
-          phoneNumber: self.data.call.teleNumber,
+          phoneNumber: self.call.teleNumber,
       });
   }
   /* 打电话 e */
@@ -341,32 +326,109 @@ export default class Coupon extends wepy.page {
       return {
           title: '58同城生活助手',
           desc: '列表页',
-          path: `discovery/liebiaoye/liebiaoye?city=${this.data.city}&listName=${
-              this.data.listName
-          }&title=${this.data.title}`,
+          path: `discovery/liebiaoye/liebiaoye?city=${this.city}&listName=${
+              this.listName
+          }&title=${this.title}`,
       };
   }
 }
 </script>
 <style lang="scss">
-.none{display:none}
-.body{background-color:#fff}
-.list{width:100%;padding:30rpx 0;height:210rpx;box-sizing:border-box;border-bottom:1rpx solid #dedfe0;position:relative}
-.list_l{float:left;padding-left:26rpx}
-.list_img{width:200rpx;height:150rpx;display:block;background-color:#f9f9f9}
-.list_c{float:left;padding-left:20rpx;width:370rpx}
-.list_c_t{line-height:28rpx}
-.list_title{font-size:28rpx;color:#333}
-.list_c_b{clear:both;width:382rpx}
-.list_area_box{float:left;width:280rpx;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1}
-.list_area{font-size:24rpx;color:gray}
-.list_icon_box{float:left;line-height:1;position:absolute;bottom:30rpx}
-.list_icon_info{font-size:22rpx;float:left;padding:8rpx 10rpx;color:#a6a6a6;margin-right:20rpx;background:hsla(0,0%,65%,.1)}
-.list_icon_info_pink{color:#ff552e;background:rgba(255,85,46,.1)}
-.list_r{float:left;height:136rpx;width:130rpx}
-.list_comment{font-size:22rpx;color:#999;display:block;text-align:center;margin-top:32rpx}
-.list_tel{margin:0 0 0 30rpx;width:70rpx;height:70rpx}
-.return_top_box{position:fixed;z-index:10;right:20px;bottom:20px}
-.return_top{width:75rpx;height:75rpx}
-
+.none {
+  display: none;
+}
+.body {
+  background-color: #fff;
+}
+.list {
+  width: 100%;
+  padding: 30rpx 0;
+  height: 210rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #dedfe0;
+  position: relative;
+}
+.list_l {
+  float: left;
+  padding-left: 26rpx;
+}
+.list_img {
+  width: 200rpx;
+  height: 150rpx;
+  display: block;
+  background-color: #f9f9f9;
+}
+.list_c {
+  float: left;
+  padding-left: 20rpx;
+  width: 370rpx;
+}
+.list_c_t {
+  line-height: 28rpx;
+}
+.list_title {
+  font-size: 28rpx;
+  color: #333;
+}
+.list_c_b {
+  clear: both;
+  width: 382rpx;
+}
+.list_area_box {
+  float: left;
+  width: 280rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+}
+.list_area {
+  font-size: 24rpx;
+  color: gray;
+}
+.list_icon_box {
+  float: left;
+  line-height: 1;
+  position: absolute;
+  bottom: 30rpx;
+}
+.list_icon_info {
+  font-size: 22rpx;
+  float: left;
+  padding: 8rpx 10rpx;
+  color: #a6a6a6;
+  margin-right: 20rpx;
+  background: hsla(0, 0%, 65%, 0.1);
+}
+.list_icon_info_pink {
+  color: #ff552e;
+  background: rgba(255, 85, 46, 0.1);
+}
+.list_r {
+  float: left;
+  height: 136rpx;
+  width: 130rpx;
+}
+.list_comment {
+  font-size: 22rpx;
+  color: #999;
+  display: block;
+  text-align: center;
+  margin-top: 32rpx;
+}
+.list_tel {
+  margin: 0 0 0 30rpx;
+  width: 70rpx;
+  height: 70rpx;
+}
+.return_top_box {
+  position: fixed;
+  z-index: 10;
+  right: 20px;
+  bottom: 20px;
+}
+.return_top {
+  width: 75rpx;
+  height: 75rpx;
+}
 </style>
