@@ -1,6 +1,6 @@
 <view class="body">
     <scroll-view scroll-y="true" style="height: 100vh;" enable-back-to-top="true" bindscrolltolower="reachBottom" bindscroll="scroll">
-        <navigator wx:for="{{listArr}}" url="/discovery/xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" bindtap="clickUrlFn">
+        <navigator wx:for="{{listArr}}"  wx:key="{{index}}" url="/discovery/xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" bindtap="clickUrlFn">
             <view class="list">
                 <view class="list_l">
                     <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>

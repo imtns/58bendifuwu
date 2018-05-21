@@ -1,7 +1,7 @@
 <import src="../../temp/temp.wxml" />
 <view class="body">
     <scroll-view scroll-y="ture" class="menu">
-    <block wx:for="{{listTit}}">
+    <block wx:for="{{listTit}}"  wx:key="{{index}}">
         <view class="title select" wx:if="{{item.isSelect}}" >{{item.title}}</view>
         <view class="title" wx:else bindtap="changeCateFun" data-locallistname="{{item.type}}" data-index="{{index}}">{{item.title}}</view>
     </block>
@@ -22,10 +22,10 @@
             <block wx:if="{{HotCateData.length!=0}}">
                 <template is="hyjktemp" data="{{listData:HotCateData}}"/>
             </block>
-            <block wx:for="{{mainData}}">
+            <block wx:for="{{mainData}}"  wx:key="{{index}}">
                 <template is="hyjktemp" data="{{listData:item}}"/>
             </block>
-            <block wx:for="{{cateData}}">
+            <block wx:for="{{cateData}}"  wx:key="{{index}}">
                 <template is="normaltemp" data="{{listData:item}}"/>
             </block>
         </view>

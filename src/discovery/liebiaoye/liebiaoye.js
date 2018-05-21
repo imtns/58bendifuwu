@@ -4,6 +4,8 @@ import { track } from '../../utils/track';
 const util = require('../../utils/util.js');
 const app = require('../../app');
 
+const globalDataService = require('../../globalDataService');
+
 let timerId = null;
 const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
@@ -34,10 +36,10 @@ Page({
         const {
             city,
             listName,
-            tagCookie,
             cateid,
             title = '列表页',
         } = o;
+        let tagCookie = decodeURIComponent(o.tagCookie || '')
         console.log(o);
         track('show', {
             cateid,
@@ -112,9 +114,8 @@ Page({
                 }
             });
         }
-        console.log(arr2);
-        app.globalDataService.set('listCookie', this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';'));
-        // app.globalData.listCookie = this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';');
+        globalDataService.set('listCookie', this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';'));
+        console.log(app.globalData.listCookie)
     },
     /**
      * 获取列表页数据

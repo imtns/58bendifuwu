@@ -46,7 +46,7 @@
     <view class="baseDetal" wx:if="{{serviceRange.length>0}}">
         <text class="bdName">服务区域</text>
         <view class="bdValue serviceRange">
-            <block wx:for="{{serviceRange}}">{{item.localName}}</block>
+            <block wx:for="{{serviceRange}}"  wx:key="{{index}}">{{item.localName}}</block>
         </view>
     </view>
     <view class="baseDetal">
@@ -137,7 +137,7 @@
 
 <scroll-view class="imgList" scroll-x="true" wx:if="{{commercializationMap.picSmallList!==undefined}}">
     <view style="width:{{imgWidth}}px">
-        <block wx:for="{{commercializationMap.picSmallList}}">
+        <block wx:for="{{commercializationMap.picSmallList}}"  wx:key="{{index}}">
             <image src="{{item}}" data-index="{{index}}" bindtap="showImg" mode="aspectFit"></image>
         </block>
     </view>
@@ -346,7 +346,7 @@
 </view>
 <!-- 举报End -->
 <swiper class="allPrint" hidden="{{imgShow}}" bindtap="hiddenFun" wx:if="{{commercializationMap.picBigList!==undefined}}" current="{{apCurrent}}">
-    <swiper-item wx:for="{{commercializationMap.picBigList}}">
+    <swiper-item wx:for="{{commercializationMap.picBigList}}"  wx:key="{{index}}">
         <view>
             <image src="{{item}}" class="slide-image" mode="widthFix" />
         </view>

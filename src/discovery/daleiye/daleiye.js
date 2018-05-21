@@ -3,6 +3,8 @@ import { track } from '../../utils/track';
 
 const app = require('../../app');
 
+const globalDataService = require('../../globalDataService');
+
 const host = 'https://xiaochengxu.58.com';
 /* eslint no-underscore-dangle: 0 */
 const _url = `${host}/shenghuo.shtml`;
@@ -129,8 +131,8 @@ Page({
                 }
             });
         }
-        console.log(arr2);
-        app.globalData.listCookie = this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';');
+        globalDataService.set('listCookie', this.data.tagCookie + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';'));
+        console.log(app.globalData.listCookie)
     },
     /**
      * 获取城市

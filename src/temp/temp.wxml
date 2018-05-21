@@ -4,7 +4,7 @@
     <template is="titleTemp" data="{{title:listData.title}}"/>
     <view class="lrListBox">
         <view class="lrBefore"></view>
-        <block wx:for="{{listData.listData}}">
+        <block wx:for="{{listData.listData}}" wx:key="{{index}}">
             <view class="lrListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}"  data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
                 <image class="lrListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
                 <text class="lrListText">{{item.title}}</text>
@@ -17,7 +17,7 @@
 <template name="hyjktemp">
     <template is="titleTemp" data="{{title:listData.title}}"/>
     <view class="norListBox">
-        <block wx:for="{{listData.listData}}">
+        <block wx:for="{{listData.listData}}" wx:key="{{index}}">
             <view class="norListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
                 <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
                 <text class="norListText">{{item.title}}</text>
@@ -35,7 +35,7 @@
             <template is="titleTemp" data="{{title:listData.title}}" />
         </block>
         <view class="norListBox">
-            <block wx:for="{{listData.imageListData}}">
+            <block wx:for="{{listData.imageListData}}" wx:key="{{index}}">
                 <view class="norListItem" bindtap="navigatorFun" data-pagetype="{{item.pagetype}}" data-fullpath="{{item.fullpath}}"  data-cateid="{{item.cateId}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
                     <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
                     <text class="norListText">{{item.title}}</text>

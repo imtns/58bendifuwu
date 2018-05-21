@@ -74,7 +74,6 @@ const app = {
                 method: 'GET',
                 success(res) {
                     // 登录成功
-                    console.log(res);
                     if (res.data.code === 0) {
                         console.log('get token successfully');
                         console.log(`res.data.data token${res.data.data}`);
