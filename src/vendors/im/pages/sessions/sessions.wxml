@@ -3,21 +3,24 @@
  <block wx:if="{{isLogin}}">
     <template is="session-list" data="{{sessionList: sessionList, loadStatus: loadStatus}}"/>
 </block>
-<block wx:if="{{isQB}}">
-    <view class="loginFrame"> 
-        <view class="thumb">
-            <image class="icon" src="../../../../image/empty.png"></image>
-        </view>
-        <view class="tip">您还没有消息哦~</view>
-    </view>
-</block>
 <block wx:else>
-    <view class="loginFrame" bindtap="login"> 
-        <view class="thumb">
-            <image class="icon" src="../../../../image/empty.png"></image>
+    <block wx:if="{{isQB}}">
+        <view class="loginFrame"> 
+            <view class="thumb">
+                <image class="icon" src="../../../../image/empty.png"></image>
+            </view>
+            <view class="tip">您还没有消息哦~</view>
         </view>
-        <view class="tip">您还没有登录</view>
-        <view class="tip">无法同步对话消息哦</view>
-        <view class="loginButton">点击登录</view>
-    </view>
+    </block>
+    <block wx:else>
+        <view class="loginFrame" bindtap="login"> 
+            <view class="thumb">
+                <image class="icon" src="../../../../image/empty.png"></image>
+            </view>
+            <view class="tip">您还没有登录</view>
+            <view class="tip">无法同步对话消息哦</view>
+            <view class="loginButton">点击登录</view>
+        </view>
+    </block>
 </block>
+
