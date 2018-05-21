@@ -13,8 +13,8 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.98",
 	"appid": "wxc81edb242dec62d4",
-    "projectname": "bendifuwu-wepy",
-    "miniprogramRoot": "./dist",
+	"projectname": "bendifuwu-wepy",
+	"miniprogramRoot": "./dist",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -25,13 +25,29 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "大类页",
+					"pathName": "discovery/daleiye/daleiye",
+					"query": "listName=baomu&city=bj&tagCookie=spm%3Du-2cb763vej97pnc4f21.shenghuozhushou_demo%3B%20utm_source%3Dlink_demo%3B",
+					"scene": "1038",
+					"referrerInfo": {
+						"appId": "wx2a9c6eeb1c44a284",
+						"extraData": "{\"ppu\":\"UID=21442486609414&UN=qq624515059&TT=bdc0aacb46f50cb7c5e95044308ca3c2&PBODY=S_4ifJrbynqZ-L7NQU8vkSTDpf9DnmxEVoaemXO2FBXTMRX5EgbrA_r9_OZ9o2hoNI8F2s9OD1ZYZxJwAKXY5N3_0hT55Zv6VrnfjwvDjKi0mNv0MdWjGlArg8s-97VbdzFKGjcgzYHX6pSLfOo_cQIDNdLOlgrMRnxd8tVLFB0&VER=1\"}"
+					}
+				}
+			]
 		}
 	}
 }
