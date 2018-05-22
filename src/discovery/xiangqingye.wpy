@@ -407,8 +407,9 @@ export default class Xiangqingye extends wepy.page {
   onLoad(options) {
       track('show', {
           cateid: options.fullpath,
-          area: options.city,
-          pagetype: `xingqingye_${options.cate2ListName}`, // 页面类型，没有置空【必填】
+          area: app.globalData.cityId,
+          pagetype: 'detail',
+          // pagetype: `xingqingye_${options.cate2ListName}`, // 页面类型，没有置空【必填】
       });
       const that = this;
       urlMap = false;
@@ -528,6 +529,7 @@ export default class Xiangqingye extends wepy.page {
       let data;
       const { position } = e.currentTarget.dataset;
       track('click', {
+          pagetype: 'detail',
           clickTag: `xiangqingye_call_${position}`,
       });
       data = {

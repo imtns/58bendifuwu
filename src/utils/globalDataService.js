@@ -1,4 +1,4 @@
-import { globalData } from './app';
+import { globalData } from '../app';
 
 module.exports = {
     set(prop, value) {
@@ -12,7 +12,7 @@ module.exports = {
         }
         obj[keys[index]] = value;
     },
-    get(){
-        
-    }
+    get() {
+
+    },
 };

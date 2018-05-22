@@ -43,7 +43,7 @@ import { track } from '../utils/track';
 
 const app = require('../app');
 
-const globalDataService = require('../globalDataService');
+const globalDataService = require('../utils/globalDataService');
 
 const host = 'https://xiaochengxu.58.com';
 /* eslint no-underscore-dangle: 0 */
@@ -137,18 +137,65 @@ export default class Daleiye extends wepy.page {
       if (options.tagCookie) {
           tagCookie = decodeURIComponent(options.tagCookie || '');
       }
-
-      track('show', {
-          pagetype: 'index', // 页面类型，没有置空【必填】
-      });
+      globalDataService.set('tagCookie', tagCookie);
       wx.getSystemInfo({
           success: res => {
               this.height = res.windowHeight;
           },
       });
       await this.getCity();
+      track('show', {
+          area: this.cityId,
+          pagetype: 'index', // 页面类型，没有置空【必填】
+      });
       this.freshTui('hyjk');
   }
+  methods = {
+      /**
+     * 选择类别
+     */
+      changeCateFun(event) {
+          const { index, locallistname } = event.target.dataset;
+          const { listTit } = this;
+          listTit[index].isSelect = true;
+          listTit[this.onSelect].isSelect = false;
+          track('click', {
+              pagetype: 'index', // 页面类型，没有置空【必填】
+              clickTag: `lefttab_${index + 1}_${locallistname}`,
+          });
+          this.onSelect = index;
+          this.listTit = listTit;
+          this.scrollTopNumber = 0;
+          if (locallistname === 'hyjk') {
+              this.banner = 0;
+              this.freshTui(locallistname);
+          } else {
+              this.banner = 1;
+              this.fresh(locallistname);
+          }
+      },
+
+      /**
+     * 跳转
+     */
+      navigatorFun(e) {
+          const {
+              fullpath,
+              listname,
+              cateid,
+              title,
+          } = e.currentTarget.dataset;
+          track('click', {
+              cateid: fullpath,
+              pagetype: 'index',
+          });
+          wx.navigateTo({
+              url: `liebiaoye?listName=${listname}&city=${this.city}&cityId=${
+                  this.cityId
+              }&title=${title}&cateid=${cateid}`,
+          });
+      },
+  };
   // 获取cookie
   updataCookie(strCookie) {
       if (app.globalData.isQB) return;
@@ -205,6 +252,7 @@ export default class Daleiye extends wepy.page {
               if (res.code === 0) {
                   this.city = res.data.city;
                   this.cityId = res.data.cityId;
+                  globalDataService.set('cityId', this.cityId);
                   resolve();
               } else {
                   console.error(
@@ -226,15 +274,12 @@ export default class Daleiye extends wepy.page {
               console.log(e);
               return false;
           }
-          const data = res;
-          console.log(data);
-          console.log(resData);
-          data.mainData.forEach(element => {
+          res.mainData.forEach(element => {
               element.listData.splice(3, element.listData.length - 2);
           });
-          this.hotTagData = data.hotTagData;
+          this.hotTagData = res.hotTagData;
           this.HotCateData = [];
-          this.mainData = data.mainData;
+          this.mainData = res.mainData;
           this.cateData = [];
           this.$apply();
           // 加cookie
@@ -258,52 +303,7 @@ export default class Daleiye extends wepy.page {
           this.$apply();
       });
   }
-  /**
-   * 选择类别
-   */
-  changeCateFun(event) {
-      const selectIndex = event.target.dataset.index;
-      const { listTit } = this.listTit;
-      const listname = event.target.dataset.locallistname;
-      listTit[selectIndex].isSelect = true;
-      listTit[this.onSelect].isSelect = false;
-      track('click', {
-          pagetype: 'index', // 页面类型，没有置空【必填】
-          clickTag: `lefttab_${selectIndex + 1}_${listname}`,
-      });
-      this.onSelect = selectIndex;
-      this.listTit = listTit;
-      this.scrollTopNumber = 0;
-      this.tabName = listTit[selectIndex].title;
-      if (event.target.dataset.locallistname === 'hyjk') {
-          this.banner = 0;
-          this.freshTui(event.target.dataset.locallistname);
-      } else {
-          this.banner = 1;
-          this.fresh(event.target.dataset.locallistname);
-      }
-  }
-  /**
-   * 跳转
-   */
-  navigatorFun(e) {
-      const {
-          fullpath,
-          listname: listName,
-          cateid,
-          title,
-      } = e.currentTarget.dataset;
-      track('click', {
-          cateid: fullpath,
-          spm: tagCookie,
-          pagetype: 'index',
-      });
-      wx.navigateTo({
-          url: `liebiaoye?listName=${listName}&city=${
-              this.city
-          }&cityId=${this.cityId}&title=${title}&cateid=${cateid}`,
-      });
-  }
+
   viewAll() {
       // const { tabName } = this.data;
       // const title = `全部${tabName}`;
@@ -352,96 +352,95 @@ page {
   width: 100%;
   height: 148rpx;
 }
-.h2{
-    font-size: 28rpx;
-    color: #000;
-    display: block;
-    height: 70rpx;
-    line-height: 70rpx;
-    font-weight: 700;
-    
+.h2 {
+  font-size: 28rpx;
+  color: #000;
+  display: block;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-weight: 700;
 }
-.titAll{
-    float: right;
-    position: relative;
+.titAll {
+  float: right;
+  position: relative;
 }
-.allText{
-    color: #bbb;
-    font-size: 26rpx;
-    font-weight: normal;
-    padding-right: 15rpx;
+.allText {
+  color: #bbb;
+  font-size: 26rpx;
+  font-weight: normal;
+  padding-right: 15rpx;
 }
-.allImage{
-    width:8rpx;
-    height:13rpx;
-    position:absolute;
-    right:0;
-    top:50%;
-    margin-top:-6.5rpx;
+.allImage {
+  width: 8rpx;
+  height: 13rpx;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -6.5rpx;
 }
-.lrListBox{
-    align-items: center;
-    position: relative;
-    display: flex;
-    flex-flow:wrap; 
+.lrListBox {
+  align-items: center;
+  position: relative;
+  display: flex;
+  flex-flow: wrap;
 }
-.lrListBox .lrBefore{
-    width: 2rpx;
-    background-color: #f6f6f6;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 49.5%;
-    height: 100%;
-    position: absolute;
+.lrListBox .lrBefore {
+  width: 2rpx;
+  background-color: #f6f6f6;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: 49.5%;
+  height: 100%;
+  position: absolute;
 }
-.lrListBox .lrAfter{
-    height: 2rpx;
-    background-color: #f6f6f6;
-    top: 49.5%;
-    right: 0;
-    bottom: 0;
-    left: auto;
-    width: 100%;
-    position: absolute;
+.lrListBox .lrAfter {
+  height: 2rpx;
+  background-color: #f6f6f6;
+  top: 49.5%;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: 100%;
+  position: absolute;
 }
-.lrListItem{
-    height: 140rpx;
-    width:267rpx;
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    font-size: 24rpx;
-    color: #555;
+.lrListItem {
+  height: 140rpx;
+  width: 267rpx;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  font-size: 24rpx;
+  color: #555;
 }
-.lrListImg{
-    width: 90rpx;
-    height: 90rpx;
-    padding-left: 20rpx;
+.lrListImg {
+  width: 90rpx;
+  height: 90rpx;
+  padding-left: 20rpx;
 }
-.lrListText{
-    padding-left: 15rpx;
+.lrListText {
+  padding-left: 15rpx;
 }
-.norListBox{
-    background-color: #fff;
-    display: flex;
-    flex-flow:wrap; 
-    width:100%;
+.norListBox {
+  background-color: #fff;
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
 }
-.norListItem{
-    width:165rpx;
-    height: 155rpx;
-    margin: 12rpx 6rpx;
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 25rpx;
-    color: #555;
+.norListItem {
+  width: 165rpx;
+  height: 155rpx;
+  margin: 12rpx 6rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 25rpx;
+  color: #555;
 }
-.norListImg{
-    width: 90rpx;
-    height: 90rpx;
+.norListImg {
+  width: 90rpx;
+  height: 90rpx;
 }
 .iconsBox {
   margin-bottom: 30rpx;

@@ -1,7 +1,7 @@
 <template>
 <view class="body">
-    <scroll-view scroll-y="true" style="height: 100vh;" enable-back-to-top="true" bindscrolltolower="reachBottom" >
-        <navigator wx:for="{{listArr}}" url="/discovery/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" bindtap="clickUrlFn">
+    <scroll-view scroll-y="true" style="height: 100vh;" enable-back-to-top="true"  bindscrolltolower="reachBottom" >
+        <navigator wx:for="{{listArr}}" wx:key="{{index}}" url="/discovery/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" bindtap="clickUrlFn">
             <view class="list">
                 <view class="list_l">
                     <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>
@@ -52,12 +52,14 @@ import { track } from '../utils/track';
 const util = require('../utils/util.js');
 const app = require('../app');
 
+const globalDataService = require('../utils/globalDataService');
+
 let timerId = null;
 const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
 let noMoreData = false;
 
-let tagCookie = '';
+let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
 export default class Liebiaoye extends wepy.page {
   /**
    * 页面的初始数据
@@ -67,6 +69,7 @@ export default class Liebiaoye extends wepy.page {
       listName: 'banjia', // 类目
       listArr: [], // 列表页数据
       cateid: 0,
+      cityId: 1,
       page: 1, // 分页
       call: {
       // 400
@@ -81,24 +84,21 @@ export default class Liebiaoye extends wepy.page {
    */
   onLoad(o) {
       const {
-          city, listName, cateid, title = '列表页',
+          city, cityId, cateid, title = '列表页',
       } = o;
       if (o.tagCookie) {
           tagCookie = decodeURIComponent(o.tagCookie || '');
       }
+      globalDataService.set('tagCookie', tagCookie);
       track('show', {
           cateid,
-          spm: tagCookie,
-          pagetype: 'liebiaoye', // 页面类型，没有置空【必填】
+          area: cityId,
+          pagetype: 'list', // 页面类型，没有置空【必填】
       });
-      console.log(o);
       wx.setNavigationBarTitle({
           title: title,
       });
-      this.city = city;
-      this.listName = listName;
-      this.cateid = cateid;
-      this.title = title;
+      Object.assign(this, o);
       if (!city) {
       /* eslint no-underscore-dangle: 0 */
           const _url = 'https://bossapi.58.com/smallapp/common/city';
@@ -220,9 +220,10 @@ export default class Liebiaoye extends wepy.page {
   scroll() {
       if (!isScrolled) {
           track('click', {
+              area: this.cityId,
               cateid: this.cateid,
               clickTag: `scroll_${this.listName}`,
-              pagetype: 'liebiaoye', // 页面类型，没有置空【必填】
+              pagetype: 'list', // 页面类型，没有置空【必填】
           });
           isScrolled = true;
       }

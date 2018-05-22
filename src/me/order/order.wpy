@@ -41,7 +41,7 @@
 </template>
 <script>
 import wepy from 'wepy';
-import Tab from '../../components/tabs';
+import Tab from '../components/tabs';
 import { get } from '../../utils/ajax';
 import { GET_ORDERLIST } from '../../utils/url';
 import { formatTime } from '../../utils/date';

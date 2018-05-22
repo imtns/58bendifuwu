@@ -245,18 +245,13 @@ export default class extends wepy.app {
           'me/order/order',
           'me/order/orderDetail',
           'me/order/orderRating',
-          'me/meNew',
+          'me/me',
           'discovery/xiangqingye',
           'discovery/liebiaoye',
-          'me/me',
-          'me/robot',
-          'index/index',
-          'errorpage/errorpage',
+          'me/profile/profile',
           'me/trade/trade',
-          'vendors/im/pages/chat/chat',
           'vendors/im/pages/sessions/sessions',
-          'business/business',
-          'discovery/comment/comment',
+          'benefit/benefit',
       ],
       tabBar: {
           list: [
@@ -273,13 +268,13 @@ export default class extends wepy.app {
                   selectedIconPath: 'image/a4.png',
               },
               {
-                  pagePath: 'business/business',
+                  pagePath: 'benefit/benefit',
                   text: '优惠',
                   iconPath: 'image/a5.png',
                   selectedIconPath: 'image/a6.png',
               },
               {
-                  pagePath: 'me/meNew',
+                  pagePath: 'me/me',
                   text: '我的',
                   iconPath: 'image/a7.png',
                   selectedIconPath: 'image/a8.png',
@@ -302,15 +297,11 @@ export default class extends wepy.app {
   };
 
   onLaunch(options) {
-      console.log(wx.getSystemInfoSync().isQB);
-      console.log('app Lanch1');
       console.log('app launch---scene', options.scene);
       wx.setStorageSync('scene', options.scene);
       // 把模板消息的参数存储上
-      console.log(options);
       const self = app;
       self.flag++;
-      console.log(`login-------flag${self.flag}`);
       const {
           uid, infoid, rootcateid, cateid, usersource,
       } = options.query;
@@ -355,7 +346,6 @@ export default class extends wepy.app {
           if (self.optionsmb && self.optionsmb.user_id) {
               im.gotoChat(self.optionsmb);
               console.log('登录youcashu----------------');
-              console.log('onLaunch go chat ------');
           }
       });
   }
@@ -451,7 +441,6 @@ export default class extends wepy.app {
 
   onHide() {
       const self = app;
-      console.log('App Hide');
       self.flag = 0;
   }
 }
