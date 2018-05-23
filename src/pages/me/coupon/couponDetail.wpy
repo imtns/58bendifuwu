@@ -9,7 +9,7 @@
         <view class="coupon-period">2018.06.22-2018.06.30</view>
         <view class="coupon-period">领取后5天可用</view>
         <!-- <view class="coupon-period">领取后立即生效</view> -->
-        <view class="use-button" bindtap="useCoupon">立即使用</view>
+        <view class="use-button" @tap="useCoupon">立即使用</view>
         <button class="share-button" open-type="share">分享给好友</button>
         <view class="split-title">使用说明</view>
         <view class="use-instro">暂无使用说明</view>

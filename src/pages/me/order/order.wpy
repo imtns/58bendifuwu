@@ -9,12 +9,12 @@
         <repeat for="{{orderList}}" key="index" index="index" item="item">
           <view class="order" wx:if="{{item.status == currentStatus}}">
               <view class="mod-order">
-                <view class="order-orderNo"  data-shopid="{{item.shopId}}"  bindtap="goShop">
+                <view class="order-orderNo"  data-shopid="{{item.shopId}}"  @tap="goShop">
                   <view class="order-No">{{item.shopName}}</view>
                   <view class="order-status">进店<view class="arrow"></view></view>
                 </view>
                 <view class="order-line"></view>
-                <view data-orderid="{{item.orderId}}" bindtap="goOrderDetail">
+                <view data-orderid="{{item.orderId}}" @tap="goOrderDetail">
                   <view class="order-info">
                     <text class="order-info-title">服务名称: {{item.serviceType}}</text>
                     <text class="order-info-detail">服务时间: {{item.serviceTime}}</text>

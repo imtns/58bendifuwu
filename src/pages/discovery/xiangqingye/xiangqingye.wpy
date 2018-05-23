@@ -53,18 +53,16 @@
     <view class="baseDetal">
         <text class="bdName">联系商家</text>
         <text class="bdValue">{{goblianxiren}}</text>
-        <view class="baseTel" data-position="icon" bindtap="callTick"></view>
+        <view class="baseTel" data-position="icon" @tap="callTick"></view>
     </view>
     <view class="baseDetal">
         <text class="bdName">商家地址</text>
-        <view bindtap="onmapFun">
-            <text class="bdValue bdAddress" >{{commparamMap['商家地址']}}</text><view class="mapIcon"></view>
-        </view>
+        <view @tap="onmapFun"><view class="bdValue bdAddress">{{commparamMap['商家地址']}}</view><view class="mapIcon"></view></view>
     </view>
 </view>
 <!-- <view class="mod-view view-coupon">
      <view class="coupon-shadow">
-        <view class="coupon-box table"  bindtap="receiveCoupon">
+        <view class="coupon-box table"  @tap="receiveCoupon">
             <view class="cell one-text coupon-left">8.5<text class="coupon-discount">折</text></view>
             <view class="cell coupon-right">
                 <view class="first-row one-text">满299可用</view>
@@ -137,13 +135,6 @@
     </view>
 </view> -->
 
-<scroll-view class="imgList" scroll-x="true" wx:if="{{commercializationMap.picSmallList!==undefined}}">
-    <view style="width:{{imgWidth}}px">
-        <block wx:for="{{commercializationMap.picSmallList}}"  wx:key="{{index}}">
-            <image src="{{item}}" data-index="{{index}}" bindtap="showImg" mode="aspectFit"></image>
-        </block>
-    </view>
-</scroll-view>
 <!-- 相册End -->
 <!-- 评论 -->
 <!-- <view class="commentContainer">
@@ -187,11 +178,11 @@
             <text class="ftMark">会员{{wltEntity.wltserviceYears}}年</text>
         </view>
         <view class="firmMarkBox">
-            <view class="firmLevel {{extendMap.level_level>=13?'huangguan':extendMap.level_level>=10?'zuanshi':extendMap.level_level>=7?'huangjin':extendMap.level_level>=4?'baiyin':'qingtong'}}">
+            <view class="firmLevel {{wltEntity.extendMap.level_level>=13?'huangguan':wltEntity.extendMap.level_level>=10?'zuanshi':wltEntity.extendMap.level_level>=7?'huangjin':wltEntity.extendMap.level_level>=4?'baiyin':'qingtong'}}">
                 会员{{wltEntity.wltserviceYears}}年
             </view>
             <view class="firmPerc">
-                超过<text>{{extendMap.level_rank}}</text>同行
+                超过<text>{{wltEntity.extendMap.level_rank}}</text>同行
             </view>
         </view>
     </view>
@@ -203,23 +194,23 @@
         <view class="fcbItem">
             <view class="fcbHigh">
                 <text class="fcbRq">人气</text>
-                <text class="fcbValue">{{extendMap.level_popularityVal}}</text>
-                <text class="fcbLevel">{{extendMap.level_popularityCompare==1?'高':extendMap.level_popularityCompare==0?'平':'低'}}</text>
+                <text class="fcbValue">{{wltEntity.extendMap.level_popularityVal}}</text>
+                <text class="fcbLevel">{{wltEntity.extendMap.level_popularityCompare==1?'高':wltEntity.extendMap.level_popularityCompare==0?'平':'低'}}</text>
             </view>
             <view class="fcbHigh">
                 <text class="fcbRq">活跃</text>
-                <text class="fcbValue">{{extendMap.level_activeVal}}</text>
-                <text class="fcbLevel"> {{extendMap.level_activeCompare==1?'高':extendMap.level_activeCompare==0?'平':'低'}}</text>
+                <text class="fcbValue">{{wltEntity.extendMap.level_activeVal}}</text>
+                <text class="fcbLevel"> {{wltEntity.extendMap.level_activeCompare==1?'高':wltEntity.extendMap.level_activeCompare==0?'平':'低'}}</text>
             </view>
             <view class="fcbHigh">
                 <text class="fcbRq">服务</text>
-                <text class="fcbValue">{{extendMap.level_serviceVal}}</text>
-                <text class="fcbLevel">{{extendMap.level_serviceCompare==1?'高':extendMap.level_serviceCompare==0?'平':'低'}}</text>
+                <text class="fcbValue">{{wltEntity.extendMap.level_serviceVal}}</text>
+                <text class="fcbLevel">{{wltEntity.extendMap.level_serviceCompare==1?'高':wltEntity.extendMap.level_serviceCompare==0?'平':'低'}}</text>
             </view> 
         </view>
     </view>  
     <view class="firmBottomBox">
-        <view class="telButton" data-position="middle" bindtap="callTick">联系商家</view>
+        <view class="telButton" data-position="middle" @tap="callTick">联系商家</view>
     </view>
     <!-- <view class="ChooseService">
         <view class="serviceName">选择服务</view>
@@ -238,7 +229,7 @@
         <view class="detailTit">服务描述</view>
         <view class="detailDes {{detailShow?'':'show'}}">{{infocontent}}</view>
         <view class="{{detailShow?'detailMoreShow':'detailMore'}}">
-            <text bindtap="detailShow">{{detailShow?'展开更多':'收起更多'}}</text>
+            <text @tap="detailShow">{{detailShow?'展开更多':'收起更多'}}</text>
             <view class="dmArrow"></view>
         </view>
     </view>
@@ -305,15 +296,15 @@
 <!-- 评论End -->
 <!-- 底部悬浮 -->
 <view class="bottomBar">
-    <!-- <view class="miniBar"  bindtap="call_mini">
+    <!-- <view class="miniBar"  @tap="call_mini">
         <view class="miniBarIcon"></view>
         <text>小程序</text>
     </view> -->
-    <view class="telBar" data-position="bottom" bindtap="callTick">
+    <view class="telBar" data-position="bottom" @tap="callTick">
         <view class="telBarIcon"></view>
         <text>电话</text>
     </view>
-    <view wx:if="{{!isQB}}" class="weiBar" bindtap="goChat" data-userid="{{userid}}" data-infoid="{{infoid}}">
+    <view wx:if="{{!isQB}}" class="weiBar" @tap="goChat" data-userid="{{userid}}" data-infoid="{{infoid}}">
         <view class="weiBarIcon"></view>
         <text>微聊</text>
     </view>
@@ -326,8 +317,8 @@
         <text class="call_number">{{call.teleNumber}}</text>
         <view class="call_text">(电话<view class="call_tick">{{call.tick}}</view>秒后失效，请尽快拨打)</view>
         <view class="call_btn_con">
-            <text class="call_left_btn" bindtap="cancel_call">取消</text>
-            <text class="call_right_btn" bindtap="call">拨打</text>
+            <text class="call_left_btn" @tap="cancel_call">取消</text>
+            <text class="call_right_btn" @tap="call">拨打</text>
         </view>
     </view>
 </view>
@@ -343,13 +334,7 @@
     <view class="jbImg"></view>
 </view>
 <!-- 举报End -->
-<swiper class="allPrint" hidden="{{imgShow}}" bindtap="hiddenFun" wx:if="{{commercializationMap.picBigList!==undefined}}" current="{{apCurrent}}">
-    <swiper-item wx:for="{{commercializationMap.picBigList}}"  wx:key="{{index}}">
-        <view>
-            <image src="{{item}}" class="slide-image" mode="widthFix" />
-        </view>
-    </swiper-item>
-</swiper>
+
 </template>
 <script>
 import wepy from 'wepy';
@@ -376,20 +361,21 @@ export default class Xiangqingye extends wepy.page {
       imgShow: true, // 控制图片展示
       bgShow: true, // 控制背景展示
       apCurrent: 0, // 控制轮播的索引
-      imgWidth: 0, // 轮播外层宽度
       infoTitle: '', // 标题
       infocontent: '', // 服务描述
       objectType: '', // 服务类型
       postDate: '', // 发布日期
       renzheng: {}, // 认证相关
+      qiyeEntity: {},
       liulan: '666', // 浏览量
       commparamMap: '', // 地图数据
       otherEntity: {}, // 其他认证
-      commercializationMap: {}, // 相册
+      wltEntity: {},
       serviceRange: [], // 服务区域
       infoid: '',
       userId: '',
       city: '',
+      shoplogo: '',
       call: {
           tick: 0,
           hidden: true,
@@ -439,23 +425,6 @@ export default class Xiangqingye extends wepy.page {
               });
           }
       },
-      /**
-     * 展示图片
-     */
-      showImg(e) {
-          this.imgShow = false;
-          this.bgShow = false;
-          this.apCurrent = e.currentTarget.dataset.index;
-      },
-      /**
-     * 隐藏
-     */
-      hiddenFun() {
-          this.imgShow = true;
-          this.bgShow = true;
-          this.detailShow = true;
-          this.apCurrent = 0;
-      },
   };
 
   /**
@@ -469,23 +438,15 @@ export default class Xiangqingye extends wepy.page {
       });
       Object.assign(this, options);
       this.listName = options.cate2ListName;
-      this.openid = options.openid || '';
       const url = `${host}/${options.city}/${options.cate2ListName}/${
           options.infoid
       }x.shtml`;
       const result = await get(url);
       const response = result.data;
-      if (
-          response.commercializationMap &&
-      response.commercializationMap.picSmallList.length > 0
-      ) {
-          this.imgWidth =
-        (response.commercializationMap.picSmallList.length * 168) + 15;
-      }
+
       Object.assign(this, response);
-      this.extendMap = response.wltEntity ? response.wltEntity.extendMap : '';
-      this.shoplogo = response.extendMap
-          ? response.extendMap.shoplogo
+      this.shoplogo = response.shop && response.shop.extendMap && response.shop.extendMap.shoplogo
+          ? response.shop.extendMap.shoplogo
           : 'https://img.58cdn.com.cn/olympia/img/shenghuo/final/default-shopimg.png';
       this.userId = response.uid;
       if (options.map) {

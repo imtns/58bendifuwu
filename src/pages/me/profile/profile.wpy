@@ -29,7 +29,7 @@
         </view>
         <view class="item-avatar-xs">
             <text class="input_key">所属行业</text>
-            <text class="input_val {{me.trade? 'have' : 'nohave' }}" bindtap="tradeUrl">{{me.trade? me.trade : "请选择您的行业" }}</text>            
+            <text class="input_val {{me.trade? 'have' : 'nohave' }}" @tap="tradeUrl">{{me.trade? me.trade : "请选择您的行业" }}</text>            
        </view>
         <view class="item-avatar-xs">
             <text class="input_key">目前职位</text>

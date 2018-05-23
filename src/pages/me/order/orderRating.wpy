@@ -6,12 +6,12 @@
         </view>
         <view class="orderRating-stars">
             <block wx:for="{{stars.count}}" wx:for-index="index">
-                <image class="orderRating-stars-star" data-index="{{index}}" bindtap="starClick" src="{{stars.status[index]=='red'?starPath.red:starPath.grey}}"></image>
+                <image class="orderRating-stars-star" data-index="{{index}}" @tap="starClick" src="{{stars.status[index]=='red'?starPath.red:starPath.grey}}"></image>
             </block>
         </view>
     </view>
     <view class="orderRating-buttonWrapper">
-        <button type="primary" bindtap="confirmRating" id="orderRating-button-orange"  class="orderRating-button {{isDisable?'orderRating-opacity':''}}">
+        <button type="primary" @tap="confirmRating" id="orderRating-button-orange"  class="orderRating-button {{isDisable?'orderRating-opacity':''}}">
             提交
         </button>
     </view>

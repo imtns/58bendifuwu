@@ -4,7 +4,7 @@
     <scroll-view scroll-y="ture" class="menu">
     <block wx:for="{{listTit}}"  wx:key="{{index}}">
         <view class="title select" wx:if="{{item.isSelect}}" >{{item.title}}</view>
-        <view class="title" wx:else bindtap="changeCateFun" data-locallistname="{{item.type}}" data-index="{{index}}">{{item.title}}</view>
+        <view class="title" wx:else @tap="changeCateFun" data-locallistname="{{item.type}}" data-index="{{index}}">{{item.title}}</view>
     </block>
     </scroll-view>
     <scroll-view scroll-y="true" class="showBox" style="height:{{height}}px"  scroll-top="{{scrollTopNumber}}">
@@ -30,7 +30,7 @@
                 <template is="normaltemp" data="{{listData:item}}"/>
             </block>
         </view>
-        <!-- <button class="view-all" bindtap="viewAll">全部{{ tabName }} ></button> -->
+        <!-- <button class="view-all" @tap="viewAll">全部{{ tabName }} ></button> -->
     </scroll-view>
 </view>
 

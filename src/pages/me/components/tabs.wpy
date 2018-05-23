@@ -1,6 +1,6 @@
 <template>
     <repeat for="{{tabList}}" key="index" index="index" item="tab">
-        <view bindtap="tabClick" data-index="{{index}}" class="order-tabs-tab {{tab.selected ?'order-tabs-active':''}}" id="{{tab.id}}">
+        <view @tap="tabClick" data-index="{{index}}" class="order-tabs-tab {{tab.selected ?'order-tabs-active':''}}" id="{{tab.id}}">
             {{tab.name}}
         </view>
     </repeat>

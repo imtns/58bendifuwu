@@ -7,7 +7,7 @@
     <view class="coupon-view">
       <scroll-view lower-threshold="70" scroll-top="{{scrollValue}}" bindscrolltolower="reachBottom" style="height:91vh" scroll-y="true">
         <repeat for="{{couponList}}" key="index" index="index" item="item">
-            <view wx:if="{{item.status == currentStatus}}" data-coupon="{{item.id}}" bindtap="goCoupon">
+            <view wx:if="{{item.status == currentStatus}}" data-coupon="{{item.id}}" @tap="goCoupon">
                 <view class="coupon">
                     <view class="coupon-amout {{currentStatus != 1 ? 'used-font':''}}">
                         <view  wx:if="{{item.type==1}}" class="coupon-amount-price">￥<text class="price">{{item.amout}}</text></view>
