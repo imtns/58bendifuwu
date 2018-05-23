@@ -24,7 +24,7 @@ module.exports = {
   },
   'rules': {
     'linebreak-style': 0,
-    'indent': [2, 4],
+    'indent': [2, 4, {"SwitchCase": 1}],
     'radix': ['error', 'as-needed'],
     'no-bitwise': ['error', { 'allow': ['~'] }],
     'object-shorthand': ['error', 'methods'],
