@@ -1,0 +1,95 @@
+.none {
+    display: none;
+  }
+  .list {
+    width: 100%;
+    padding: 30rpx 0;
+    height: 210rpx;
+    box-sizing: border-box;
+    border-bottom: 1rpx solid #dedfe0;
+    position: relative;
+  }
+  .list_l {
+    float: left;
+    padding-left: 26rpx;
+  }
+  .list_img {
+    width: 200rpx;
+    height: 150rpx;
+    display: block;
+    background-color: #f9f9f9;
+  }
+  .list_c {
+    float: left;
+    padding-left: 20rpx;
+    width: 370rpx;
+  }
+  .list_c_t {
+    line-height: 28rpx;
+  }
+  .list_title {
+    font-size: 28rpx;
+    color: #333;
+  }
+  .list_c_b {
+    clear: both;
+    width: 382rpx;
+  }
+  .list_area_box {
+    float: left;
+    width: 280rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .list_area {
+    font-size: 24rpx;
+    color: #808080;
+  }
+  .list_icon_box {
+    float: left;
+    line-height: 1;
+    position: absolute;
+    bottom: 30rpx;
+  }
+  .list_icon_info {
+    font-size: 22rpx;
+    float: left;
+    padding: 8rpx 10rpx;
+    color: #a6a6a6;
+    margin-right: 20rpx;
+    background: rgba(166, 166, 166, 0.1);
+  }
+  .list_icon_info_pink {
+    color: #ff552e;
+    background: rgba(255, 85, 46, 0.1);
+  }
+  .list_r {
+    float: left;
+    height: 136rpx;
+    width: 130rpx;
+  }
+  .list_comment {
+    font-size: 22rpx;
+    color: #999;
+    display: block;
+    text-align: center;
+    margin-top: 32rpx;
+  }
+  .list_tel {
+    margin: 0rpx 0 0 30rpx;
+    width: 70rpx;
+    height: 70rpx;
+  }
+  
+  .return_top_box {
+    position: fixed;
+    z-index: 10;
+    right: 20px;
+    bottom: 20px;
+  }
+  .return_top {
+    width: 75rpx;
+    height: 75rpx;
+  }

@@ -1,0 +1,119 @@
+<template>
+<view class="orderRating">
+    <view class="orderRaging-wrapper ">
+        <view class="orderRaing-frameWrapper orderRaing-frameWrapper-line">
+            <text class="orderRating-tip">如您的服务已经完成, 对本次服务给予评价吧</text>
+        </view>
+        <view class="orderRating-stars">
+            <block wx:for="{{stars.count}}" wx:for-index="index">
+                <image class="orderRating-stars-star" data-index="{{index}}" bindtap="starClick" src="{{stars.status[index]=='red'?starPath.red:starPath.grey}}"></image>
+            </block>
+        </view>
+    </view>
+    <view class="orderRating-buttonWrapper">
+        <button type="primary" bindtap="confirmRating" id="orderRating-button-orange"  class="orderRating-button {{isDisable?'orderRating-opacity':''}}">
+            提交
+        </button>
+    </view>
+</view>
+</template>
+<script>
+import wepy from 'wepy';
+import { post } from '../../../utils/http';
+import { POST_ORDERRATING } from '../../../utils/url';
+import { toast } from '../../../utils/util';
+
+let stars;
+export default class OrderRating extends wepy.page {
+  data = {
+      isDisable: true,
+      starPath: {
+          red: '../../image/star-red.png',
+          grey: '../../image/star-grey.png',
+      },
+      stars: {
+          count: 5,
+          status: {
+              0: 'grey',
+              1: 'grey',
+              2: 'grey',
+              3: 'grey',
+              4: 'grey',
+          },
+      },
+  };
+  starClick(e) {
+      const { index } = e.currentTarget.dataset;
+      stars = index;
+      this.isDisable = false;
+      for (let i = 0; i < this.data.stars.count; i += 1) {
+          if (i <= index) {
+              this.setData({
+                  [`stars.status[${i}]`]: 'red',
+              });
+          } else {
+              this.setData({
+                  [`stars.status[${i}]`]: 'grey',
+              });
+          }
+      }
+  }
+  async confirmRating() {
+      if (this.data.isDisable) {
+          return;
+      }
+      const data = await post(POST_ORDERRATING, {
+          stars: stars + 1,
+      });
+      console.log(data);
+      toast('感谢您的评价');
+      setTimeout(() => {
+          wx.navigateBack({
+              delta: 1,
+          });
+      }, 1500);
+      // 评价....
+  }
+  config = {
+      navigationBarTitleText: '订单评价',
+  };
+  onLoad() {}
+}
+</script>
+<style>
+.orderRaging-wrapper {
+  background: white;
+  border-top: 1rpx solid rgb(236, 236, 236);
+}
+.orderRaing-frameWrapper {
+  height: 97rpx;
+  text-align: center;
+  line-height: 97rpx;
+  font-size: 26rpx;
+  color: #999999;
+}
+.orderRating-stars {
+  display: flex;
+  height: 128rpx;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin: 0 30rpx;
+  border-top: 1rpx solid rgb(236, 236, 236);
+}
+.orderRating-stars-star {
+  width: 68rpx;
+  height: 68rpx;
+  margin: 30rpx 15rpx;
+}
+.orderRating-opacity {
+  opacity: 0.4;
+}
+.orderRating-buttonWrapper {
+  margin-top: 60rpx;
+  padding: 0 30rpx;
+}
+
+#orderRating-button-orange {
+  background: #ffa100;
+}
+</style>

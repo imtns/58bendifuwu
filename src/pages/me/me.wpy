@@ -1,0 +1,257 @@
+<template>
+<!-- <loading hidden="{{hidden}}">
+    加载中...
+</loading> -->
+    <view>
+    <block wx:if="{{isQB}}">
+        <view class="top_box">
+            <view>
+                <button class="loginButton">
+                    <view class="avator-back">
+                        <view class="avator-head"></view>
+                        <view class="avator-body"></view>
+                    </view>
+                </button>
+            </view>
+        </view>
+        <view class="list_ul">
+            <view class="list_li" bindtap="callService" data-url="/me/me">
+                <image src="/image/phone-icon.png" class="image1"></image>
+                <text class="title">客服热线</text>
+                <!-- 填写正确的客服电话 -->
+                <text class="phone">400-810-7258</text>
+                <image src="/image/icon_more.png" class="image2"></image>
+            </view>
+        </view>
+    </block>
+    <block wx:else>
+        <view class="top_box">
+            <!-- 如果已经登录了 -->
+            <block wx:if="{{ hidden }}">
+                <image src="{{me.photo}}" background-size="cover" style="border-radius: 50%;"></image>
+                <view class="user_name">
+                    <text>{{me.name}}</text>
+                </view>
+            </block>
+            <!-- 如果未登录 -->
+            <view wx:else bindtap="getUserInfo">
+                <button class="loginButton" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+                    <view class="avator-back">
+                        <view class="avator-head"></view>
+                        <view class="avator-body"></view>
+                    </view>
+                </button>
+                <view class="user_name">
+                    <button class="loginButton" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+                        登录查看更多
+                    </button>
+                </view>
+            </view>
+        </view>
+        <view class="list_ul">
+            <!-- <view class="list_li" bindtap="tradeUrl" data-url="/me/order/order">
+            <image src="/image/dingdan.png" class="image1"></image>
+            <text class="title">我的订单</text>
+            <image src="/image/icon_more.png" class="image2"></image>
+        </view>
+        <view class="list_li" bindtap="tradeUrl" data-url="/me/coupon/coupon">
+            <image src="/image/youhui.png" class="image1"></image>
+            <text class="title">我的优惠券</text>
+            <image src="/image/icon_more.png" class="image2"></image>
+        </view> -->
+            <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-url="profile/profile">
+                <image src="/image/area.png" class="image1"></image>
+                <text class="title">我的信息</text>
+                <image src="/image/icon_more.png" class="image2"></image>
+            </button>
+            <view class="list_li" bindtap="callService" data-url="/me/me">
+                <image src="/image/phone-icon.png" class="image1"></image>
+                <text class="title">客服热线</text>
+                <!-- 填写正确的客服电话 -->
+                <text class="phone">400-810-7258</text>
+                <image src="/image/icon_more.png" class="image2"></image>
+            </view>
+        </view>
+    </block>
+</view>
+</template>
+<script>
+import wepy from 'wepy';
+import Mixin from '../mixin/mixin';
+
+const app = require('../../app');
+const { track } = require('../../utils/track');
+
+export default class Me extends wepy.page {
+  config = {
+      navigationBarTitleText: '我',
+  };
+  data = {
+      role: '',
+      me: {},
+      hidden: false,
+      url: '',
+      isQB: !!app.globalData.isQB,
+  };
+  mixins = [Mixin];
+  onLoad() {
+      track('show', {
+          pagetype: 'index', // 页面类型，没有置空【必填】
+      });
+      const that = this;
+      this.role = wx.getStorageSync('role');
+      wx.getSetting({
+          success(res) {
+              if (res.authSetting['scope.userInfo']) {
+                  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                  wx.getUserInfo({
+                      success(resp) {
+                          that.userInfo = resp.userInfo;
+                          that.$apply();
+                          that.getProfile();
+                      },
+                  });
+              }
+          },
+      });
+  }
+
+  methods = {
+      tradeUrl(e) {
+          if (e) {
+              const { url } = e.currentTarget.dataset;
+              this.url = url;
+          }
+          if (Object.keys(this.me).length === 0) {
+              this.getUserInfo(this.tradeUrl);
+          } else {
+              wx.navigateTo({
+                  url: this.url,
+              });
+          }
+      },
+      callService() {
+          wx.makePhoneCall({
+              phoneNumber: '4008107258',
+          });
+      },
+      async bindGetUserInfo(e) {
+          if (e.detail.userInfo) {
+              await this.getProfile();
+              if (e.currentTarget.dataset.url) {
+                  wx.navigateTo({
+                      url: e.currentTarget.dataset.url,
+                  });
+              }
+              console.log(e.detail.userInfo);
+          }
+      },
+  }
+}
+</script>
+<style lang="scss">
+page {
+  background: #f6f6f6;
+}
+
+.top_box {
+  background: url('http://pic2.58.com/shangjiatong/yunying/bg_me.png') no-repeat
+    0 0;
+  background-size: 100% 100%;
+  width: 750rpx;
+  height: 290rpx;
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 60rpx;
+}
+
+.top_box image {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.user_name {
+  font-size: 28rpx;
+  line-height: 1;
+  color: #333;
+  padding-top: 20rpx;
+}
+
+button {
+  background-color: transparent;
+}
+
+button::after {
+  border: 0;
+}
+
+.list_li {
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-bottom: 1px solid #f6f6f6;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list_li .image1 {
+  margin: 17rpx 30rpx 0 17rpx;
+  width: 54rpx;
+  height: 54rpx;
+}
+
+.list_li .image2 {
+  margin: 30rpx 30rpx 0 0;
+  width: 16rpx;
+  height: 26rpx;
+}
+
+.list_li {
+  .title {
+    float: left;
+    display: block;
+    line-height: 88rpx;
+    flex: 1;
+  }
+
+  .phone {
+    color: #ccc;
+    margin-right: 30rpx;
+  }
+
+  text {
+    font-size: 28rpx;
+    color: #333;
+  }
+}
+
+.avator-back {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-image: linear-gradient(-180deg, #ff9e88 0%, #ffcaca 100%);
+  overflow: hidden;
+}
+
+.avator-head {
+  width: 37rpx;
+  height: 37rpx;
+  background-image: linear-gradient(12deg, #ffffff 6%, #ffdede 100%);
+  border-radius: 50%;
+  margin: 35rpx auto 0;
+}
+
+.avator-body {
+  width: 76rpx;
+  height: 43rpx;
+  margin: 0 auto;
+  background-image: linear-gradient(-180deg, #ffffff 0%, #ffc8c7 86%);
+  border-radius: 76rpx 76rpx 0 0;
+}
+</style>
+
+

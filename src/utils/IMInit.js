@@ -1,4 +1,4 @@
-const im = require('../vendors/im/index.js');
+const im = require('../pages/vendors/im/index.js');
 
 let isInit = false;
 
@@ -79,7 +79,7 @@ function imInit(imToken) {
             },
         },
         ui: {
-            'im-absolute-path': '/vendors/im',
+            'im-absolute-path': '/pages/vendors/im',
             'on-notlogin'() {
                 callPassport();
                 console.log('on-notlogin');

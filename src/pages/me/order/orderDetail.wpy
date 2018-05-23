@@ -1,0 +1,237 @@
+<template>
+<view class="orderDetail">
+    <view class="mod-view orderDetail-info ">
+        <view class="orderDetail-frameWrapper orderDetail-line">
+            <text class="orderDetail-key">订单号</text>
+            <text class="orderDetail-value">{{item.orderId}}</text>
+        </view>
+        <view class="orderDetail-frameWrapper orderDetail-line">
+            <text class="orderDetail-key">服务名称</text>
+            <text class="orderDetail-value">{{item.serviceType}}</text>
+        </view>
+        <view class="orderDetail-frameWrapper orderDetail-line">
+            <text class="orderDetail-key">服务地址</text>
+            <text class="orderDetail-value orderDetail-value-address">{{item.serviceAddress}}</text>
+        </view>
+        <view class="orderDetail-frameWrapper">
+            <text class="orderDetail-key">服务时间</text>
+            <text class="orderDetail-value" style="font-size:26rpx;">{{item.serviceTime}}</text>
+        </view>
+    </view>
+    <view class="mod-view orderDetail-status">
+        <text class="orderDetail-key">当前状态</text>
+        <text class="orderDetail-dateTip">下单时间: {{item.orderTime}}</text>
+        <text class="orderDetail-value orderDetail-value-red">{{status[item.status]}}</text>
+    </view>
+    <view class="mod-view orderDetail-payType">
+        <text class="orderDetail-key">支付方式</text>
+        <text class="orderDetail-value orderDetail-value-red">{{payType[item.payType]}}</text>
+    </view>
+    <view class="mod-view orderDetail-tip" style="background:none;">
+        <block wx:if="{{item.status==0}}">
+            <text class="orderDetail-key">您的服务已预约成功，正在派单阶段，不可取消订单，请等待商家与您联系</text>
+        </block>
+        <block wx:else>
+            <text class="orderDetail-key">您的服务已被接单，服务完成后，请给予商家评价，您的服务反馈是我们进步的动力</text>
+        </block>
+    </view>
+    <block wx:if="{{item.status == 2}}">
+        <view class="mod-view orderDetail-rating">
+            <text class="orderDetail-key">服务评分</text>
+            <view class="orderRating-stars">
+                <image class="orderRating-stars-star" src="{{item.stars>0?starPath.red:starPath.grey}}"></image>
+                <image class="orderRating-stars-star" src="{{item.stars>1?starPath.red:starPath.grey}}"></image>
+                <image class="orderRating-stars-star" src="{{item.stars>2?starPath.red:starPath.grey}}"></image>
+                <image class="orderRating-stars-star" src="{{item.stars>3?starPath.red:starPath.grey}}"></image>
+                <image class="orderRating-stars-star" src="{{item.stars>4?starPath.red:starPath.grey}}"></image>
+            </view>
+        </view>
+    </block>
+    <block wx:if="{{item.status==2}}">
+        <view class="orderDetail-buttonWrapper">
+            <button type="primary" class="orderDetail-button grey">已评价</button>
+        </view>
+    </block>
+    <block wx:if="{{item.status == 1}}">
+        <navigator url="orderRating?id={{item.id}}">
+            <view class="orderDetail-buttonWrapper">
+                <button type="primary" class="orderDetail-button orange">评价商家</button>
+            </view>
+        </navigator>
+    </block>
+</view>
+</template>
+<script>
+import wepy from 'wepy';
+import { get } from '../../../utils/http';
+import { GET_ORDER } from '../../../utils/url';
+
+export default class OrderDetail extends wepy.page {
+  data = {
+      status: {
+          1: '待接单',
+          2: '已评价',
+          3: '待服务',
+      },
+      payType: {
+          1: '到店付',
+      },
+      item: {},
+      starPath: {
+          red: '../../image/star-red.png',
+          grey: '../../image/star-grey.png',
+      },
+  };
+  confirmOrder() {
+      //   post(acceptOrderUrl + orderId, (e, response) => {
+      //       console.log(response);
+      //   });
+  }
+  callCustomer() {
+      wx.makePhoneCall({
+          phoneNumber: this.data.item.userPhoneNum,
+      });
+  }
+  config = {
+      navigationBarTitleText: '订单详情',
+  };
+  onLoad() {
+      // this.getOrderDetail(this.options.orderId)
+      this.getOrderDetail();
+  }
+  async getOrderDetail() {
+      try {
+          const data = await get(GET_ORDER);
+          // ;(response.startTime = formatTimeExtra(response.startTime)),
+          //   (response.endTime = formatTimeExtra(response.endTime)),
+          //   (response.createTime = formatTimeExtra(response.createTime, true))
+          // response.consumerAddressJson = JSON.parse(response.consumerAddressJson)
+          this.item = data;
+          this.$apply();
+      } catch (e) {
+          console.log(e);
+      }
+  }
+}
+</script>
+<style>
+.orderDetail {
+  /* background: rgb(236, 236, 236); */
+  border-top: 1rpx solid rgb(236, 236, 236);
+}
+
+.mod-view {
+  font-size: 28rpx;
+  padding: 0 30rpx;
+}
+
+.padding {
+  padding: 0 30rpx;
+}
+
+.white {
+  background: white;
+}
+
+.orderDetail-info {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 20rpx;
+  font-size: 28rpx;
+  padding-top: 0;
+  background: white;
+}
+
+.orderDetail-frameWrapper {
+  padding: 24.5rpx 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderDetail-line {
+  border-bottom: 1rpx solid rgb(236, 236, 236);
+}
+
+.orderDetail-payType {
+  background: white;
+  padding: 24.5rpx 30rpx;
+  display: flex;
+  margin-top: 20rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderDetail-status {
+  background: white;
+  padding: 24.5rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderDetail-key {
+  min-width: 140rpx;
+  color: #999999;
+}
+
+.orderDetail-value {
+  text-align: right;
+}
+.orderDetail-value-address {
+  width: 470rpx;
+}
+.orderDetail-value-red {
+  color: #ff552e;
+}
+
+.orderDetail-tip {
+  color: #999;
+  padding-top: 0;
+  background: rgb(236, 236, 236);
+  font-size: 28rpx;
+}
+
+.orderDetail-dateTip {
+  text-align: right;
+  font-size: 26rpx;
+  color: #333;
+  margin-right: 20rpx;
+  margin-left: auto;
+}
+
+.orderDetail-buttonWrapper {
+  margin-top: 60rpx;
+  padding: 0 30rpx;
+}
+
+.orderDetail-button-red {
+  background-color: #ff552e;
+}
+
+.orderDetail-button.grey,
+button[disabled][type='primary'] {
+  background-color: #ccc;
+}
+
+.orderDetail-button.orange {
+  background: #ffa100;
+  margin-top: 30rpx;
+}
+
+.orderDetail-rating {
+  padding: 24.5rpx 30rpx;
+  background: white;
+}
+
+.orderRating-stars {
+  float: right;
+}
+
+.orderRating-stars-star {
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 24rpx;
+}
+</style>

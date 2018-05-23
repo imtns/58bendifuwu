@@ -3,8 +3,7 @@ import wepy from 'wepy';
 import 'wepy-async-function';
 
 const im = require('./utils/IMInit.js');
-const _im = require('./vendors/im/index.js');
-
+const _im = require('./pages/vendors/im/index.js');
 /* eslint-disable no-undef */
 // const os = wx.getSystemInfoSync().platform;
 // const accesstoken = wx.getStorageSync('token');
@@ -31,7 +30,6 @@ const globalData = {
         channel: '5',
         id58: '',
         ip: '10.252.22.236',
-        'content-type': 'application/json',
     },
     listCookie: '',
 };
@@ -85,7 +83,6 @@ const app = {
                         /* eslint-disable camelcase */
                         const { is_new_user } = res.data.data;
                         bugSetStorage();
-
                         try {
                             wx.setStorageSync('token', token);
                             if (!wx.getStorageSync('role')) {
@@ -239,42 +236,43 @@ const app = {
 export default class extends wepy.app {
   config = {
       pages: [
-          'discovery/daleiye',
-          'me/coupon/coupon',
-          'me/coupon/couponDetail',
-          'me/order/order',
-          'me/order/orderDetail',
-          'me/order/orderRating',
-          'me/me',
-          'discovery/xiangqingye',
-          'discovery/liebiaoye',
-          'me/profile/profile',
-          'me/trade/trade',
-          'vendors/im/pages/sessions/sessions',
-          'benefit/benefit',
+          'pages/discovery/daleiye/daleiye',
+          'pages/me/coupon/coupon',
+          'pages/me/coupon/couponDetail',
+          'pages/me/order/order',
+          'pages/me/order/orderDetail',
+          'pages/me/order/orderRating',
+          'pages/me/me',
+          'pages/discovery/xiangqingye/xiangqingye',
+          'pages/discovery/liebiaoye/liebiaoye',
+          'pages/me/profile/profile',
+          'pages/me/trade/trade',
+          'pages/vendors/im/pages/sessions/sessions',
+          'pages/vendors/im/pages/chat/chat',
+          'pages/benefit/benefit',
       ],
       tabBar: {
           list: [
               {
-                  pagePath: 'discovery/daleiye',
+                  pagePath: 'pages/discovery/daleiye/daleiye',
                   text: '首页',
                   iconPath: 'image/a1.png',
                   selectedIconPath: 'image/a2.png',
               },
               {
-                  pagePath: 'vendors/im/pages/sessions/sessions',
+                  pagePath: 'pages/vendors/im/pages/sessions/sessions',
                   text: '消息',
                   iconPath: 'image/a3.png',
                   selectedIconPath: 'image/a4.png',
               },
               {
-                  pagePath: 'benefit/benefit',
+                  pagePath: 'pages/benefit/benefit',
                   text: '优惠',
                   iconPath: 'image/a5.png',
                   selectedIconPath: 'image/a6.png',
               },
               {
-                  pagePath: 'me/me',
+                  pagePath: 'pages/me/me',
                   text: '我的',
                   iconPath: 'image/a7.png',
                   selectedIconPath: 'image/a8.png',

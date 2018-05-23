@@ -101,6 +101,13 @@ function callShangjiatong() {
         });
     }
 }
+function toast(title) {
+    wx.showToast({
+        title,
+        icon: 'none',
+        duration: 1500,
+    });
+}
 module.exports = {
     formatTime: formatTime,
     dateToArray: dateToArray,
@@ -108,4 +115,5 @@ module.exports = {
     constDeepMixin: constDeepMixin,
     getId58: getId58,
     callShangjiatong: callShangjiatong,
+    toast: toast,
 };

@@ -1,0 +1,332 @@
+<template>
+<scroll-view wx:if="{{role=='user'}}" scroll-y="true">
+    <view class="item-avatar-lg">
+        <image src="{{me.photo}}" background-size="cover" style="border-radius: 50%;"></image>
+        <view class="text_box padding">
+            <view class="flex">
+                <text class="name">{{me.name}} </text>
+                <image wx:if="{{me.sex==1}}" src="/image/s1.png" id="gender_icon"></image>
+                <image wx:if="{{me.sex==2}}" src="/image/s2.png" id="gender_icon"></image>
+            </view>
+            
+        </view>
+    </view>
+    <view style="background: #fff">
+        <view class="item-avatar-xs">
+            <text class="input_title">完善基本资料</text>
+        </view>
+        <view class="item-avatar-xs">
+            <text class="input_key">手机号码</text>
+            <input placeholder="请输入您的手机号码" class="input_val" value="{{me.phone}}"  bindblur="bindPhoneInput" bindconfirm="bindPhoneInput" type="number"/>
+        </view>
+        <view class="item-avatar-xs">
+            <text class="input_key">年龄</text>
+            <input placeholder="请输入您的年龄" class="input_val" value="{{me.age}}"  bindblur="bindAgeInput" bindconfirm="bindAgeInput"/>
+        </view>
+        <view class="item-avatar-xs" style="height: auto;">
+            <text class="input_key ">详细地址</text>
+            <input placeholder="请输入您的详细地址" class="input_val" value="{{me.address}}" bindblur="bindAddressInput" bindconfirm="bindAddressInput"/>
+        </view>
+        <view class="item-avatar-xs">
+            <text class="input_key">所属行业</text>
+            <text class="input_val {{me.trade? 'have' : 'nohave' }}" bindtap="tradeUrl">{{me.trade? me.trade : "请选择您的行业" }}</text>            
+       </view>
+        <view class="item-avatar-xs">
+            <text class="input_key">目前职位</text>
+            <input placeholder="请输入您的职位" class="input_val" value="{{me.position}}" bindblur="bindPositionInput" bindconfirm="bindPositionInput"/>
+        </view>
+        
+    </view>
+</scroll-view>
+</template>
+<script>
+import wepy from 'wepy';
+import Mixin from '../../mixin/mixin';
+
+const util = require('../../../utils/util');
+const app = require('../../../app');
+const { post } = require('../../../utils/http');
+
+export default class MyProfile extends wepy.page {
+  config = {
+      navigationBarTitleText: '我的信息',
+  };
+  data = {
+      role: '',
+      me: {},
+      hidden: false,
+      serviceIntroducePackup: {
+          unpack: false,
+          packupBound: 100,
+          show: false,
+      },
+  };
+  mixins = [Mixin];
+  async onLoad() {
+      this.role = wx.getStorageSync('role');
+      await this.getProfile();
+  }
+  serviceIntroducePackupSwitch() {
+      this.serviceIntroducePackup = util.constDeepMixin(
+          this.serviceIntroducePackup,
+          {
+              unpack: !this.serviceIntroducePackup.unpack,
+          },
+      );
+  }
+  onShow() {
+      const { hyname } = app.globalData;
+      if (hyname) {
+          this.me.trade = hyname;
+          this.setProfile();
+      }
+  }
+  methods = {
+      bindAddressInput(e) {
+          if (e.detail.value === '') return;
+          this.me.address = e.detail.value;
+          this.setProfile();
+      },
+      bindPhoneInput(e) {
+          if (e.detail.value === '') return;
+          this.me.phone = e.detail.value;
+          this.setProfile();
+      },
+      bindIntroInput(e) {
+          if (e.detail.value === '') return;
+          this.me.intro = e.detail.value;
+          this.setProfile();
+      },
+      bindTradeInput(e) {
+          if (e.detail.value === '') return;
+          this.me.trade = e.detail.value;
+          this.setProfile();
+      },
+      bindAgeInput(e) {
+          if (e.detail.value === '') return;
+          this.me.age = e.detail.value;
+          this.setProfile();
+      },
+      bindPositionInput(e) {
+          if (e.detail.value === '') return;
+          this.me.position = e.detail.value;
+          this.setProfile();
+      },
+  }
+
+  async setProfile() {
+      const that = this;
+      const val = {
+          phone: this.me.phone || '',
+          intro: this.me.intro || '',
+          trade: this.me.trade || '',
+          age: this.me.age || '',
+          position: this.me.position || '',
+      };
+      const data = Object.keys(val)
+          .reduce((a, k) => {
+              if (val[k]) {
+                  a.push(`${k}=${val[k]}`);
+              }
+              return a;
+          }, [])
+          .join('&');
+      const header = { 'access-token': wx.getStorageSync('token') };
+      const res = await post(`${app.globalData.domain}/smallapp/user/profile-set`, { data, header });
+      if (res.data.code === 1) {
+          wx.setStorageSync('me', that.me);
+      }
+  }
+  onPullDownRefresh() {
+      this.onLoad();
+      wx.stopPullDownRefresh();
+  }
+  tradeUrl() {
+      wx.navigateTo({
+          url: '/me/trade/trade',
+      });
+  }
+}
+</script>
+<style lang="scss">
+page {
+  background: #efeff4;
+}
+textarea {
+  position: static;
+}
+.button-sp-area {
+  margin: 0 auto;
+  padding-top: 15px;
+  width: 80%;
+  height: 150px;
+  margin-top: 50px;
+}
+.intro {
+  height: 128px;
+  width: 100%;
+  line-height: 20px;
+  margin-left: 10rpx;
+  top: 2px;
+}
+.phone {
+  height: 28px;
+  margin-left: 10rpx;
+  top: 2px;
+}
+.addr {
+  height: 30px;
+  margin-left: 10rpx;
+  top: 2px;
+}
+.contact_count_text {
+  font-size: 24rpx;
+  color: #999;
+}
+.item-avatar-lg {
+  background: white;
+  margin-bottom: 20rpx;
+}
+.item-avatar-xs {
+  padding: 0 30rpx;
+  height: 89rpx;
+}
+.input_key,
+.input_val,
+.input_title {
+  line-height: 89rpx;
+  color: #333;
+  font-size: 30rpx;
+}
+.input_val {
+  line-height: 89rpx;
+  height: 89rpx;
+  box-sizing: border-box;
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin: 0;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.input_title {
+  font-size: 26rpx;
+}
+#shop_name_label {
+  height: 84rpx;
+  padding-left: 20rpx;
+}
+.shop_label {
+  font-size: 24rpx;
+  color: #999999;
+  display: block;
+}
+.service_intro_con,
+.address_con,
+.tele_con {
+  padding-left: 30rpx;
+  padding-bottom: 20rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.service_intro_title {
+  display: block;
+  border-bottom: 1px solid #eee;
+  height: 89rpx;
+  line-height: 89rpx;
+  font-size: 26rpx;
+  color: #333333;
+}
+.service_intro_content {
+  padding-top: 20rpx;
+  padding-right: 20rpx;
+  font-size: 26rpx;
+  line-height: 1.5;
+  color: #333333;
+  width: 100%;
+  height: 89rpx;
+}
+.address_con,
+.tele_con {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  margin-left: 30rpx;
+}
+.address_content,
+.tele_content {
+  display: inline-block;
+  font-size: 26rpx;
+  color: #333333;
+  height: 89rpx;
+  line-height: 89rpx;
+  width: 480rpx;
+  margin-left: 30rpx;
+}
+.address_title,
+.tele_title {
+  display: inline-block;
+  font-size: 30rpx;
+  color: #333333;
+  height: 89rpx;
+  line-height: 89rpx;
+}
+.button_con {
+  margin: 40rpx auto 0;
+  width: 90%;
+}
+#complaint_btn {
+  background: #ff552e;
+}
+#rebind_btn {
+  background: #1aae18;
+  margin-top: 30rpx;
+}
+#refresh_btn {
+  background: #1aae18;
+  margin-top: 30rpx;
+}
+/*展开收起 s*/
+.service_introduce_packup_switch {
+}
+.service_introduce_packup_switch > text {
+  display: inline;
+  font-size: 26rpx;
+  color: #1aad19;
+  line-height: 30rpx;
+}
+.content_pack_icon {
+  width: 18rpx;
+  height: 10rpx;
+  vertical-align: 2rpx;
+}
+/*展开收起 e*/
+.textarea-placeholder {
+  color: #b2b2b2;
+}
+.input_key {
+  width: 180rpx;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.textarea_input_key {
+  line-height: 30rpx;
+}
+.textarea_input_con {
+  padding-top: 30rpx;
+}
+.input-placeholder,
+.textarea-placeholder {
+  color: #b2b2b2;
+  font-family: PingFangSC-Regular;
+}
+
+.nohave {
+  color: #b2b2b2;
+}
+</style>
+
+
