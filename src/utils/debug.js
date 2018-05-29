@@ -2,7 +2,6 @@ let timestamp = null;
 let n = 0;
 
 export const openDebug = () => {
-    console.log(timestamp);
     const now = +new Date();
     if (!timestamp || now - timestamp > 2e3) {
         timestamp = +new Date(),
@@ -11,7 +10,7 @@ export const openDebug = () => {
     }
 
     n++;
-    if (n > 5) {
+    if (n > 9) {
         wx.showModal({
             title: '提示',
             content: '您要进入调试模式吗？',
