@@ -23,6 +23,7 @@
                 <image src="/image/icon_more.png" class="image2"></image>
             </view>
         </view>
+        
     </block>
     <block wx:else>
         <view class="top_box">
