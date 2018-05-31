@@ -53,12 +53,12 @@
             <image src="/image/dingdan.png" class="image1"></image>
             <text class="title">我的订单</text>
             <image src="/image/icon_more.png" class="image2"></image>
-        </view>
-        <view class="list_li" @tap="tradeUrl" data-url="/me/coupon/coupon">
+        </view>-->
+        <view class="list_li" @tap="tradeUrl" data-url="coupon/coupon">
             <image src="/image/youhui.png" class="image1"></image>
             <text class="title">我的优惠券</text>
             <image src="/image/icon_more.png" class="image2"></image>
-        </view> -->
+        </view> 
             <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-url="profile/profile">
                 <image src="/image/area.png" class="image1"></image>
                 <text class="title">我的信息</text>
@@ -122,13 +122,9 @@ export default class Me extends wepy.page {
               const { url } = e.currentTarget.dataset;
               this.url = url;
           }
-          if (Object.keys(this.me).length === 0) {
-              this.getUserInfo(this.tradeUrl);
-          } else {
-              wx.navigateTo({
-                  url: this.url,
-              });
-          }
+          wx.navigateTo({
+              url: this.url,
+          });
       },
       callService() {
           wx.makePhoneCall({
@@ -146,7 +142,7 @@ export default class Me extends wepy.page {
               console.log(e.detail.userInfo);
           }
       },
-  }
+  };
 }
 </script>
 <style lang="scss">

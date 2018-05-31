@@ -1,13 +1,13 @@
 <template>
   <view class="body">
-    <view class="coupon-tabs-container">
+    <!-- <view class="coupon-tabs-container">
       <tab :tabList="tabList" :spaceDistance="spaceDistance" :left="left"></tab>
     <view style="left:{{left}}rpx" class="coupon-tabs-underline"></view>
-    </view>
+    </view> -->
     <view class="coupon-view">
       <scroll-view lower-threshold="70" scroll-top="{{scrollValue}}" bindscrolltolower="reachBottom" style="height:91vh" scroll-y="true">
         <repeat for="{{couponList}}" key="index" index="index" item="item">
-            <view wx:if="{{item.status == currentStatus}}" data-coupon="{{item.id}}" @tap="goCoupon">
+            <view @tap="goMiniProgram" data-appid="{{item.appid}}"  data-userid="{{item.userid}}">
                 <view class="coupon">
                     <view class="coupon-amout {{currentStatus != 1 ? 'used-font':''}}">
                         <view  wx:if="{{item.type==1}}" class="coupon-amount-price">￥<text class="price">{{item.amout}}</text></view>
@@ -33,7 +33,7 @@
         </repeat>
       </scroll-view>
       <view class="coupon-empty" hidden="{{hasCoupon}}">
-        <image class="coupon-empty-icon" src="../../image/empty.png"></image>
+        <image class="coupon-empty-icon" src="../../../image/empty.png"></image>
         <text class="text">
             这里空空的~
             快去领取优惠券装满它
@@ -46,51 +46,26 @@
 import wepy from 'wepy';
 import Tab from '../components/tabs';
 import { get } from '../../../utils/http';
-import { GET_COUPONLIST } from '../../../utils/url';
-import { formatTime } from '../../../utils/date';
+import { GET_COUPONLIST, GET_UNIONID } from '../../../utils/url';
 
-const pageNum = 1;
-const pageSize = 10;
+const page = 1;
+const pagesize = 20;
 export default class Coupon extends wepy.page {
   components = {
       tab: Tab,
   };
   data = {
-      left: 95,
-      spaceDistance: 250,
       scrollValue: 0,
       hasCoupon: true,
-      tab: {
-          name: '可使用',
-          id: 0,
-          selected: true,
-      },
-      tabList: [
-          {
-              name: '可使用',
-              id: 1,
-              selected: true,
-          },
-          {
-              name: '已使用',
-              id: 2,
-              selected: false,
-          },
-          {
-              name: '已过期',
-              id: 3,
-              selected: false,
-          },
-      ],
       couponList: [],
       currentStatus: 1,
       noCoupon: false,
   };
-  events = {
-      tabClick: value => {
-          this.currentStatus = value.id;
-          this.left = value.left;
-      },
+  methods = {
+      //   tabClick: value => {
+      //       this.currentStatus = value.id;
+      //       this.left = value.left;
+      //   },
   };
   goCoupon(e) {
       const { id } = e.currentTarget.dataset;
@@ -103,21 +78,31 @@ export default class Coupon extends wepy.page {
   config = {
       navigationBarTitleText: '我的优惠券',
   };
-  onLoad() {
-      this.loadCoupon();
+  async onLoad() {
+      const unionid = await this.getUnionID();
+      this.loadCoupon(unionid);
   }
-  async loadCoupon() {
+  async getUnionID() {
       try {
-          const { data } = await get(GET_COUPONLIST, {
-              pageSize,
-              pageNum,
-          });
-          data.map(item => {
-              item.expireTimeStart = formatTime(item.expireTimeStart, true);
-              item.expireTimeEnd = formatTime(item.expireTimeEnd, true);
-              return item;
-          });
-          this.couponList = data;
+          const data = {
+              openid: wx.getStorageSync('token'),
+          };
+          const res = await get(GET_UNIONID, { data });
+          console.log(res);
+          return res.data.data;
+      } catch (err) {
+          console.log(err);
+      }
+  }
+  async loadCoupon(unionid) {
+      try {
+          const data = {
+              pagesize,
+              page,
+              unionid,
+          };
+          const res = await get(GET_COUPONLIST, { data });
+          this.couponList = res.data;
           this.$apply();
           console.log(data);
       } catch (e) {

@@ -5,7 +5,21 @@ import { get } from '../../utils/http';
 const globalDataService = require('../../utils/globalDataService');
 
 export default class Mixin extends wepy.mixin {
-    data = {};
+    data = {
+        city: '',
+    };
+    methods = {
+        goMiniProgram(e) {
+            const { appid, userid } = e.currentTarget.dataset;
+            wx.navigateToMiniProgram({
+                appId: app.globalData.mainAppId,
+                path: `/pages/index58/index58?appid=${appid}&userid=${userid}`,
+                success(res) {
+                    console.log(res);
+                },
+            });
+        },
+    }
     // 获取cookie
     updataCookie(strCookie) {
         if (app.globalData.isQB) return;
@@ -44,6 +58,7 @@ export default class Mixin extends wepy.mixin {
         try {
             const getCityUrl = 'https://bossapi.58.com/smallapp/common/city';
             const res = await get(getCityUrl);
+            this.city = res.data.data.city;
             return res;
         } catch (e) {
             return '';

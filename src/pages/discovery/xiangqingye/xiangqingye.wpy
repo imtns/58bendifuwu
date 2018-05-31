@@ -2,18 +2,18 @@
 <!-- 基本信息 -->
 <view class="baseInfo">
     <view class="baseTit">{{infoTitle}}</view>
-    <!-- <view class="tags">
-        <view class="tag">上门服务</view>
-        <view class="tag">上门服务</view>
-        <view class="tag">上门服务</view>
+     <view class="tags">
+        <view class="tag"></view>
+        <view class="tag"></view>
+        <view class="tag"></view>
         <button open-type="share" class="baseInfo_share">
-            <image class="baseInfo_shareIcon" src="../../image/share.png"></image>
+            <image class="baseInfo_shareIcon" src="../../../image/share.png"></image>
             分享
         </button>
-    </view> -->
+    </view> 
     <view class="baseDate">
         <text>发布时间 {{postDate}}</text>
-        <text>已有{{liulan || 254545}}浏览</text>
+        <!-- <text>已有{{liulan || 254545}}浏览</text> -->
     </view>
 </view>
 <!-- 标签信息 -->
@@ -60,19 +60,23 @@
         <view @tap="onmapFun"><view class="bdValue bdAddress">{{commparamMap['商家地址']}}</view><view class="mapIcon"></view></view>
     </view>
 </view>
-<!-- <view class="mod-view view-coupon">
+<block wx:if="{{coupon.coupon_type !== ''}}">
+<view class="mod-view view-coupon">
      <view class="coupon-shadow">
-        <view class="coupon-box table"  @tap="receiveCoupon">
-            <view class="cell one-text coupon-left">8.5<text class="coupon-discount">折</text></view>
+        <view class="coupon-box table"  @tap="goMiniProgram" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}">
+            <view class="cell one-text coupon-left"><image class="gift" src="../../../image/gift.png"></image></view>
+            <!-- <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 2}}">{{coupon.relief}}<text class="coupon-discount">折</text></view>
+            <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 1}}">￥{{coupon.relief}}</view> -->
             <view class="cell coupon-right">
-                <view class="first-row one-text">满299可用</view>
-                <view class="second-row one-text">仅限家庭保洁服务类</view>
-                <view class="last-row" >2018.06.08-2018.07.01</view>
-                <view class="receive-button">立即领取</view>
+                <view class="first-row one-text " wx:if="{{coupon.coupon_type == 2}}"><text class="big-font">{{coupon.relief}}</text><text class="coupon-discount">折</text></view>
+                <view class="first-row one-text " wx:if="{{coupon.coupon_type == 1}}">￥<text class="big-font">{{coupon.relief}}</text></view>
+                <view class="second-row one-text">满{{coupon.limit}}可用</view>
+                <!-- <view class="last-row" >2018.06.08-2018.07.01</view> -->
+                <view class="receive-button">立即领取</view> 
             </view>
         </view>
     </view>
-    <view class="mod-view view-coupon2 font-normal">
+    <!-- <view class="mod-view view-coupon2 font-normal">
         <scroll-view scroll-x class="coupons-scroll">
             <view class="coupon2-wrap">
                 <view class="coupon2-shadow mr-10">
@@ -132,9 +136,9 @@
                 <view class="table coupon2 none-coupon font-normal mr-20"></view>
             </view>
         </scroll-view>
-    </view>
-</view> -->
-
+    </view> -->
+</view>
+</block>
 <!-- 相册End -->
 <!-- 评论 -->
 <!-- <view class="commentContainer">
@@ -296,10 +300,10 @@
 <!-- 评论End -->
 <!-- 底部悬浮 -->
 <view class="bottomBar">
-    <!-- <view class="miniBar"  @tap="call_mini">
+    <view class="miniBar" wx:if="{{coupon.coupon_type !== ''}}" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}"  @tap="goMiniProgram">
         <view class="miniBarIcon"></view>
         <text>小程序</text>
-    </view> -->
+    </view>
     <view class="telBar" data-position="bottom" @tap="callTick">
         <view class="telBarIcon"></view>
         <text>电话</text>
@@ -342,6 +346,7 @@ import wepy from 'wepy';
 import { get } from '../../../utils/http';
 import { track } from '../../../utils/track';
 import CallMixin from '../../mixin/CallMixin';
+import Mixin from '../../mixin/mixin';
 
 const im = require('../../../utils/IMInit.js');
 const app = require('../../../app');
@@ -372,6 +377,9 @@ export default class Xiangqingye extends wepy.page {
       otherEntity: {}, // 其他认证
       wltEntity: {},
       serviceRange: [], // 服务区域
+      coupon: {
+          coupon_type: '',
+      },
       infoid: '',
       userId: '',
       city: '',
@@ -381,7 +389,7 @@ export default class Xiangqingye extends wepy.page {
           hidden: true,
       },
   };
-  mixins = [CallMixin];
+  mixins = [Mixin, CallMixin];
 
   methods = {
       goChat() {
@@ -425,6 +433,16 @@ export default class Xiangqingye extends wepy.page {
               });
           }
       },
+      /**
+   * 控制服务描述展示
+   */
+      detailShow() {
+          if (this.detailShow) {
+              this.detailShow = false;
+          } else {
+              this.detailShow = true;
+          }
+      },
   };
 
   /**
@@ -441,6 +459,7 @@ export default class Xiangqingye extends wepy.page {
       const url = `${host}/${options.city}/${options.cate2ListName}/${
           options.infoid
       }x.shtml`;
+      // const url = 'http://xiaochengxu.58.com/cd/zulin/32712780174284x.shtml';
       const result = await get(url);
       const response = result.data;
 
@@ -458,20 +477,16 @@ export default class Xiangqingye extends wepy.page {
       this.$apply();
   }
 
-  /**
-   * 控制服务描述展示
-   */
-  detailShow() {
-      if (this.detailShow) {
-          this.detailShow = false;
-      } else {
-          this.detailShow = true;
-      }
-  }
 
-  /* 打电话 e */
   // 分享
-  onShareAppMessage() {}
+  onShareAppMessage() {
+      return {
+          title: '商家信息详情',
+          path: `discovery/xiangqing/liebiaoye?city=${this.city}&listName=${
+              this.listName
+          }&title=${this.title}`,
+      };
+  }
 }
 </script>
 <style lang="scss">
