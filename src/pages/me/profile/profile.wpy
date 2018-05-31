@@ -12,7 +12,7 @@
         </view>
     </view>
     <view style="background: #fff">
-        <view class="item-avatar-xs">
+        <view class="item-avatar-xs" bindtap="openDebug">
             <text class="input_title">完善基本资料</text>
         </view>
         <view class="item-avatar-xs">
@@ -42,110 +42,112 @@
 <script>
 import wepy from 'wepy';
 import Mixin from '../../mixin/mixin';
+import { openDebug } from '../../../utils/debug';
 
 const util = require('../../../utils/util');
 const app = require('../../../app');
 const { post } = require('../../../utils/http');
 
 export default class MyProfile extends wepy.page {
-  config = {
-      navigationBarTitleText: '我的信息',
-  };
-  data = {
-      role: '',
-      me: {},
-      hidden: false,
-      serviceIntroducePackup: {
-          unpack: false,
-          packupBound: 100,
-          show: false,
-      },
-  };
-  mixins = [Mixin];
-  async onLoad() {
-      this.role = wx.getStorageSync('role');
-      await this.getProfile();
-  }
-  serviceIntroducePackupSwitch() {
-      this.serviceIntroducePackup = util.constDeepMixin(
-          this.serviceIntroducePackup,
-          {
-              unpack: !this.serviceIntroducePackup.unpack,
-          },
-      );
-  }
-  onShow() {
-      const { hyname } = app.globalData;
-      if (hyname) {
-          this.me.trade = hyname;
-          this.setProfile();
-      }
-  }
-  methods = {
-      bindAddressInput(e) {
-          if (e.detail.value === '') return;
-          this.me.address = e.detail.value;
-          this.setProfile();
-      },
-      bindPhoneInput(e) {
-          if (e.detail.value === '') return;
-          this.me.phone = e.detail.value;
-          this.setProfile();
-      },
-      bindIntroInput(e) {
-          if (e.detail.value === '') return;
-          this.me.intro = e.detail.value;
-          this.setProfile();
-      },
-      bindTradeInput(e) {
-          if (e.detail.value === '') return;
-          this.me.trade = e.detail.value;
-          this.setProfile();
-      },
-      bindAgeInput(e) {
-          if (e.detail.value === '') return;
-          this.me.age = e.detail.value;
-          this.setProfile();
-      },
-      bindPositionInput(e) {
-          if (e.detail.value === '') return;
-          this.me.position = e.detail.value;
-          this.setProfile();
-      },
-  }
+    config = {
+        navigationBarTitleText: '我的信息',
+    };
+    data = {
+        role: '',
+        me: {},
+        hidden: false,
+        serviceIntroducePackup: {
+            unpack: false,
+            packupBound: 100,
+            show: false,
+        },
+    };
+    mixins = [Mixin];
+    async onLoad() {
+        this.role = wx.getStorageSync('role');
+        await this.getProfile();
+    }
+    serviceIntroducePackupSwitch() {
+        this.serviceIntroducePackup = util.constDeepMixin(
+            this.serviceIntroducePackup,
+            {
+                unpack: !this.serviceIntroducePackup.unpack,
+            },
+        );
+    }
+    onShow() {
+        const { hyname } = app.globalData;
+        if (hyname) {
+            this.me.trade = hyname;
+            this.setProfile();
+        }
+    }
+    methods = {
+        openDebug,
+        bindAddressInput(e) {
+            if (e.detail.value === '') return;
+            this.me.address = e.detail.value;
+            this.setProfile();
+        },
+        bindPhoneInput(e) {
+            if (e.detail.value === '') return;
+            this.me.phone = e.detail.value;
+            this.setProfile();
+        },
+        bindIntroInput(e) {
+            if (e.detail.value === '') return;
+            this.me.intro = e.detail.value;
+            this.setProfile();
+        },
+        bindTradeInput(e) {
+            if (e.detail.value === '') return;
+            this.me.trade = e.detail.value;
+            this.setProfile();
+        },
+        bindAgeInput(e) {
+            if (e.detail.value === '') return;
+            this.me.age = e.detail.value;
+            this.setProfile();
+        },
+        bindPositionInput(e) {
+            if (e.detail.value === '') return;
+            this.me.position = e.detail.value;
+            this.setProfile();
+        },
+    }
 
-  async setProfile() {
-      const that = this;
-      const val = {
-          phone: this.me.phone || '',
-          intro: this.me.intro || '',
-          trade: this.me.trade || '',
-          age: this.me.age || '',
-          position: this.me.position || '',
-      };
-      const data = Object.keys(val)
-          .reduce((a, k) => {
-              if (val[k]) {
-                  a.push(`${k}=${val[k]}`);
-              }
-              return a;
-          }, [])
-          .join('&');
-      const header = { 'access-token': wx.getStorageSync('token') };
-      const res = await post(`${app.globalData.domain}/smallapp/user/profile-set`, { data, header });
-      if (res.data.code === 1) {
-          wx.setStorageSync('me', that.me);
-      }
-  }
-  onPullDownRefresh() {
-      this.onLoad();
-      wx.stopPullDownRefresh();
-  }
-  tradeUrl() {
-      wx.navigateTo({
-          url: '/me/trade/trade',
-      });
-  }
+    async setProfile() {
+        const that = this;
+        const val = {
+            phone: this.me.phone || '',
+            intro: this.me.intro || '',
+            trade: this.me.trade || '',
+            age: this.me.age || '',
+            position: this.me.position || '',
+        };
+        const data = Object.keys(val)
+            .reduce((a, k) => {
+                if (val[k]) {
+                    a.push(`${k}=${val[k]}`);
+                }
+                return a;
+            }, [])
+            .join('&');
+        const header = { 'access-token': wx.getStorageSync('token') };
+        const res = await post(`${app.globalData.domain}/smallapp/user/profile-set`, { data, header });
+        if (res.data.code === 1) {
+            wx.setStorageSync('me', that.me);
+        }
+    }
+    onPullDownRefresh() {
+        this.onLoad();
+        wx.stopPullDownRefresh();
+    }
+    tradeUrl() {
+        wx.navigateTo({
+            url: '/me/trade/trade',
+        });
+    }
 }
 </script>
 <style lang="scss">
