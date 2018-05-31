@@ -59,6 +59,10 @@ const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
 let noMoreData = false;
 let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+if (app.globalData.isQB) {
+    tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+}
+
 export default class Liebiaoye extends wepy.page {
   data = {
       city: '', // 城市

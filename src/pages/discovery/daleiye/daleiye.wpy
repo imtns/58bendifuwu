@@ -52,6 +52,9 @@ const globalDataService = require('../../../utils/globalDataService');
 
 const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
 let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+if (app.globalData.isQB) {
+    tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+}
 export default class Daleiye extends wepy.page {
   config = {
       navigationBarTitleText: '58同城生活助手',
@@ -144,6 +147,9 @@ export default class Daleiye extends wepy.page {
   onLoad(options) {
       if (options.tagCookie) {
           tagCookie = decodeURIComponent(options.tagCookie || '');
+      }
+      if (options.tabIndex) {
+          this.tabIndex = options.tabIndex;
       }
       globalDataService.set('tagCookie', tagCookie);
       wx.getSystemInfo({
