@@ -79,7 +79,7 @@ function imInit(imToken) {
             },
         },
         ui: {
-            'im-absolute-path': '/pages/vendors/im',
+            'im-absolute-path': '/vendors/im',
             'on-notlogin'() {
                 callPassport();
                 console.log('on-notlogin');

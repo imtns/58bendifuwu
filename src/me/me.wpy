@@ -65,13 +65,6 @@
                 <text class="title">我的信息</text>
                 <image src="/image/icon_more.png" class="image2"></image>
             </button>
-            <view class="list_li" @tap="callService" data-url="/me/me">
-                <image src="/image/phone-icon.png" class="image1"></image>
-                <text class="title">客服热线</text>
-                <!-- 填写正确的客服电话 -->
-                <text class="phone">400-810-7258</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </view>
             <view class="list_li" @tap="callService1" data-url="/me/me">
                 <image src="/image/phone-icon.png" class="image1"></image>
                 <text class="title">客服热线1</text>
@@ -162,34 +155,32 @@ export default class Me extends wepy.page {
               url: this.url,
           });
       },
-      callService() {
+      callService1() {
           //   wx.makePhoneCall({
           //       phoneNumber: '4008107258',
           //   });
-      },
-      callService1() {
           wx.navigateTo({
-              url: '../../discovery/liebiaoye/liebiaoye?listName=baoxianfuwu&city=bj&cityId=1&title=全部&cateid=8609',
+              url: '../../../discovery/liebiaoye/liebiaoye?listName=baoxianfuwu&city=bj&cityId=1&title=全部&cateid=8609',
           });
       },
       callService2() {
           wx.navigateTo({
-              url: '../../discovery/liebiaoye/liebiaoye?listName=jiajiao&city=bj&cityId=1&title=全部&cateid=35694',
+              url: '../../../discovery/liebiaoye/liebiaoye?listName=jiajiao&city=bj&cityId=1&title=全部&cateid=35694',
           });
       },
       callService3() {
           wx.navigateTo({
-              url: '../../discovery/liebiaoye/liebiaoye?listName=yanglaoyuan&city=bj&cityId=1&title=养老院&cateid=37981&fullpath=8512,37981',
+              url: '../../../discovery/liebiaoye/liebiaoye?listName=yanglaoyuan&city=bj&cityId=1&title=养老院&cateid=37981&fullpath=8512,37981',
           });
       },
       callService4() {
           wx.navigateTo({
-              url: '../../discovery/liebiaoye/liebiaoye?listName=banquanfuwu&city=bj&cityId=1&title=版权服务&cateid=36102&fullpath=8703,8546,36102',
+              url: '../../../discovery/liebiaoye/liebiaoye?listName=banquanfuwu&city=bj&cityId=1&title=版权服务&cateid=36102&fullpath=8703,8546,36102',
           });
       },
       callService5() {
           wx.navigateTo({
-              url: '../../discovery/liebiaoye/liebiaoye?listName=daikuan&city=bj&cityId=1&title=贷款&cateid=34804&fullpath=8703,14000,34804',
+              url: '../../../discovery/liebiaoye/liebiaoye?listName=daikuan&city=bj&cityId=1&title=贷款&cateid=34804&fullpath=8703,14000,34804',
           });
       },
       async bindGetUserInfo(e) {

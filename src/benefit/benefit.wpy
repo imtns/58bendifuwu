@@ -1,5 +1,5 @@
 <template>
-    <block wx:if="{{listArr.length==0 && finisiLoading}}">
+    <block wx:if="{{list.length==0 && finisiLoading}}">
         <view>
             <view class="msg_box">
                 <image src="/image/nomsg.png" class="msg_no_img"></image>
@@ -10,38 +10,33 @@
             </view>
         </view>
     </block>
-    <block wx:else>
-        <view class="body">
-            <scroll-view scroll-y="true" bindscroll="scroll"  style="height: 100vh;" enable-back-to-top="true"  bindscrolltolower="reachBottom" >
-                <navigator wx:for="{{listArr}}" wx:key="{{index}}" @tap="chargingLink"  url="../xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" data-url="{{item.url}}" data-type="{{item.dataType}}" >
-                    <view class="list">
-                        <view class="list_l">
-                            <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>
+<block wx:else>
+    <view class="body">
+        <scroll-view scroll-y="true"  style="height: 100vh;" enable-back-to-top="true"  bindscrolltolower="reachBottom" >
+            <view wx:for="{{list}}" wx:key="{{index}}" @tap="goMiniProgram" data-appid="{{item.appid}}"  data-userid="{{item.userid}}">
+                <view class="list">
+                    <view class="list_l">
+                        <image src="{{picDomain + item.logo}}" class="list_img"></image>
+                    </view>
+                    <view class="list_c">
+                        <view class="list_c_t">
+                            <text class="list_title">{{item.shopName}}</text>
                         </view>
-                        <view class="list_c">
-                            <view class="list_c_t">
-                                <text class="list_title">{{item.shortTitle}}</text>
+                        <view class="list_c_b">
+                            <view class="list_icon_box">
+                                <text class="list_icon_info list_icon_info_pink">立减十元</text>
+                                <text class="list_icon_info">小程序</text>
+                                <text class="list_icon_info">会员{{item.year}}年</text>
                             </view>
-                            <view class="list_c_b">
-                                <view class="list_area_box">
-                                    <text class="list_area">{{item.servicerange}}</text>
-                                </view>
-                                <view class="list_icon_box">
-                                    <!-- <text class="list_icon_info list_icon_info_pink">立减十元</text>
-                                    <text class="list_icon_info">小程序</text> -->
-                                    <text class="list_icon_info" wx:if="{{item.wltAge > 0}}">会员{{item.wltAge}}年</text>
-                                </view>
-                            </view>
-                        </view>
-                        <view class="list_r" catchtap="callTick" data-url="{{item.url}}" data-type="{{item.dataType}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}">
-                            <image src="http://img.58cdn.com.cn/ds/list/tels.png" class="list_tel"></image>
-                            <!-- <text class="list_comment">2条评论</text> -->
                         </view>
                     </view>
-                </navigator>
-            </scroll-view>
-        </view>
-    </block>
+                    <view class="coupon_button" >领取优惠</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</block>
+<!-- 打电话谈层  e -->
 </template>
 <script>
 import wepy from 'wepy';
@@ -117,7 +112,7 @@ export default class Benefit extends wepy.page {
 }
 </script>
 <style lang="scss">
-@import '../style/list.scss';
+@import '../../style/list.scss';
 .msg_box {
   margin: 0 auto;
   text-align: center;

@@ -82,7 +82,7 @@ function callShangjiatong() {
     try {
         wx.navigateToMiniProgram({
             appId: 'wx49b3af93cbcd737b',
-            path: 'vendors/im/pages/sessions/sessions',
+            path: 'vendors/im/sessions/sessions',
             extraData: {},
             envVersion: 'trial', // trial release
             success() {
