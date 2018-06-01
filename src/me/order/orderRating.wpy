@@ -19,9 +19,9 @@
 </template>
 <script>
 import wepy from 'wepy';
-import { post } from '../../../utils/http';
-import { POST_ORDERRATING } from '../../../utils/url';
-import { toast } from '../../../utils/util';
+import { post } from '../../utils/http';
+import { POST_ORDERRATING } from '../../utils/url';
+import { toast } from '../../utils/util';
 
 let stars;
 export default class OrderRating extends wepy.page {

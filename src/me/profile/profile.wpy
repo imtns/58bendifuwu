@@ -42,11 +42,11 @@
 <script>
 import wepy from 'wepy';
 import Mixin from '../../mixin/mixin';
-import { openDebug } from '../../../utils/debug';
+import { openDebug } from '../../utils/debug';
 
-const util = require('../../../utils/util');
-const app = require('../../../app');
-const { post } = require('../../../utils/http');
+const util = require('../../utils/util');
+const app = require('../../app');
+const { post } = require('../../utils/http');
 
 export default class MyProfile extends wepy.page {
     config = {

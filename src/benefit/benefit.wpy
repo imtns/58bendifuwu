@@ -41,29 +41,16 @@
                 </navigator>
             </scroll-view>
         </view>
-        <!-- 打电话谈层  s -->
-        <view class="call_mask" hidden="{{call.hidden}}">
-            <view class="call_con">
-                <text class="call_title">拨打电话</text>
-                <text class="call_number">{{call.teleNumber}}</text>
-                <text class="call_text">(电话<text class="call_tick">{{call.tick}}</text>秒后失效，请尽快拨打)</text>
-                <view class="call_btn_con">
-                    <text class="call_left_btn" @tap="cancel_call">取消</text>
-                    <text class="call_right_btn" @tap="call">拨打</text>
-                </view>
-            </view>
-        </view>
-        <!-- 打电话谈层  e -->
     </block>
 </template>
 <script>
 import wepy from 'wepy';
 
-import { get } from '../../utils/http';
-import { GET_BENEFITLIST } from '../../utils/url';
-import app from '../../app';
-import { toast } from '../../utils/util';
-import { track } from '../../utils/track';
+import { get } from '../utils/http';
+import { GET_BENEFITLIST } from '../utils/url';
+import app from '../app';
+import { toast } from '../utils/util';
+import { track } from '../utils/track';
 import Mixin from '../mixin/mixin';
 
 const pagesize = 20;
@@ -130,7 +117,7 @@ export default class Benefit extends wepy.page {
 }
 </script>
 <style lang="scss">
-@import '../../style/list.scss';
+@import '../style/list.scss';
 .msg_box {
   margin: 0 auto;
   text-align: center;

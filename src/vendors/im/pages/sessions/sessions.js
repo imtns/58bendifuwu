@@ -1,13 +1,13 @@
 /* eslint-disable */
 //sessions.js
-const im = require('../../../../../utils/IMInit.js');
-import { track } from '../../../../../utils/track.js';
+const im = require('../../../../utils/IMInit.js');
+import { track } from '../../../../utils/track.js';
 const _im = require('../../index');
 const _timeFormat = require('../../utils/timeFormat.js');
 // 图片路径添加https前缀
 const _convertUrl = require('../../utils/util').convertUrl;
 const _config = require('../../global/config');
-const app = require('../../../../../app');
+const app = require('../../../../app');
 let _sdk;
 let _have_more = true; // 是否仍有未加载的会话
 let _load_count = 0; // 已加载会话数量

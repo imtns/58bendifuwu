@@ -48,12 +48,12 @@ import wepy from 'wepy';
 
 import CallMixin from '../../mixin/CallMixin';
 import Mixin from '../../mixin/mixin';
-import app from '../../../app';
-import { get } from '../../../utils/http';
-import { track } from '../../../utils/track';
-import { toast } from '../../../utils/util';
+import app from '../../app';
+import { get } from '../../utils/http';
+import { track } from '../../utils/track';
+import { toast } from '../../utils/util';
 
-const globalDataService = require('../../../utils/globalDataService');
+const globalDataService = require('../../utils/globalDataService');
 
 const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
@@ -195,5 +195,5 @@ export default class Liebiaoye extends wepy.page {
 }
 </script>
 <style lang="scss">
-@import '../../../style/list.scss';
+@import '../../style/list.scss';
 </style>

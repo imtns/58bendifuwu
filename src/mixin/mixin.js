@@ -1,8 +1,8 @@
 import wepy from 'wepy';
-import app from '../../app';
-import { get } from '../../utils/http';
+import app from '../app';
+import { get } from '../utils/http';
 
-const globalDataService = require('../../utils/globalDataService');
+const globalDataService = require('../utils/globalDataService');
 
 export default class Mixin extends wepy.mixin {
     data = {

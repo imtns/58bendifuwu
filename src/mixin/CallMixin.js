@@ -1,7 +1,7 @@
 import wepy from 'wepy';
-import app from '../../app';
-import { get } from '../../utils/http';
-import util from '../../utils/util';
+import app from '../app';
+import { get } from '../utils/http';
+import util from '../utils/util';
 
 let timerId = null;
 export default class CallMixin extends wepy.mixin {

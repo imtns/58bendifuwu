@@ -343,13 +343,13 @@
 <script>
 import wepy from 'wepy';
 
-import { get } from '../../../utils/http';
-import { track } from '../../../utils/track';
+import { get } from '../../utils/http';
+import { track } from '../../utils/track';
 import CallMixin from '../../mixin/CallMixin';
 import Mixin from '../../mixin/mixin';
 
-const im = require('../../../utils/IMInit.js');
-const app = require('../../../app');
+const im = require('../../utils/IMInit.js');
+const app = require('../../app');
 
 const host = 'https://xiaochengxu.58.com';
 export default class Xiangqingye extends wepy.page {

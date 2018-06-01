@@ -42,9 +42,9 @@
 <script>
 import wepy from 'wepy';
 import Tab from '../components/tabs';
-import { get } from '../../../utils/http';
-import { GET_ORDERLIST } from '../../../utils/url';
-import { formatTime } from '../../../utils/date';
+import { get } from '../../utils/http';
+import { GET_ORDERLIST } from '../../utils/url';
+import { formatTime } from '../../utils/date';
 
 
 const pageNum = 1;

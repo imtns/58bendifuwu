@@ -7,8 +7,8 @@
         <view class="title" wx:else @tap="changeCateFun" data-locallistname="{{item.type}}" data-index="{{index}}">{{item.title}}</view>
     </block>
     </scroll-view>
-    <scroll-view scroll-y="true" class="showBox" style="height:{{height}}px"  scroll-top="{{scrollTopNumber}}">
-        <swiper wx:if="{{banner==0}}" autoplay="true" class="swiperTop" indicator-dots="true" indicator-color="#e0e0e0" indicator-active-color="#ff552e">
+    <scroll-view scroll-y="true" class="showBox" style="height:{{height}}px"  scroll-top="{{scrollTopNumber}}" >
+        <swiper wx:if="{{banner == 0 && bannerData}}" autoplay="true" class="swiperTop" indicator-dots="true" indicator-color="#e0e0e0" indicator-active-color="#ff552e">
             <swiper-item>
                 <image src="{{bannerData.img}}" class="slide-image" mode="scaleToFill" />
             </swiper-item>
@@ -41,14 +41,14 @@
 <script>
 import wepy from 'wepy';
 
-import { get } from '../../../utils/http';
-import { track } from '../../../utils/track';
+import { get } from '../../utils/http';
+import { track } from '../../utils/track';
 
 import Mixin from '../../mixin/mixin';
 
-const app = require('../../../app');
+const app = require('../../app');
 
-const globalDataService = require('../../../utils/globalDataService');
+const globalDataService = require('../../utils/globalDataService');
 
 const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
 let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
@@ -287,22 +287,6 @@ export default class Daleiye extends wepy.page {
       this.HotCateData = res.data.HotCateData;
       this.mainData = [];
       this.cateData = res.data.cateData;
-      for (let i = 0; i < this.HotCateData.listData.length; i++) {
-          console.log(`pages/discovery/liebiaoye/liebiaoye?listName=${this.HotCateData.listData[i].listName}&city=${
-              this.city
-          }&cityId=${this.cityId}&title=${this.HotCateData.listData[i].title}&cateid=${
-              this.HotCateData.listData[i].cateId
-          }&fullpath=${this.HotCateData.listData[i].fullpath}`);
-      }
-      for (let i = 0; i < this.cateData.length; i++) {
-          for (let j = 0; j < this.cateData[i].imageListData.length; j++) {
-              console.log(`pages/discovery/liebiaoye/liebiaoye?listName=${this.cateData[i].imageListData[j].listName}&city=${
-                  this.city
-              }&cityId=${this.cityId}&title=${this.cateData[i].imageListData[j].title}&cateid=${
-                  this.cateData[i].imageListData[j].cateId
-              }&fullpath=${this.cateData[i].imageListData[j].fullpath}`);
-          }
-      }
       this.$apply();
   }
   onShareAppMessage() {}

@@ -45,8 +45,8 @@
 <script>
 import wepy from 'wepy';
 import Tab from '../components/tabs';
-import { get } from '../../../utils/http';
-import { GET_COUPONLIST, GET_UNIONID } from '../../../utils/url';
+import { get } from '../../utils/http';
+import { GET_COUPONLIST, GET_UNIONID } from '../../utils/url';
 
 const page = 1;
 const pagesize = 20;

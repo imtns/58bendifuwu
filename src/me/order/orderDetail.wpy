@@ -63,8 +63,8 @@
 </template>
 <script>
 import wepy from 'wepy';
-import { get } from '../../../utils/http';
-import { GET_ORDER } from '../../../utils/url';
+import { get } from '../../utils/http';
+import { GET_ORDER } from '../../utils/url';
 
 export default class OrderDetail extends wepy.page {
   data = {

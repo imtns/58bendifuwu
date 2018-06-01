@@ -1,4 +1,4 @@
-const im = require('../pages/vendors/im/index.js');
+const im = require('../vendors/im/index.js');
 
 let isInit = false;
 

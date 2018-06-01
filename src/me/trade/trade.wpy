@@ -41,7 +41,7 @@
 <script>
 import wepy from 'wepy';
 
-import globalDataService from '../../../utils/globalDataService';
+import globalDataService from '../../utils/globalDataService';
 
 export default class Trade extends wepy.page {
   config = {
