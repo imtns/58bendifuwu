@@ -24,7 +24,7 @@ const config = {
                 basePath: `${__dirname}/bgimages`,
             },
             autoprefixerConfig: {
-                browsers: ['last 11 iOS versions'],
+                browsers: ['> 0.1%'],
             },
         },
     },
@@ -36,7 +36,7 @@ if (prod) {
     merge.recursive(false, config, {
         compilers: {
             sass: {
-                outputStyle: 'compressed',
+                // outputStyle: 'compressed',
             },
             babel: {
                 sourceMap: false,

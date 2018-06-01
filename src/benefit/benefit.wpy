@@ -112,7 +112,7 @@ export default class Benefit extends wepy.page {
 }
 </script>
 <style lang="scss">
-@import '../../style/list.scss';
+@import '../style/list.scss';
 .msg_box {
   margin: 0 auto;
   text-align: center;
