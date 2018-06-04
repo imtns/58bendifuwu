@@ -18,7 +18,6 @@ const config = {
     },
     plugins: {
         parsecss: {
-            filter: /\.(scss)$/,
             base64Config: {
                 maxSize: 60,
                 basePath: `${__dirname}/bgimages`,
@@ -33,7 +32,7 @@ const config = {
     },
 };
 if (prod) {
-    merge.recursive(false, config, {
+    merge.recursive(false, config, {   
         compilers: {
             sass: {
                 // outputStyle: 'compressed',

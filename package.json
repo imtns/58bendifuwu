@@ -33,11 +33,12 @@
     "eslint-plugin-promise": "^3.5.0",
     "merge": "^1.2.0",
     "node-sass": "^4.8.0",
+    "path": "^0.12.7",
     "wepy-compiler-babel": "^1.5.1",
     "wepy-compiler-sass": "^1.3.8",
     "wepy-eslint": "^1.5.3",
     "wepy-plugin-imagemin": "^1.5.3",
-    "wepy-plugin-parsecss": "^0.0.1",
+    "wepy-plugin-parsecss": "^0.0.8",
     "wepy-plugin-uglifyjs": "^1.3.7"
   }
 }
