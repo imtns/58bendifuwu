@@ -300,7 +300,7 @@
 <!-- 评论End -->
 <!-- 底部悬浮 -->
 <view class="bottomBar">
-    <view class="miniBar" wx:if="{{coupon.coupon_type !== ''}}" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}"  @tap="goMiniProgram">
+    <view class="miniBar" wx:if="{{coupon.status === 1}}" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}"  @tap="goMiniProgram">
         <view class="miniBarIcon"></view>
         <text>小程序</text>
     </view>
