@@ -1,7 +1,7 @@
 <template>
 <view class="body">
     <scroll-view scroll-y="true" bindscroll="scroll" style="height: 100vh;" enable-back-to-top="true"  bindscrolltolower="reachBottom" >
-        <navigator wx:for="{{listArr}}" wx:key="{{index}}" @tap="chargingLink" url="../xiangqingye/xiangqingye?city={{city}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" >
+        <navigator wx:for="{{listArr}}" wx:key="{{index}}" @tap="chargingLink" url="../xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" >
             <view class="list"  @tap="chargingLink" data-url="{{item.url}}" data-type="{{item.dataType}}" >
                 <view class="list_l">
                     <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>
@@ -15,7 +15,7 @@
 							<text class="list_area">{{item.servicerange}}</text>
 						</view>
                         <view class="list_icon_box">
-                            <text class="list_icon_info list_icon_info_pink" wx:if="{{item.coupon && item.coupon.coupon_type !==''}}">立减十元</text>
+                            <text class="list_icon_info list_icon_info_pink" wx:if="{{item.coupon && item.coupon.coupon_type !==''}}">优惠券</text>
                             <text class="list_icon_info" wx:if="{{item.coupon && item.coupon.status !==0}}">小程序</text>
                             <text class="list_icon_info" wx:if="{{item.wltAge > 0}}">会员{{item.wltAge}}年</text>
                         </view>

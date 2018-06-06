@@ -8,9 +8,9 @@
     </block>
     </scroll-view>
     <scroll-view scroll-y="true" class="showBox" style="height:{{height}}px"  scroll-top="{{scrollTopNumber}}" >
-        <swiper wx:if="{{banner == 0 && bannerData}}" autoplay="true" class="swiperTop" indicator-dots="true" indicator-color="#e0e0e0" indicator-active-color="#ff552e">
+        <swiper wx:if="{{bannerData}}" autoplay="true" class="swiperTop" >
             <swiper-item>
-                <image src="{{bannerData.img}}" class="slide-image" mode="scaleToFill" />
+                <image src="{{bannerData.img}}"  @tap="redirectAd" data-link="{{bannerData.link}}" class="slide-image" mode="scaleToFill" />
             </swiper-item>
             <!-- <swiper-item>
                 <image src="https://img.58cdn.com.cn/ds/app_hy_bdfw/n_zx_Tbanner_1.jpg" class="slide-image" mode="scaleToFill" />
@@ -34,8 +34,8 @@
     </scroll-view>
 </view>
 <view class="adLayer" hidden="{{hideAd}}">
-     <image src="../../../image/Group.png" @tap="redirectAd" class="ad" mode="aspectFill" />
-     <image src="../../../image/adClose.png" class="adClose" mode="aspectFill" @tap="closeAd" />
+     <image src="/image/Group.png" @tap="redirectAd" data-link="{{adData.link}}" class="ad" mode="aspectFill" />
+     <image src="/image/adClose.png" class="adClose" mode="aspectFill" @tap="closeAd" />
 </view>
 </template>
 <script>
@@ -68,7 +68,9 @@ export default class Daleiye extends wepy.page {
       tabName: '推荐服务',
       onSelect: 0,
       banner: 0,
+      url: '',
       height: 0,
+      isShowed: false,
       hideAd: true,
       /* 类别 */
       listTit: [
@@ -174,10 +176,16 @@ export default class Daleiye extends wepy.page {
       }
   }
   methods = {
-      redirectAd() {
-          wx.switchTab({
-              url: '../../benefit/benefit',
-          });
+      redirectAd(e) {
+          const { link } = e.currentTarget.dataset;
+          if (link) {
+              wx.navigateTo({
+                  url: `../../${link}`,
+              });
+          }
+          //   wx.switchTab({
+          //       url: '../../benefit/benefit',
+          //   });
           this.hideAd = true;
       },
       closeAd() {
@@ -269,8 +277,9 @@ export default class Daleiye extends wepy.page {
       this.adData =
       typeof response.data.advert === 'object' &&
       JSON.parse(response.data.advert.adinfo);
-      if (this.adData) {
+      if (this.adData && !this.isShowed) {
           this.hideAd = false;
+          this.isShowed = true;
       }
       this.$apply();
       // 加cookie
@@ -283,6 +292,17 @@ export default class Daleiye extends wepy.page {
   async fresh(str) {
       const data = { type: str };
       const res = await get(url, { data });
+      this.bannerData =
+      typeof res.data.advertBanner === 'object' &&
+      JSON.parse(res.data.advertBanner.adinfo);
+      this.url = this.bannerData.link;
+      this.adData =
+      typeof res.data.advert === 'object' &&
+      JSON.parse(res.data.advert.adinfo);
+      if (this.adData && !this.isShowed) {
+          this.hideAd = false;
+          this.isShowed = true;
+      }
       this.hotTagData = [];
       this.HotCateData = res.data.HotCateData;
       this.mainData = [];
@@ -327,7 +347,8 @@ page {
   position: fixed;
   top: 0;
   left: 0;
-  height: 1100rpx;
+  overflow: scroll;
+  height: 98vh;
 }
 .title {
   width: 100%;

@@ -1,6 +1,6 @@
 import wepy from 'wepy';
 import app from '../app';
-import { get } from '../utils/http';
+import { get, post } from '../utils/http';
 
 const globalDataService = require('../utils/globalDataService');
 
@@ -76,5 +76,19 @@ export default class Mixin extends wepy.mixin {
             wx.setStorageSync('me', res.data.ret.profile);
             console.log(`role=${this.role}`);
         }
+    }
+    async setUserInfo(wxres) {
+        const header = { 'access-token': wx.getStorageSync('token') };
+        const data = {
+            encrypted_data: wxres.encryptedData,
+            iv: wxres.iv,
+            ticket: '05bd21691cfc1c9d', // 小程序标识符 用于小程序的区分
+        };
+        const res = await post(`${app.globalData.domain}/smallapp/wx-user/set-user-info`, {
+            header,
+            data,
+        });
+        console.log(res);
+        await this.getProfile();
     }
 }

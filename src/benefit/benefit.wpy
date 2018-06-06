@@ -24,7 +24,7 @@
                         </view>
                         <view class="list_c_b">
                             <view class="list_icon_box">
-                                <text class="list_icon_info list_icon_info_pink">立减十元</text>
+                                <text class="list_icon_info list_icon_info_pink">优惠券</text>
                                 <text class="list_icon_info">小程序</text>
                                 <text class="list_icon_info">会员{{item.year}}年</text>
                             </view>
@@ -83,18 +83,24 @@ export default class Benefit extends wepy.page {
           page,
           localname: app.globalData.city,
       };
-      const res = await get(GET_BENEFITLIST, { data });
-      this.list = this.list.concat(res.data.data);
-      if (res.data.data.length === 0) {
-          noMoreData = true;
-          if (page !== 1) {
-              toast('没有更多数据啦~');
+      let res = null;
+      try {
+          res = await get(GET_BENEFITLIST, { data });
+          this.list = this.list.concat(res.data.data);
+          if (res.data.data.length === 0) {
+              noMoreData = true;
+              if (page !== 1) {
+                  toast('没有更多数据啦~');
+              }
+              return;
           }
-          return;
-      }
-      if (this.list.length === 0) {
+          if (this.list.length === 0) {
+              this.finisiLoading = true;
+              return;
+          }
+      } catch (e) {
+          this.list = [];
           this.finisiLoading = true;
-          return;
       }
       this.$apply();
       console.log(res.data);
@@ -138,17 +144,16 @@ export default class Benefit extends wepy.page {
 }
 .coupon_button {
   position: absolute;
-  top:50%;
+  top: 50%;
   transform: translateY(-50%);
-  right:28rpx;
+  right: 28rpx;
   border: 1rpx solid rgb(254, 85, 46);
   padding: 0rpx 15rpx;
   border-radius: 50rpx;
   text-align: center;
   height: 48rpx;
   line-height: 48rpx;
-  color:rgb(254,85,46);
-  font-size:26rpx;
+  color: rgb(254, 85, 46);
+  font-size: 26rpx;
 }
-
 </style>

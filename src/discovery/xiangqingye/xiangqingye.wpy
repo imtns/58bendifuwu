@@ -3,18 +3,24 @@
 <view class="baseInfo">
     <view class="baseTit">{{infoTitle}}</view>
      <view class="tags">
+        <!-- <view class="tag"></view>
         <view class="tag"></view>
-        <view class="tag"></view>
-        <view class="tag"></view>
-        <button open-type="share" class="baseInfo_share">
-            <image class="baseInfo_shareIcon" src="../../../image/share.png"></image>
-            分享
-        </button>
-    </view> 
-    <view class="baseDate">
-        <text>发布时间 {{postDate}}</text>
+        <view class="tag"></view> -->
+        <view class="baseDate">
+            <text>发布时间 {{postDate}}</text>
         <!-- <text>已有{{liulan || 254545}}浏览</text> -->
-    </view>
+
+            <button open-type="share" class="baseInfo_share">
+            <image class="baseInfo_shareIcon" src="/image/share.png"></image>
+                分享
+            </button>
+        </view>
+
+    </view> 
+   <!--  <view class="baseDate">
+        <text>发布时间 {{postDate}}</text>
+        <text>已有{{liulan || 254545}}浏览</text>
+    </view> -->
 </view>
 <!-- 标签信息 -->
 <view class="markBox">
@@ -64,11 +70,11 @@
 <view class="mod-view view-coupon">
      <view class="coupon-shadow">
         <view class="coupon-box table"  @tap="goMiniProgram" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}">
-            <view class="cell one-text coupon-left"><image class="gift" src="../../../image/gift.png"></image></view>
+            <view class="cell one-text coupon-left"><image class="gift" src="/image/gift.png"></image></view>
             <!-- <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 2}}">{{coupon.relief}}<text class="coupon-discount">折</text></view>
             <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 1}}">￥{{coupon.relief}}</view> -->
             <view class="cell coupon-right">
-                <view class="first-row one-text " wx:if="{{coupon.coupon_type == 2}}"><text class="big-font">{{coupon.relief}}</text><text class="coupon-discount">折</text></view>
+                <view class="first-row one-text " wx:if="{{coupon.coupon_type == 2}}"><text class="big-font">{{coupon.relief*0.1}}</text><text class="coupon-discount">折</text></view>
                 <view class="first-row one-text " wx:if="{{coupon.coupon_type == 1}}">￥<text class="big-font">{{coupon.relief}}</text></view>
                 <view class="second-row one-text">满{{coupon.limit}}可用</view>
                 <!-- <view class="last-row" >2018.06.08-2018.07.01</view> -->
@@ -199,17 +205,17 @@
             <view class="fcbHigh">
                 <text class="fcbRq">人气</text>
                 <text class="fcbValue">{{wltEntity.extendMap.level_popularityVal}}</text>
-                <text class="fcbLevel">{{wltEntity.extendMap.level_popularityCompare==1?'高':wltEntity.extendMap.level_popularityCompare==0?'平':'低'}}</text>
+                <text class="fcbLevel">{{wltEntity.extendMap.level_popularityCompare==1?'高':wltEntity.extendMap.level_popularityCompare==0?'平':'平'}}</text>
             </view>
             <view class="fcbHigh">
                 <text class="fcbRq">活跃</text>
                 <text class="fcbValue">{{wltEntity.extendMap.level_activeVal}}</text>
-                <text class="fcbLevel"> {{wltEntity.extendMap.level_activeCompare==1?'高':wltEntity.extendMap.level_activeCompare==0?'平':'低'}}</text>
+                <text class="fcbLevel"> {{wltEntity.extendMap.level_activeCompare==1?'高':wltEntity.extendMap.level_activeCompare==0?'平':'平'}}</text>
             </view>
             <view class="fcbHigh">
                 <text class="fcbRq">服务</text>
                 <text class="fcbValue">{{wltEntity.extendMap.level_serviceVal}}</text>
-                <text class="fcbLevel">{{wltEntity.extendMap.level_serviceCompare==1?'高':wltEntity.extendMap.level_serviceCompare==0?'平':'低'}}</text>
+                <text class="fcbLevel">{{wltEntity.extendMap.level_serviceCompare==1?'高':wltEntity.extendMap.level_serviceCompare==0?'平':'平'}}</text>
             </view> 
         </view>
     </view>  
@@ -377,6 +383,7 @@ export default class Xiangqingye extends wepy.page {
       otherEntity: {}, // 其他认证
       wltEntity: {},
       serviceRange: [], // 服务区域
+      goblianxiren: '',
       coupon: {
           coupon_type: '',
       },
@@ -434,8 +441,8 @@ export default class Xiangqingye extends wepy.page {
           }
       },
       /**
-   * 控制服务描述展示
-   */
+     * 控制服务描述展示
+     */
       detailShow() {
           if (this.detailShow) {
               this.detailShow = false;
@@ -456,6 +463,8 @@ export default class Xiangqingye extends wepy.page {
       });
       Object.assign(this, options);
       this.listName = options.cate2ListName;
+      this.infoid = options.infoid;
+      this.sign = options.sign;
       const url = `${host}/${options.city}/${options.cate2ListName}/${
           options.infoid
       }x.shtml`;
@@ -464,7 +473,10 @@ export default class Xiangqingye extends wepy.page {
       const response = result.data;
 
       Object.assign(this, response);
-      this.shoplogo = response.shop && response.shop.extendMap && response.shop.extendMap.shoplogo
+      this.shoplogo =
+      response.shop &&
+      response.shop.extendMap &&
+      response.shop.extendMap.shoplogo
           ? response.shop.extendMap.shoplogo
           : 'https://img.58cdn.com.cn/olympia/img/shenghuo/final/default-shopimg.png';
       this.userId = response.uid;
@@ -477,14 +489,13 @@ export default class Xiangqingye extends wepy.page {
       this.$apply();
   }
 
-
   // 分享
   onShareAppMessage() {
       return {
           title: '商家信息详情',
-          path: `discovery/xiangqing/liebiaoye?city=${this.city}&listName=${
+          path: `discovery/xiangqingye/xiangqingye?city=${this.city}&cate2ListName=${
               this.listName
-          }&title=${this.title}`,
+          }&infoid=${this.infoid}&sign=${this.sign}`,
       };
   }
 }

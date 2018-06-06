@@ -55,10 +55,12 @@
             <text class="title">我的订单</text>
             <image src="/image/icon_more.png" class="image2"></image>
         </view>-->
-        <view class="list_li" @tap="tradeUrl" data-url="coupon/coupon">
-            <image src="/image/youhui.png" class="image1"></image>
-            <text class="title">我的优惠券</text>
-            <image src="/image/icon_more.png" class="image2"></image>
+        <view class="list_li">
+            <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-url="coupon/coupon">
+                <image src="/image/youhui.png" class="image1"></image>
+                <text class="title">我的优惠券</text>
+                <image src="/image/icon_more.png" class="image2"></image>
+            </button>
         </view> 
             <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-url="profile/profile">
                 <image src="/image/area.png" class="image1"></image>
@@ -93,6 +95,7 @@ export default class Me extends wepy.page {
       hidden: false,
       url: '',
       isQB: !!app.globalData.isQB,
+      allowed: false,
   };
   mixins = [Mixin];
   onLoad() {
@@ -107,6 +110,7 @@ export default class Me extends wepy.page {
                   // 已经授权，可以直接调用 getUserInfo 获取头像昵称
                   wx.getUserInfo({
                       success(resp) {
+                          that.allowed = true;
                           that.userInfo = resp.userInfo;
                           that.$apply();
                           that.getProfile();
@@ -133,13 +137,18 @@ export default class Me extends wepy.page {
           });
       },
       async bindGetUserInfo(e) {
+          const that = this;
           if (e.detail.userInfo) {
-              await this.getProfile();
-              if (e.currentTarget.dataset.url) {
-                  wx.navigateTo({
-                      url: e.currentTarget.dataset.url,
-                  });
-              }
+              wx.getUserInfo({
+                  success(resp) {
+                      that.setUserInfo(resp);
+                      if (e.currentTarget.dataset.url) {
+                          wx.navigateTo({
+                              url: e.currentTarget.dataset.url,
+                          });
+                      }
+                  },
+              });
               console.log(e.detail.userInfo);
           }
       },

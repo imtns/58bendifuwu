@@ -10,30 +10,29 @@
             <view @tap="goMiniProgram" data-appid="{{item.appid}}"  data-userid="{{item.userid}}">
                 <view class="coupon">
                     <view class="coupon-amout {{currentStatus != 1 ? 'used-font':''}}">
-                        <view  wx:if="{{item.type==1}}" class="coupon-amount-price">￥<text class="price">{{item.amout}}</text></view>
-                        <view  wx:if="{{item.type==2}}" class="coupon-amount-price"><text class="price">{{item.amout}}</text>折</view>
-                        <view class="coupon-amout-condition  {{currentStatus != 1  ? 'used-font':''}}">满{{item.amoutContiton}}可用</view>
+                        <view  wx:if="{{item.coupon_type==1}}" class="coupon-amount-price">￥<text class="price">{{item.relief}}</text></view>
+                        <view  wx:if="{{item.coupon_type==2}}" class="coupon-amount-price"><text class="price">{{item.relief*0.1}}</text>折</view>
+                        <view class="coupon-amout-condition  {{currentStatus != 1  ? 'used-font':''}}">满{{item.limit}}可用</view>
                     </view>
-                    <view wx:if="{{item.status == 2}}" class="used-stamp"></view>
                     <view class="coupon-info {{currentStatus != 1  ? 'used-font':''}}">
-                    <text wx:if="{{item.status ==1}}" class="tip">店</text><text class="coupon-info-title {{currentStatus != 1  ? 'used-font':''}}">{{item.title}}</text>
+                    <text class="tip">店</text><text class="coupon-info-title">{{item.nick_name}}</text>
                     <view class="coupon-info-block">
-                            <view class="info">
-                                <view class="coupon-info-type  {{currentStatus != 1 ? 'used-font':''}}">{{item.conditionTitle}}</view>
-                                <view class="coupon-info-range  {{currentStatus != 1  ? 'used-font':''}} ">{{item.expireTimeStart}}-{{item.expireTimeEnd}}</view>
-                            </view>
-                            <view class="coupon-info-button  {{currentStatus != 1 ? 'used-button':''}}">
-                                {{currentStatus == 1 ?'立即使用':currentStatus == 2 ?'已使用':'已过期'}}
-                            </view>
+                        <view class="info">
+                            <view class="coupon-info-type">{{item.sub_title}}</view>
+                            <view class="coupon-info-range">{{item.start_time}}-{{item.end_time}}</view>
+                        </view>
+                        <view class="coupon-info-button  {{currentStatus != 1 ? 'used-button':''}}">
+                               立即使用
+                         </view>
                     </view>         
                     </view>
-                    <view wx:if="{{item.status ==1}}" class="arrow" ></view>
+                    <view  class="arrow" ></view>
                 </view>
             </view>
         </repeat>
       </scroll-view>
       <view class="coupon-empty" hidden="{{hasCoupon}}">
-        <image class="coupon-empty-icon" src="../../../image/empty.png"></image>
+        <image class="coupon-empty-icon" src="/image/empty.png"></image>
         <text class="text">
             这里空空的~
             快去领取优惠券装满它
@@ -47,6 +46,7 @@ import wepy from 'wepy';
 import Tab from '../components/tabs';
 import { get } from '../../utils/http';
 import { GET_COUPONLIST, GET_UNIONID } from '../../utils/url';
+import Mixin from '../../mixin/mixin';
 
 const page = 1;
 const pagesize = 20;
@@ -61,6 +61,7 @@ export default class Coupon extends wepy.page {
       currentStatus: 1,
       noCoupon: false,
   };
+  mixins = [Mixin];
   methods = {
       //   tabClick: value => {
       //       this.currentStatus = value.id;
@@ -118,8 +119,8 @@ page {
 .coupon-view {
   z-index: 1;
   position: relative;
-  top: 108rpx;
-  padding: 0 30rpx;
+//   top: 108rpx;
+  padding: 30rpx 30rpx;
 }
 
 .coupon-tabs {
