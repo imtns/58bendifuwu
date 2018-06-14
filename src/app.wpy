@@ -2,6 +2,7 @@
 import wepy from 'wepy';
 import 'wepy-async-function';
 
+const RandExp = require('randexp');
 const im = require('./utils/IMInit.js');
 const _im = require('./vendors/im/index.js');
 /* eslint-disable no-undef */
@@ -129,6 +130,13 @@ const app = {
             //         console.log(that.objToString(e));
             //     },
             // });
+            const randomStr = new RandExp(/^[a-zA-Z0-9]{15,40}$/).gen();
+            if (!wx.getStorageSync('id58')) {
+                wx.setStorageSync('id58', randomStr);
+                this.globalData.testHeader.id58 = randomStr;
+            } else {
+                this.globalData.testHeader.id58 = wx.getStorageSync('id58');
+            }
         } else {
             wx.login({
                 // 小程序登录，获取code
@@ -284,7 +292,7 @@ export default class extends wepy.app {
       window: {
           navigationBarTitleText: '消息',
           enablePullDownRefresh: false,
-          qbDebugKey: 'ba76308c5325636260463466bc887b31',
+          qbDebugKey: '00114be7ba17dc390b29a63cbc887b31',
       },
       networkTimeout: {
           request: 10000,
@@ -298,6 +306,9 @@ export default class extends wepy.app {
   onLaunch(options) {
       console.log('app launch---scene', options.scene);
       wx.setStorageSync('scene', options.scene);
+
+      console.log(`${options.refer}22222222222222222222`);
+      console.log(`${options.referrerInfo}333333333333333333333`);
       // 把模板消息的参数存储上
       const self = app;
       self.flag++;
@@ -354,7 +365,8 @@ export default class extends wepy.app {
       const self = app;
       self.flag++;
       console.log(`show-------flag${self.flag}`);
-      console.log('app onShow---scene', options.scene);
+      console.log('app onShow---scene------------------------------------', options.scene);
+      console.log(options.referrerInfo);
       if (options.scene === 1038) {
       // 1038场景值是从另一个小程序返回
           console.log('1038------gfl onShow');

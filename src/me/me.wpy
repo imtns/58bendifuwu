@@ -98,10 +98,12 @@ export default class Me extends wepy.page {
       allowed: false,
   };
   mixins = [Mixin];
-  onLoad() {
+  onShow() {
       track('show', {
           pagetype: 'index', // 页面类型，没有置空【必填】
       });
+  }
+  onLoad() {
       const that = this;
       this.role = wx.getStorageSync('role');
       wx.getSetting({
@@ -139,16 +141,24 @@ export default class Me extends wepy.page {
       async bindGetUserInfo(e) {
           const that = this;
           if (e.detail.userInfo) {
-              wx.getUserInfo({
-                  success(resp) {
-                      that.setUserInfo(resp);
-                      if (e.currentTarget.dataset.url) {
-                          wx.navigateTo({
-                              url: e.currentTarget.dataset.url,
-                          });
-                      }
-                  },
-              });
+              if (that.allowed) {
+                  wx.navigateTo({
+                      url: e.currentTarget.dataset.url,
+                  });
+              } else {
+                  wx.getUserInfo({
+                      success(resp) {
+                          that.allowed = true;
+                          that.setUserInfo(resp);
+                          if (e.currentTarget.dataset.url) {
+                              wx.navigateTo({
+                                  url: e.currentTarget.dataset.url,
+                              });
+                          }
+                          that.$apply();
+                      },
+                  });
+              }
               console.log(e.detail.userInfo);
           }
       },

@@ -5,6 +5,7 @@
     <view style="left:{{left}}rpx" class="coupon-tabs-underline"></view>
     </view> -->
     <view class="coupon-view">
+      <block wx:if="{{couponList}}">
       <scroll-view lower-threshold="70" scroll-top="{{scrollValue}}" bindscrolltolower="reachBottom" style="height:91vh" scroll-y="true">
         <repeat for="{{couponList}}" key="index" index="index" item="item">
             <view @tap="goMiniProgram" data-appid="{{item.appid}}"  data-userid="{{item.userid}}">
@@ -31,13 +32,16 @@
             </view>
         </repeat>
       </scroll-view>
-      <view class="coupon-empty" hidden="{{hasCoupon}}">
+      </block>
+      <block wx:else>
+      <view class="coupon-empty">
         <image class="coupon-empty-icon" src="/image/empty.png"></image>
         <text class="text">
-            这里空空的~
-            快去领取优惠券装满它
+            暂时没有发现您的优惠券~
+            去首页查找更多信息吧
         </text>
       </view>
+      </block>
     </view>
   </view>
 </template>
@@ -56,10 +60,8 @@ export default class Coupon extends wepy.page {
   };
   data = {
       scrollValue: 0,
-      hasCoupon: true,
       couponList: [],
       currentStatus: 1,
-      noCoupon: false,
   };
   mixins = [Mixin];
   methods = {

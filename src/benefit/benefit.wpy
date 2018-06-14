@@ -70,10 +70,12 @@ export default class Benefit extends wepy.page {
       },
   };
   mixins = [Mixin];
-  onLoad() {
+  onShow() {
       track('show', {
           pagetype: 'list', // 页面类型，没有置空【必填】
       });
+  }
+  onLoad() {
       this.getList();
   }
   async getList() {

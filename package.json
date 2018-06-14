@@ -12,6 +12,7 @@
   "author": "zhangzhihua <zhangzhihua01@58ganji.com>",
   "license": "MIT",
   "dependencies": {
+    "randexp": "^0.4.9",
     "wepy": "^1.6.0",
     "wepy-async-function": "^1.4.5"
   },

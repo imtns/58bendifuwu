@@ -110,10 +110,12 @@ Page({
             }
         }
     },
-    onLoad(){
+    onShow(){
         track('show',{
             pagetype: "list", // 页面类型，没有置空【必填】
         })
+    },
+    onLoad(){
         this.checkPPU()
     },
     delayFun(){
