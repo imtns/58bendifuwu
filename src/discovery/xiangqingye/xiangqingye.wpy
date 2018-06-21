@@ -395,6 +395,7 @@ export default class Xiangqingye extends wepy.page {
           tick: 0,
           hidden: true,
       },
+      openid: '',
   };
   mixins = [Mixin, CallMixin];
 
@@ -484,8 +485,11 @@ export default class Xiangqingye extends wepy.page {
           this.onmapFun();
       }
       if (options.tel) {
-          this.getCall(1);
+          setTimeout(() => {
+              this.getCall(1);
+          }, 1300);
       }
+      this.openid = options.openid || '';
       this.$apply();
   }
 

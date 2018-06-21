@@ -87,17 +87,35 @@ export default class Liebiaoye extends wepy.page {
       // 扣费链接
       async chargingLink(e) {
           if (e.currentTarget.dataset.type === 'adinfo') {
-              const header = { cookie: app.globalData.listCookie || tagCookie };
-              const data = {};
-              try {
-                  const result = await get(e.currentTarget.dataset.url, {
-                      data,
-                      header,
-                  });
-                  console.log(result);
-              } catch (err) {
-                  console.log(err);
-              }
+              //   const header = { cookie: app.globalData.listCookie || tagCookie };
+              //   const data = {};
+              //   try {
+              //       const result = await get(e.currentTarget.dataset.url, {
+              //           data,
+              //           header,
+              //       });
+              //       console.log(result);
+              //   } catch (err) {
+              //       console.log(err);
+              //   }
+              const header = {
+                  'content-type': 'application/json',
+                  cookie: app.globalData.listCookie,
+              };
+              wx.request({
+                  url: e.currentTarget.dataset.url,
+                  data: {},
+                  method: 'GET',
+                  dataType: 'json',
+                  header: header,
+                  success(response) {
+                      console.log('扣费链接');
+                      console.log(response);
+                  },
+                  fail() {
+                      return false;
+                  },
+              });
           }
       },
       reachBottom() {

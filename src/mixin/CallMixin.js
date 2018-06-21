@@ -36,19 +36,37 @@ export default class CallMixin extends wepy.mixin {
             source: 0,
             type: 0,
         };
-        if (e === 1) {
+        if (this.openid) {
             data = Object.assign(data, {
                 openid: this.openid,
             });
         } else if (typeof e === 'object' && e.currentTarget.dataset.type === 'adinfo') {
-            const header = { cookie: app.globalData.listCookie };
-            const data = { };
-            try {
-                const result = await get(e.currentTarget.dataset.url, { data, header });
-                console.log(result);
-            } catch (err) {
-                console.log(err);
-            }
+            // const header = { cookie: app.globalData.listCookie };
+            // const dataHeader = {};
+            // try {
+            //     const result = await get(e.currentTarget.dataset.url, { dataHeader, header });
+            //     console.log(result);
+            // } catch (err) {
+            //     console.log(err);
+            // }
+            const header = {
+                'content-type': 'application/json',
+                cookie: app.globalData.listCookie,
+            };
+            wx.request({
+                url: e.currentTarget.dataset.url,
+                data: {},
+                method: 'GET',
+                dataType: 'json',
+                header: header,
+                success(response) {
+                    console.log('扣费链接');
+                    console.log(response);
+                },
+                fail() {
+                    return false;
+                },
+            });
         }
 
         const header = app.globalData.testHeader;

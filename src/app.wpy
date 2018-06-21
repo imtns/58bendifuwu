@@ -333,17 +333,22 @@ export default class extends wepy.app {
               },
               router_type: 'navigateTo',
           };
-      }
-      if (wx.getStorageSync('ppu')) {
-      // 如果有ppu
-          console.log('app有ppu');
-          if (wx.getStorageSync('im_token') && !_im.me()) {
-              im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+          if (wx.getStorageSync('ppu')) {
+              // 如果有ppu
+              console.log('app有ppu');
+              if (wx.getStorageSync('im_token') && !_im.me()) {
+                  im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+              } else {
+                  im.getIMToken(im.imInit, self.optionsmb);
+              }
           } else {
-              im.getIMToken(im.imInit, self.optionsmb);
+              im.callPassport();
           }
-      } else {
-      // im.callPassport();
+          im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+          if (self.optionsmb && self.optionsmb.user_id) {
+              im.gotoChat(self.optionsmb);
+              console.log('登录youcashu----------------');
+          }
       }
       console.log(`app launch ppu${wx.getStorageSync('ppu')}`);
       console.log(`app launch uid${wx.getStorageSync('uid')}`);
@@ -351,12 +356,7 @@ export default class extends wepy.app {
       console.log(`app launch token${wx.getStorageSync('token')}`);
       self.login(() => {
           self.globalData.tokenFirstReady = true;
-          console.log('登录层高----------------');
-          im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-          if (self.optionsmb && self.optionsmb.user_id) {
-              im.gotoChat(self.optionsmb);
-              console.log('登录youcashu----------------');
-          }
+          //    console.log('登录层高----------------');
       });
   }
 
@@ -402,13 +402,59 @@ export default class extends wepy.app {
               /** 新逻辑 */
               if (!wx.getStorageSync('im_token')) {
                   im.getIMToken(im.imInit, self.optionsmb);
+                  setTimeout(() => {
+                      im.gotoChat(self.optionsmb);
+                  }, 1500);
               } else if (!im.isInit) {
                   console.log('如果有imtoken,但未初始化');
                   im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+                  setTimeout(() => {
+                      im.gotoChat(self.optionsmb);
+                  }, 1500);
               }
               im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
           } else {
               im.callPassport();
+          }
+      }
+      if (options.scene === 1011) {
+          const {
+              uid, infoid, rootcateid, cateid, usersource,
+          } = options.query;
+          if (uid) {
+              // 如果从消息推送进入到小程序
+              console.log('uid---------------存在');
+              self.optionsmb = {
+                  user_id: uid, // 聊天对方 id
+                  user_source: usersource, // 聊天对方来源
+                  refer: {
+                      invitation: {
+                          id: infoid,
+                          rootcateid: rootcateid,
+                          cateid: cateid,
+                          scene: '',
+                          role: 1,
+                          refer_time: new Date().getTime(),
+                      },
+                  },
+                  router_type: 'navigateTo',
+              };
+              if (wx.getStorageSync('ppu')) {
+              // 如果有ppu
+                  console.log('app有ppu');
+                  if (wx.getStorageSync('im_token') && !_im.me()) {
+                      im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+                  } else {
+                      im.getIMToken(im.imInit, self.optionsmb);
+                  }
+              } else {
+                  im.callPassport();
+              }
+              im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+              if (self.optionsmb && self.optionsmb.user_id) {
+                  im.gotoChat(self.optionsmb);
+                  console.log('登录youcashu----------------');
+              }
           }
       }
       if (options.scene === 1043) {
