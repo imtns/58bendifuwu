@@ -82,7 +82,9 @@
 import wepy from 'wepy';
 import Mixin from '../mixin/mixin';
 
-const app = require('../app');
+
+const { fuwu } = require('../utils/globalDataService');
+
 const { track } = require('../utils/track');
 
 export default class Me extends wepy.page {
@@ -94,7 +96,7 @@ export default class Me extends wepy.page {
       me: {},
       hidden: false,
       url: '',
-      isQB: !!app.globalData.isQB,
+      isQB: !!fuwu.globalData.isQB,
       allowed: false,
   };
   mixins = [Mixin];

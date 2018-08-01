@@ -1,5 +1,7 @@
 import wepy from 'wepy';
 
+const { makeid } = require('../utils/random');
+
 const http = (method, ...props) => new Promise((resolve, reject) => {
     try {
         const url = props[0];
@@ -9,7 +11,15 @@ const http = (method, ...props) => new Promise((resolve, reject) => {
             data = {};
         }
         wx.showLoading && wx.showLoading({ title: '加载中', mask: true });
-        const header = props[1] ? props[1].header : null;
+        let header = props[1] ? props[1].header : null;
+        if (!header || (header && !('cookie' in header))) {
+            header = Object.assign(header || {}, {
+                cookie: wx.getStorageSync('tagCookie'),
+            });
+        }
+        if (!header.id58) {
+            header.id58 = makeid();
+        }
         wepy.request({
             url: url + (~url.indexOf('?') ? '' : '?'),
             data,

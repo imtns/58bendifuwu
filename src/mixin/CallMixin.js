@@ -1,7 +1,9 @@
 import wepy from 'wepy';
-import app from '../app';
+
 import { get } from '../utils/http';
 import util from '../utils/util';
+
+const { fuwu } = require('../utils/globalDataService');
 
 let timerId = null;
 export default class CallMixin extends wepy.mixin {
@@ -51,7 +53,7 @@ export default class CallMixin extends wepy.mixin {
             // }
             const header = {
                 'content-type': 'application/json',
-                cookie: app.globalData.listCookie,
+                cookie: fuwu.globalData.listCookie,
             };
             wx.request({
                 url: e.currentTarget.dataset.url,
@@ -69,8 +71,8 @@ export default class CallMixin extends wepy.mixin {
             });
         }
 
-        const header = app.globalData.testHeader;
-        const url = `${app.globalData.domain}/smallapp/common/link`;
+        const header = fuwu.globalData.testHeader;
+        const url = `${fuwu.globalData.domain}/smallapp/common/link`;
         try {
             const result = await get(url, { data, header });
             const res = result.data;

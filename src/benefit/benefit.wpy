@@ -43,10 +43,12 @@ import wepy from 'wepy';
 
 import { get } from '../utils/http';
 import { GET_BENEFITLIST } from '../utils/url';
-import app from '../app';
+
 import { toast } from '../utils/util';
 import { track } from '../utils/track';
 import Mixin from '../mixin/mixin';
+
+const { fuwu } = require('../utils/globalDataService');
 
 const pagesize = 20;
 let page = 1;
@@ -83,7 +85,7 @@ export default class Benefit extends wepy.page {
       const data = {
           pagesize,
           page,
-          localname: app.globalData.city,
+          localname: fuwu.globalData.city,
       };
       let res = null;
       try {

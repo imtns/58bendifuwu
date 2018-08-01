@@ -355,8 +355,12 @@ import CallMixin from '../../mixin/CallMixin';
 import Mixin from '../../mixin/mixin';
 
 const im = require('../../utils/IMInit.js');
-const app = require('../../app');
+const { fuwu } = require('../../utils/globalDataService');
 
+let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+if (fuwu.globalData.isQB) {
+    tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+}
 const host = 'https://xiaochengxu.58.com';
 export default class Xiangqingye extends wepy.page {
   config = {
@@ -367,7 +371,7 @@ export default class Xiangqingye extends wepy.page {
    * 页面的初始数据
    */
   data = {
-      isQB: app.globalData.isQB,
+      isQB: fuwu.globalData.isQB,
       detailShow: true, // 控制服务描述展示
       imgShow: true, // 控制图片展示
       bgShow: true, // 控制背景展示
@@ -384,6 +388,7 @@ export default class Xiangqingye extends wepy.page {
       wltEntity: {},
       serviceRange: [], // 服务区域
       goblianxiren: '',
+      fullpath: '',
       coupon: {
           coupon_type: '',
       },
@@ -417,6 +422,7 @@ export default class Xiangqingye extends wepy.page {
               },
               router_type: 'navigateTo',
           };
+          fuwu.optionsmb = options;
           im.gotoChat(options);
       }, /**
      * 地图跳转
@@ -452,27 +458,43 @@ export default class Xiangqingye extends wepy.page {
           }
       },
   };
-
+  onShow() {
+      setTimeout(() => {
+          track('show', {
+              cateid: this.fullpath,
+              area: fuwu.globalData.cityId,
+              pagetype: 'detail',
+          });
+      }, 3500);
+  }
   /**
    * 生命周期函数--监听页面加载
    */
   async onLoad(options) {
-      track('show', {
-          cateid: options.fullpath,
-          area: app.globalData.cityId,
-          pagetype: 'detail',
-      });
+      if (options.tagCookie) {
+          tagCookie = decodeURIComponent(options.tagCookie || '');
+      }
+      wx.setStorageSync('tagCookie', tagCookie);
       Object.assign(this, options);
       this.listName = options.cate2ListName;
       this.infoid = options.infoid;
       this.sign = options.sign;
+      this.fullpath = options.fullpath;
+
       const url = `${host}/${options.city}/${options.cate2ListName}/${
           options.infoid
       }x.shtml`;
       // const url = 'http://xiaochengxu.58.com/cd/zulin/32712780174284x.shtml';
       const result = await get(url);
       const response = result.data;
-
+      if (!this.fullpath) {
+          this.fullpath = result.data.fullpath;
+      }
+      if (!fuwu.globalData.listCookie) {
+          const setcookie =
+          result.header['Set-Cookie'] || result.header['set-cookie'];
+          this.updataCookie(setcookie);
+      }
       Object.assign(this, response);
       this.shoplogo =
       response.shop &&

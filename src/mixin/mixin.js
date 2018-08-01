@@ -1,8 +1,7 @@
 import wepy from 'wepy';
-import app from '../app';
 import { get, post } from '../utils/http';
 
-const globalDataService = require('../utils/globalDataService');
+const { fuwu, globalDataService } = require('../utils/globalDataService');
 
 export default class Mixin extends wepy.mixin {
     data = {
@@ -12,7 +11,7 @@ export default class Mixin extends wepy.mixin {
         goMiniProgram(e) {
             const { appid, userid } = e.currentTarget.dataset;
             wx.navigateToMiniProgram({
-                appId: app.globalData.mainAppId,
+                appId: fuwu.globalData.mainAppId,
                 path: `/pages/index58/index58?appid=${appid}&userid=${userid}`,
                 success(res) {
                     console.log(res);
@@ -22,7 +21,7 @@ export default class Mixin extends wepy.mixin {
     }
     // 获取cookie
     updataCookie(strCookie) {
-        if (app.globalData.isQB) return;
+        if (fuwu.globalData.isQB) return;
         console.log(strCookie);
         const str = strCookie;
         let arr = [];
@@ -51,8 +50,8 @@ export default class Mixin extends wepy.mixin {
                 }
             });
         }
-        globalDataService.set('listCookie', wx.getStorageSync('tagCookie') + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';'));
-        console.log(app.globalData.listCookie);
+        globalDataService.set('listCookie', `${wx.getStorageSync('tagCookie') + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';')}`);
+        console.log(fuwu.globalData.listCookie);
     }
     async getCity() {
         try {
@@ -66,7 +65,7 @@ export default class Mixin extends wepy.mixin {
     }
     async getProfile() {
         const header = { 'access-token': wx.getStorageSync('token') };
-        const res = await get(`${app.globalData.domain}/smallapp/user/profile`, {
+        const res = await get(`${fuwu.globalData.domain}/smallapp/user/profile`, {
             header,
         });
         if (res.data.code === 1) {
@@ -84,7 +83,7 @@ export default class Mixin extends wepy.mixin {
             iv: wxres.iv,
             ticket: '05bd21691cfc1c9d', // 小程序标识符 用于小程序的区分
         };
-        const res = await post(`${app.globalData.domain}/smallapp/wx-user/set-user-info`, {
+        const res = await post(`${fuwu.globalData.domain}/smallapp/wx-user/set-user-info`, {
             header,
             data,
         });

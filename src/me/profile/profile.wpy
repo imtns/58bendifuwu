@@ -45,7 +45,8 @@ import Mixin from '../../mixin/mixin';
 import { openDebug } from '../../utils/debug';
 
 const util = require('../../utils/util');
-const app = require('../../app');
+const { fuwu } = require('../../utils/globalDataService');
+
 const { post } = require('../../utils/http');
 
 export default class MyProfile extends wepy.page {
@@ -76,7 +77,7 @@ export default class MyProfile extends wepy.page {
         );
     }
     onShow() {
-        const { hyname } = app.globalData;
+        const { hyname } = fuwu.globalData;
         if (hyname) {
             this.me.trade = hyname;
             this.setProfile();
@@ -134,7 +135,7 @@ export default class MyProfile extends wepy.page {
             }, [])
             .join('&');
         const header = { 'access-token': wx.getStorageSync('token') };
-        const res = await post(`${app.globalData.domain}/smallapp/user/profile-set`, { data, header });
+        const res = await post(`${fuwu.globalData.domain}/smallapp/user/profile-set`, { data, header });
         if (res.data.code === 1) {
             wx.setStorageSync('me', that.me);
         }

@@ -48,18 +48,17 @@ import wepy from 'wepy';
 
 import CallMixin from '../../mixin/CallMixin';
 import Mixin from '../../mixin/mixin';
-import app from '../../app';
 import { get } from '../../utils/http';
 import { track } from '../../utils/track';
 import { toast } from '../../utils/util';
 
-const globalDataService = require('../../utils/globalDataService');
+const { globalDataService, fuwu } = require('../../utils/globalDataService');
 
 const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
 let noMoreData = false;
 let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
-if (app.globalData.isQB) {
+if (fuwu.globalData.isQB) {
     tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
 }
 
@@ -100,7 +99,7 @@ export default class Liebiaoye extends wepy.page {
               //   }
               const header = {
                   'content-type': 'application/json',
-                  cookie: app.globalData.listCookie,
+                  cookie: fuwu.globalData.listCookie,
               };
               wx.request({
                   url: e.currentTarget.dataset.url,
@@ -142,7 +141,9 @@ export default class Liebiaoye extends wepy.page {
       if (o.tagCookie) {
           tagCookie = decodeURIComponent(o.tagCookie || '');
       }
-      globalDataService.set('tagCookie', tagCookie);
+      if (fullpath) this.fullpath = fullpath;
+      wx.setStorageSync('tagCookie', tagCookie);
+      // globalDataService.set('tagCookie', tagCookie);
       wx.setNavigationBarTitle({
           title,
       });
@@ -160,12 +161,14 @@ export default class Liebiaoye extends wepy.page {
       } else {
           this.getListData();
       }
+  }
+  onShow() {
       setTimeout(() => {
           track('show', {
-              cateid: fullpath,
+              cateid: this.fullpath,
               pagetype: 'list', // 页面类型，没有置空【必填】
           });
-      }, 2000);
+      }, 3500);
   }
   /**
    * 获取列表页数据
@@ -173,7 +176,7 @@ export default class Liebiaoye extends wepy.page {
   async getListData() {
       if (noMoreData || !this.listName) return;
       const header = {
-          cookie: app.globalData.listCookie || tagCookie,
+          cookie: fuwu.globalData.listCookie || tagCookie,
       };
       const data = { openId: wx.getStorageSync('token') };
       const url = `${host}/${this.city}/${this.listName}/pn${this.page}`;
@@ -190,8 +193,11 @@ export default class Liebiaoye extends wepy.page {
           }
           const listNewArr = this.listArr.concat(res.infos);
           this.listArr = listNewArr;
+          if (!this.fullpath) {
+              this.fullpath = listNewArr[0].fullpath;
+          }
           this.$apply();
-          if (!app.globalData.listCookie) {
+          if (!fuwu.globalData.listCookie) {
               const setcookie =
           result.header['Set-Cookie'] || result.header['set-cookie'];
               this.updataCookie(setcookie);

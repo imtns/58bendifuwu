@@ -7,7 +7,9 @@ const _timeFormat = require('../../utils/timeFormat.js');
 // 图片路径添加https前缀
 const _convertUrl = require('../../utils/util').convertUrl;
 const _config = require('../../global/config');
-const app = require('../../../../app');
+
+const {fuwu} = require('../../../../utils/globalDataService');
+
 let _sdk;
 let _have_more = true; // 是否仍有未加载的会话
 let _load_count = 0; // 已加载会话数量
@@ -74,7 +76,7 @@ Page({
             showLoading: true,
             loadInfo: ''
         },
-        isQB:!!app.globalData.isQB,
+        isQB:!!fuwu.globalData.isQB,
         isLogin:!!wx.getStorageSync('ppu')
     },
     login(){
@@ -195,6 +197,10 @@ Page({
                 });
             });
         };
+        // if(!_sdk){
+        //     im.callPassport();
+        //     return;
+        // }
         // 注册session列表数据变更事件，通知页面更新
         _sdk.listen('sessionChanged', handleSession);
         // 未读消息数变更时，更新会话列表

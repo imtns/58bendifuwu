@@ -2,7 +2,7 @@
 import wepy from 'wepy';
 import 'wepy-async-function';
 
-const RandExp = require('randexp');
+const { fuwu } = require('./utils/globalDataService.js');
 const im = require('./utils/IMInit.js');
 const _im = require('./vendors/im/index.js');
 /* eslint-disable no-undef */
@@ -11,498 +11,237 @@ const _im = require('./vendors/im/index.js');
 // const ppu = wx.getStorageSync('ppu');
 // const uid = wx.getStorageSync('uid');
 // const imtoken = wx.getStorageSync('im_token');
-const globalData = {
-    os: null,
-    accesstoken: null,
-    ppu: null,
-    uid: null,
-    imtoken: null,
-    tokenFirstReady: false,
-    domain: 'https://bossapi.58.com',
-    mainAppId: 'wx86c7b0019914401c',
-    userInfo: null,
-    isQB: wx.getSystemInfoSync().isQB || false, // 是否为QQ浏览器
-    city: 'bj',
-    netType: '',
-    hyname: '',
-    token: '',
-    userType: 0,
-    testHeader: {
-        version: '7',
-        channel: '5',
-        id58: '',
-        ip: '10.252.22.236',
-    },
-    listCookie: '',
-};
 
-const app = {
-    globalData,
-
-    optionsmb: {}, // gochat的参数
-    global: '',
-    flag: 0,
-
-    login(callback) {
-        const self = app;
-        if (callback) {
-            console.log('pushing callback');
-            self.loginMethodStatue.callbackStack.push(callback);
-            if (self.loginMethodStatue.busy) {
-                return;
-            }
-            self.loginMethodStatue.busy = true;
-        }
-
-        function bugSetStorage() {
-            try {
-                wx.setStorageSync('bugSetStorage', '1');
-            } catch (e) {
-                console.log('bug来了');
-                bugSetStorage();
-            }
-        }
-        function getSmallAppToken(wxcode) {
-            // 小程序登录，传值code换回openId,sessionKey,unionId
-            console.log('request to get token.');
-            wx.request({
-                url: `${self.globalData.domain}/smallapp/wx-user/login`,
-                data: {
-                    code: wxcode, // 小程序login返回的code
-                    ticket: '05bd21691cfc1c9d', // 小程序标识符 用于小程序的区分
-                },
-                method: 'GET',
-                success(res) {
-                    // 登录成功
-                    if (res.data.code === 0) {
-                        console.log('get token successfully');
-                        console.log(`res.data.data token${res.data.data}`);
-                        const token = res.data.data;
-                        wx.setStorageSync('token', token);
-                        self.globalData.token = token;
-                        // self.setUserInfo(); //上传用户信息
-                        console.log('get token successfully');
-                        /* eslint-disable camelcase */
-                        const { is_new_user } = res.data.data;
-                        bugSetStorage();
-                        try {
-                            wx.setStorageSync('token', token);
-                            if (!wx.getStorageSync('role')) {
-                                wx.setStorageSync('role', 'user');
-                            }
-                        } catch (e) {
-                            console.log('bug来了');
-                            bugSetStorage();
-                        }
-                        console.log(`设置token start${token}`);
-
-                        console.log('设置token end');
-                        if (self.globalData.testHeader.id58 === '') {
-                            self.globalData.testHeader.id58 = token;
-                        }
-                        if (is_new_user === 1) {
-                            // self.setUserInfo();
-                        }
-                    } else if (res.data.code === -5) {
-                        im.callPassport();
-                        console.log(res.data.code);
-                    }
-                },
-                complete(r) {
-                    console.log(r);
-                },
-            });
-        }
-        console.log('login ...');
-        // const that = this;
-        if (app.globalData.isQB) {
-            // wx.qbLogin({
-            //     appkey: '58TONGCHENG', // 该appkey是QB分配给小程序开发者的，用于映射QB小程序在微信下的appid
-            //     type: '1', // 1: 微信换取的是openid，
-            //     // 2：微信换取的是unionid，不填该字段默认换取的是openid
-            //     // 3: 微信获取的是:openid+unionid
-            //     success(res) {
-            //         console.log('------------------------------QB--------------------------------');
-            //         console.log(that.objToString(res));
-            //     },
-            //     fail(e) {
-            //         console.log('------------------------------QBError--------------------------------');
-            //         console.log(that.objToString(e));
-            //     },
-            // });
-            const randomStr = new RandExp(/^[a-zA-Z0-9]{15,40}$/).gen();
-            if (!wx.getStorageSync('id58')) {
-                wx.setStorageSync('id58', randomStr);
-                this.globalData.testHeader.id58 = randomStr;
-            } else {
-                this.globalData.testHeader.id58 = wx.getStorageSync('id58');
-            }
-        } else {
-            wx.login({
-                // 小程序登录，获取code
-                success(res) {
-                    console.log('成功调取wx.login');
-                    if (res.code) {
-                        getSmallAppToken(res.code);
-                    } else {
-                        console.log(`获取用户登录态失败！${res.errMsg}`);
-                    }
-                },
-                fail() {
-                    console.error('Failed to call wx.login()');
-                    wx.navigateTo({
-                        url: '/errorpage/errorpage?errMsg=Failed_to_call_wx.login()',
-                    });
-                },
-            });
-        }
-    },
-    objToString(obj) {
-        let str = '';
-        Object.keys(obj).forEach(p => {
-            str += `${p}::${obj[p]}\n`;
-        });
-        return str;
-    },
-    loginMethodStatue: {
-    // 如果token失效，可能同时有很多网络请求失败从而来调用 wx.login()
-        callbackStack: [],
-        busy: false,
-        flush() {
-            console.log('flushing');
-            let cb;
-            while (
-                this.callbackStack.length !== undefined &&
-        this.callbackStack.length > 0
-            ) {
-                cb = this.callbackStack.shift();
-                cb();
-            }
-            this.busy = false;
-        },
-    },
-    setUserInfo() {
-        const self = app;
-        function requestSetUserInfo(wxres) {
-            wx.request({
-                method: 'POST',
-                url: `${self.globalData.domain}/smallapp/wx-user/set-user-info`,
-                data: {
-                    encrypted_data: wxres.encryptedData,
-                    iv: wxres.iv,
-                    ticket: '05bd21691cfc1c9d', // 小程序标识符 用于小程序的区分
-                },
-                header: {
-                    'content-type': 'application/json',
-                    'access-token': wx.getStorageSync('token'),
-                },
-                success(res) {
-                    if (res.data.code === 0) {
-                        self.loginMethodStatue.flush();
-                        if (res.data.data === 1) {
-                            // 商家   需要弹
-                            app.globalData.userType = 1;
-                        }
-                    } else if (res.data.code === -5) {
-                        im.callPassport();
-                    } else {
-                        console.error(
-                            'API REQUEST ERROR. Something went wrong when request "/wechat/huangye/default/login", and the response is:\n',
-                            res,
-                        );
-                    }
-                },
-            });
-        }
-        wx.getUserInfo({
-            success(wxres) {
-                requestSetUserInfo(wxres);
-            },
-        });
-    },
-
-    getUserInfo(cb) {
-        const self = app;
-        if (this.globalData.userInfo) {
-            typeof cb === 'function' && cb(this.globalData.userInfo);
-        } else {
-            // 调用登录接口
-            wx.login({
-                success() {
-                    wx.getUserInfo({
-                        success(res) {
-                            self.globalData.userInfo = res.userInfo;
-                            self.setUserInfo();
-                            typeof cb === 'function' && cb(self.globalData.userInfo);
-                        },
-                    });
-                },
-            });
-        }
-    },
-};
 
 export default class extends wepy.app {
-  config = {
-      pages: [
-          'discovery/daleiye/daleiye',
-          'me/coupon/coupon',
-          'me/coupon/couponDetail',
-          'me/order/order',
-          'me/order/orderDetail',
-          'me/order/orderRating',
-          'me/me',
-          'discovery/xiangqingye/xiangqingye',
-          'discovery/liebiaoye/liebiaoye',
-          'me/profile/profile',
-          'me/trade/trade',
-          'vendors/im/pages/sessions/sessions',
-          'vendors/im/pages/chat/chat',
-          'benefit/benefit',
-      ],
-      tabBar: {
-          list: [
-              {
-                  pagePath: 'discovery/daleiye/daleiye',
-                  text: '首页',
-                  iconPath: 'image/a1.png',
-                  selectedIconPath: 'image/a2.png',
-              },
-              {
-                  pagePath: 'vendors/im/pages/sessions/sessions',
-                  text: '消息',
-                  iconPath: 'image/a3.png',
-                  selectedIconPath: 'image/a4.png',
-              },
-              {
-                  pagePath: 'benefit/benefit',
-                  text: '优惠',
-                  iconPath: 'image/a5.png',
-                  selectedIconPath: 'image/a6.png',
-              },
-              {
-                  pagePath: 'me/me',
-                  text: '我的',
-                  iconPath: 'image/a7.png',
-                  selectedIconPath: 'image/a8.png',
-              },
-          ],
-          selectedColor: '#ff552e',
-      },
-      window: {
-          navigationBarTitleText: '消息',
-          enablePullDownRefresh: false,
-          qbDebugKey: '00114be7ba17dc390b29a63cbc887b31',
-      },
-      networkTimeout: {
-          request: 10000,
-          connectSocket: 10000,
-          uploadFile: 10000,
-          downloadFile: 10000,
-      },
-      debug: false,
-  };
+    config = {
+        pages: [
+            'discovery/daleiye/daleiye',
+            'me/coupon/coupon',
+            'me/coupon/couponDetail',
+            'me/order/order',
+            'me/order/orderDetail',
+            'me/order/orderRating',
+            'me/me',
+            'discovery/xiangqingye/xiangqingye',
+            'discovery/liebiaoye/liebiaoye',
+            'me/profile/profile',
+            'me/trade/trade',
+            'vendors/im/pages/sessions/sessions',
+            'vendors/im/pages/chat/chat',
+            'benefit/benefit',
+        ],
+        tabBar: {
+            list: [
+                {
+                    pagePath: 'discovery/daleiye/daleiye',
+                    text: '首页',
+                    iconPath: 'image/a1.png',
+                    selectedIconPath: 'image/a2.png',
+                },
+                {
+                    pagePath: 'vendors/im/pages/sessions/sessions',
+                    text: '消息',
+                    iconPath: 'image/a3.png',
+                    selectedIconPath: 'image/a4.png',
+                },
+                {
+                    pagePath: 'benefit/benefit',
+                    text: '优惠',
+                    iconPath: 'image/a5.png',
+                    selectedIconPath: 'image/a6.png',
+                },
+                {
+                    pagePath: 'me/me',
+                    text: '我的',
+                    iconPath: 'image/a7.png',
+                    selectedIconPath: 'image/a8.png',
+                },
+            ],
+            selectedColor: '#ff552e',
+        },
+        window: {
+            navigationBarTitleText: '消息',
+            enablePullDownRefresh: false,
+            qbDebugKey: '00114be7ba17dc390b29a63cbc887b31',
+        },
+        networkTimeout: {
+            request: 10000,
+            connectSocket: 10000,
+            uploadFile: 10000,
+            downloadFile: 10000,
+        },
+        debug: false,
+    };
 
-  onLaunch(options) {
-      console.log('app launch---scene', options.scene);
-      wx.setStorageSync('scene', options.scene);
+    onLaunch(options) {
+        wx.setStorageSync('scene', options.scene);
+        // 把模板消息的参数存储上
+        const self = fuwu;
+        self.flag++;
+        const {
+            uid, infoid, rootcateid, cateid, usersource,
+        } = options.query;
+        if (uid) {
+            // 如果从消息推送进入到小程序
+            self.optionsmb = {
+                user_id: uid, // 聊天对方 id
+                user_source: usersource, // 聊天对方来源
+                refer: {
+                    invitation: {
+                        id: infoid,
+                        rootcateid: rootcateid,
+                        cateid: cateid,
+                        scene: '',
+                        role: 1,
+                        refer_time: new Date().getTime(),
+                    },
+                },
+                router_type: 'navigateTo',
+            };
+            if (wx.getStorageSync('ppu')) {
+                // 如果有ppu
+                if (wx.getStorageSync('im_token') && !_im.me()) {
+                    im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+                } else {
+                    im.getIMToken(im.imInit, self.optionsmb);
+                }
+            } else {
+                im.callPassport();
+            }
+            im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+            if (self.optionsmb && self.optionsmb.user_id) {
+                im.gotoChat(self.optionsmb);
+                console.log('登录youcashu----------------');
+            }
+        }
+        self.login(() => {
+            this.globalData.tokenFirstReady = true;
+            //    console.log('登录层高----------------');
+        });
+    }
 
-      console.log(`${options.refer}22222222222222222222`);
-      console.log(`${options.referrerInfo}333333333333333333333`);
-      // 把模板消息的参数存储上
-      const self = app;
-      self.flag++;
-      const {
-          uid, infoid, rootcateid, cateid, usersource,
-      } = options.query;
-      if (uid) {
-      // 如果从消息推送进入到小程序
-          console.log('uid---------------存在');
-          self.optionsmb = {
-              user_id: uid, // 聊天对方 id
-              user_source: usersource, // 聊天对方来源
-              refer: {
-                  invitation: {
-                      id: infoid,
-                      rootcateid: rootcateid,
-                      cateid: cateid,
-                      scene: '',
-                      role: 1,
-                      refer_time: new Date().getTime(),
-                  },
-              },
-              router_type: 'navigateTo',
-          };
-          if (wx.getStorageSync('ppu')) {
-              // 如果有ppu
-              console.log('app有ppu');
-              if (wx.getStorageSync('im_token') && !_im.me()) {
-                  im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
-              } else {
-                  im.getIMToken(im.imInit, self.optionsmb);
-              }
-          } else {
-              im.callPassport();
-          }
-          im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-          if (self.optionsmb && self.optionsmb.user_id) {
-              im.gotoChat(self.optionsmb);
-              console.log('登录youcashu----------------');
-          }
-      }
-      console.log(`app launch ppu${wx.getStorageSync('ppu')}`);
-      console.log(`app launch uid${wx.getStorageSync('uid')}`);
-      console.log(`app launch im_token${wx.getStorageSync('im_token')}`);
-      console.log(`app launch token${wx.getStorageSync('token')}`);
-      self.login(() => {
-          self.globalData.tokenFirstReady = true;
-          //    console.log('登录层高----------------');
-      });
-  }
-
-  onShow(options) {
-      console.log('App Show');
-      const self = app;
-      self.flag++;
-      console.log(`show-------flag${self.flag}`);
-      console.log('app onShow---scene------------------------------------', options.scene);
-      console.log(options.referrerInfo);
-      if (options.scene === 1038) {
-      // 1038场景值是从另一个小程序返回
-          console.log('1038------gfl onShow');
-          if (!options.referrerInfo) {
-              console.log('options.referrerInfo为空');
-
-              return false;
-          }
-          if (!options.referrerInfo.extraData) {
-              console.log('options.referrerInfo.extraData为空');
-              return false;
-          }
-          let { extraData } = options.referrerInfo;
-          console.log(`typeof extraData=${typeof extraData}=length = ${extraData.length}`);
-          if (
-              extraData &&
+    onShow(options) {
+        const self = fuwu;
+        self.flag++;
+        if (options.scene === 1038) {
+            // 1038场景值是从另一个小程序返回
+            if (!options.referrerInfo) {
+                return false;
+            }
+            if (!options.referrerInfo.extraData) {
+                console.log('options.referrerInfo.extraData为空');
+                return false;
+            }
+            let { extraData } = options.referrerInfo;
+            console.log(`typeof extraData=${typeof extraData}=length = ${extraData.length}`);
+            if (
+                extraData &&
         extraData !== 'undefined' &&
         typeof extraData !== 'object'
-          ) {
-              extraData = JSON.parse(extraData);
-          }
-          if (extraData.ppu !== undefined) {
-              try {
-                  console.log(`获取PPU成功！${extraData.ppu}`);
-                  wx.setStorageSync('ppu', extraData.ppu);
-                  console.log(`uid=${extraData.ppu.split('=')[1].split('&')[0]}`);
-                  wx.setStorageSync('uid', extraData.ppu.split('=')[1].split('&')[0]);
-                  im.getIMToken(im.imInit);
-                  console.log('uid=', wx.getStorageSync('uid'));
-              } catch (e) {
-                  console.log('setSyncSTORE异常');
-              }
-              /** 新逻辑 */
-              if (!wx.getStorageSync('im_token')) {
-                  im.getIMToken(im.imInit, self.optionsmb);
-                  setTimeout(() => {
-                      im.gotoChat(self.optionsmb);
-                  }, 1500);
-              } else if (!im.isInit) {
-                  console.log('如果有imtoken,但未初始化');
-                  im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
-                  setTimeout(() => {
-                      im.gotoChat(self.optionsmb);
-                  }, 1500);
-              }
-              im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-          } else {
-              im.callPassport();
-          }
-      }
-      if (options.scene === 1011) {
-          const {
-              uid, infoid, rootcateid, cateid, usersource,
-          } = options.query;
-          if (uid) {
-              // 如果从消息推送进入到小程序
-              console.log('uid---------------存在');
-              self.optionsmb = {
-                  user_id: uid, // 聊天对方 id
-                  user_source: usersource, // 聊天对方来源
-                  refer: {
-                      invitation: {
-                          id: infoid,
-                          rootcateid: rootcateid,
-                          cateid: cateid,
-                          scene: '',
-                          role: 1,
-                          refer_time: new Date().getTime(),
-                      },
-                  },
-                  router_type: 'navigateTo',
-              };
-              if (wx.getStorageSync('ppu')) {
-              // 如果有ppu
-                  console.log('app有ppu');
-                  if (wx.getStorageSync('im_token') && !_im.me()) {
-                      im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
-                  } else {
-                      im.getIMToken(im.imInit, self.optionsmb);
-                  }
-              } else {
-                  im.callPassport();
-              }
-              im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-              if (self.optionsmb && self.optionsmb.user_id) {
-                  im.gotoChat(self.optionsmb);
-                  console.log('登录youcashu----------------');
-              }
-          }
-      }
-      if (options.scene === 1043) {
-      // 如果uid有值且 self.optionsmb没值
-          console.log('进入show 1043的uid为');
-          console.log(options.query.uid);
-          console.log('进入show 1043的optionsmb为');
-          console.log(self.optionsmb);
-          console.log(`1043-------flag${self.flag}`);
-          if (self.flag === 1) {
-              if (options.query.uid && _im.me() && _im.me().user_id) {
-                  console.log('***********进入onshow1043');
-                  const {
-                      uid, infoid, rootcateid, cateid, usersource,
-                  } = options.query;
-                  if (uid) {
-                      // 如果从消息推送进入到小程序
-                      self.optionsmb = {
-                          user_id: uid, // 聊天对方 id
-                          user_source: usersource, // 聊天对方来源
-                          refer: {
-                              invitation: {
-                                  id: infoid, // 帖子id
-                                  rootcateid: rootcateid, // 一级分类id(表现类别)
-                                  cateid: cateid, // 最细类别id(表现类别)
-                                  scene: '', // 聊天触发的场景(listing"为列表详情页，其余由业务侧自己定义)
-                                  role: 1, // 角色标识,"1"为发帖者(业务线统一都传"1")
-                                  refer_time: new Date().getTime(),
-                              },
-                          },
-                          router_type: 'navigateTo', // 打开聊天页面方式 ：navigateTo（默认），redirectTo,navigateBack,switchTab,reLaunch
-                      };
-                  }
-                  im.gotoChat(self.optionsmb);
-              }
-          }
-          self.flag = 0;
-      }
-      return true;
-  }
-
-  onHide() {
-      const self = app;
-      self.flag = 0;
-  }
+            ) {
+                extraData = JSON.parse(extraData);
+            }
+            if (extraData.ppu !== undefined) {
+                try {
+                    wx.setStorageSync('ppu', extraData.ppu);
+                    wx.setStorageSync('uid', extraData.ppu.split('=')[1].split('&')[0]);
+                    im.getIMToken(im.imInit);
+                } catch (e) {
+                    console.log('setSyncSTORE异常');
+                }
+                /** 新逻辑 */
+                if (!wx.getStorageSync('im_token')) {
+                    im.getIMToken(im.imInit, self.optionsmb);
+                    setTimeout(() => {
+                        im.gotoChat(self.optionsmb);
+                    }, 1500);
+                } else if (!im.isInit) {
+                    console.log('如果有imtoken,但未初始化');
+                    im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+                    setTimeout(() => {
+                        im.gotoChat(self.optionsmb);
+                    }, 1500);
+                }
+                im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+            } else {
+                im.callPassport();
+            }
+        }
+        if (options.scene === 1011) {
+            const {
+                uid, infoid, rootcateid, cateid, usersource,
+            } = options.query;
+            if (uid) {
+                // 如果从消息推送进入到小程序
+                self.optionsmb = {
+                    user_id: uid, // 聊天对方 id
+                    user_source: usersource, // 聊天对方来源
+                    refer: {
+                        invitation: {
+                            id: infoid,
+                            rootcateid: rootcateid,
+                            cateid: cateid,
+                            scene: '',
+                            role: 1,
+                            refer_time: new Date().getTime(),
+                        },
+                    },
+                    router_type: 'navigateTo',
+                };
+                if (wx.getStorageSync('ppu')) {
+                    // 如果有ppu
+                    if (wx.getStorageSync('im_token') && !_im.me()) {
+                        im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+                    } else {
+                        im.getIMToken(im.imInit, self.optionsmb);
+                    }
+                } else {
+                    im.callPassport();
+                }
+                im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+                if (self.optionsmb && self.optionsmb.user_id) {
+                    im.gotoChat(self.optionsmb);
+                }
+            }
+        }
+        if (options.scene === 1043) {
+            // 如果uid有值且 self.optionsmb没值
+            if (self.flag === 1) {
+                if (options.query.uid && _im.me() && _im.me().user_id) {
+                    const {
+                        uid, infoid, rootcateid, cateid, usersource,
+                    } = options.query;
+                    if (uid) {
+                        // 如果从消息推送进入到小程序
+                        self.optionsmb = {
+                            user_id: uid, // 聊天对方 id
+                            user_source: usersource, // 聊天对方来源
+                            refer: {
+                                invitation: {
+                                    id: infoid, // 帖子id
+                                    rootcateid: rootcateid, // 一级分类id(表现类别)
+                                    cateid: cateid, // 最细类别id(表现类别)
+                                    scene: '', // 聊天触发的场景(listing"为列表详情页，其余由业务侧自己定义)
+                                    role: 1, // 角色标识,"1"为发帖者(业务线统一都传"1")
+                                    refer_time: new Date().getTime(),
+                                },
+                            },
+                            router_type: 'navigateTo', // 打开聊天页面方式 ：navigateTo（默认），redirectTo,navigateBack,switchTab,reLaunch
+                        };
+                    }
+                    im.gotoChat(self.optionsmb);
+                }
+            }
+            self.flag = 0;
+        }
+        return true;
+    }
+    onHide() {
+        const self = fuwu;
+        self.flag = 0;
+    }
 }
-
-module.exports = app;
 </script>
 
 <style lang='scss'>
