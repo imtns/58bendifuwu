@@ -30,7 +30,7 @@
     </scroll-view>
 </view>
 <!-- 打电话谈层  s -->
-<view class="call_mask" hidden="{{call.hidden}}">
+<view class="call_mask"  style="display:{{call.hidden?'none':'block'}}" > 
     <view class="call_con">
         <text class="call_title">拨打电话</text>
         <text class="call_number">{{call.teleNumber}}</text>

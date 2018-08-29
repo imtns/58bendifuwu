@@ -20,6 +20,9 @@
             <block wx:if="{{hotTagData.length!=0}}">
                 <template is="lrtemp" data="{{listData:hotTagData}}"/>
             </block>
+            <block>
+                <template is="fxfw" data="{{listData:fxfw}}"/>
+            </block>
             <block wx:if="{{HotCateData.length!=0}}">
                 <template is="hyjktemp" data="{{listData:HotCateData}}"/>   
             </block>
@@ -139,6 +142,7 @@ export default class Daleiye extends wepy.page {
       cateData: [],
       bannerData: [],
       adData: [],
+      fxfw: {},
       tabIndex: 0,
   };
   onShow() {
@@ -191,6 +195,29 @@ export default class Daleiye extends wepy.page {
       },
       closeAd() {
           this.hideAd = true;
+      },
+      goMini(e) {
+          const { appid, clickurl } = e.currentTarget.dataset;
+          wx.navigateToMiniProgram({
+              appId: appid,
+              path: clickurl,
+              success(res) {
+                  console.log(res);
+              },
+              fail(res) {
+                  console.log(res);
+              },
+          });
+      },
+      goMore(e) {
+          const { appid, clickurl } = e.currentTarget.dataset;
+          wx.navigateToMiniProgram({
+              appId: appid,
+              path: clickurl,
+              success(res) {
+                  console.log(res);
+              },
+          });
       },
       /**
      * 选择类别
@@ -272,6 +299,10 @@ export default class Daleiye extends wepy.page {
       this.hotTagData = response.data.hotTagData;
       this.HotCateData = [];
       this.mainData = response.data.mainData;
+      this.fxfw = response.data.fxfw;
+      this.fxfw.commodityList.forEach(item => {
+          item.punit = item.punit.substr(1, item.punit.length - 1);
+      });
       this.bannerData =
       typeof response.data.advertBanner === 'object' &&
       JSON.parse(response.data.advertBanner.adinfo);
@@ -298,8 +329,7 @@ export default class Daleiye extends wepy.page {
       JSON.parse(res.data.advertBanner.adinfo);
       this.url = this.bannerData.link;
       this.adData =
-      typeof res.data.advert === 'object' &&
-      JSON.parse(res.data.advert.adinfo);
+      typeof res.data.advert === 'object' && JSON.parse(res.data.advert.adinfo);
       if (this.adData && !this.isShowed) {
           this.hideAd = false;
           this.isShowed = true;
@@ -308,6 +338,7 @@ export default class Daleiye extends wepy.page {
       this.HotCateData = res.data.HotCateData;
       this.mainData = [];
       this.cateData = res.data.cateData;
+      this.fxfw = {};
       this.$apply();
   }
   onShareAppMessage() {}
@@ -368,6 +399,7 @@ page {
   box-sizing: border-box;
   padding: 30rpx;
   margin-left: 21%;
+  padding-top:0;
 }
 .swiperTop {
   height: 148rpx;
@@ -377,7 +409,7 @@ page {
   height: 148rpx;
 }
 .h2 {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #000;
   display: block;
   height: 70rpx;
@@ -472,5 +504,61 @@ page {
 button.view-all {
   background-color: #fff;
   font-size: 25rpx;
+}
+.fxfwBox {
+  background: white;
+  padding: 20rpx;
+  padding-bottom: 0;
+  .scroll {
+    width: auto;
+    height: 325rpx;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    .box {
+      width: 240rpx;
+      height: 275rpx;
+      margin-right: 20rpx;
+      display: inline-block;
+      -webkit-box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
+      -moz-box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
+      box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
+      .boxImage {
+        width: 240rpx;
+        height: 180rpx;
+      }
+      .boxText {
+        margin-left: 15rpx;
+        width: 100%;
+        font-size: 22rpx;
+        color: #333;
+        .fontRed {
+          color: #ff552e;
+        }
+      }
+    }
+  }
+  .fxfwMore {
+    height: 70rpx;
+    width: 100%;
+    line-height: 70rpx;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 22rpx;
+    color: #666;
+    position: relative;
+    .arrow {
+      width: 12rpx;
+      height: 12rpx;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 160rpx;
+    }
+  }
+  .norListItem {
+    width: 240rpx;
+    height: 275rpx;
+  }
 }
 </style>

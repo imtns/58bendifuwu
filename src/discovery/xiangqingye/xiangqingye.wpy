@@ -428,14 +428,7 @@ export default class Xiangqingye extends wepy.page {
      * 地图跳转
      */
       onmapFun() {
-          const x = Math.floor(this.commparamMap.latitude * 100000) / 100000;
-          const y = Math.floor(this.commparamMap.longitude * 100000) / 100000;
-          wx.openLocation({
-              latitude: x,
-              longitude: y,
-              address: this.commparamMap['商家地址'],
-              name: this.qiyeEntity.enterpriseName,
-          });
+          this.showMap();
       },
       /* 打电话 s */
       callTick(e) {
@@ -458,6 +451,16 @@ export default class Xiangqingye extends wepy.page {
           }
       },
   };
+  showMap() {
+      const x = Math.floor(this.commparamMap.latitude * 100000) / 100000;
+      const y = Math.floor(this.commparamMap.longitude * 100000) / 100000;
+      wx.openLocation({
+          latitude: x,
+          longitude: y,
+          address: this.commparamMap['商家地址'],
+          name: this.qiyeEntity.enterpriseName,
+      });
+  }
   onShow() {
       setTimeout(() => {
           track('show', {
@@ -503,9 +506,6 @@ export default class Xiangqingye extends wepy.page {
           ? response.shop.extendMap.shoplogo
           : 'https://img.58cdn.com.cn/olympia/img/shenghuo/final/default-shopimg.png';
       this.userId = response.uid;
-      if (options.map) {
-          this.onmapFun();
-      }
       if (options.tel) {
           setTimeout(() => {
               this.getCall(1);
@@ -513,6 +513,9 @@ export default class Xiangqingye extends wepy.page {
       }
       this.openid = options.openid || '';
       this.$apply();
+      if (options.map) {
+          this.showMap();
+      }
   }
 
   // 分享

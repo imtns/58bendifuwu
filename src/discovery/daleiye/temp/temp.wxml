@@ -1,11 +1,11 @@
-<import src="titTemp.wxml"/>
+<import src="titTemp.wxml" />
 <!-- 热门推荐模块 -->
 <template name="lrtemp">
-    <template is="titleTemp" data="{{title:listData.title}}"/>
+    <template is="titleTemp" data="{{title:listData.title}}" />
     <view class="lrListBox">
         <view class="lrBefore"></view>
         <block wx:for="{{listData.listData}}" wx:key="{{index}}">
-            <view class="lrListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}"  data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
+            <view class="lrListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
                 <image class="lrListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
                 <text class="lrListText">{{item.title}}</text>
             </view>
@@ -15,14 +15,34 @@
 </template>
 <!-- 热门模块 -->
 <template name="hyjktemp">
-    <template is="titleTemp" data="{{title:listData.title}}"/>
+    <template is="titleTemp" data="{{title:listData.title}}" />
     <view class="norListBox">
         <block wx:for="{{listData.listData}}" wx:key="{{index}}">
-            <view class="norListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
+            <view class="norListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
                 <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
                 <text class="norListText">{{item.title}}</text>
             </view>
         </block>
+    </view>
+</template>
+<template name="fxfw">
+    <template is="titleTemp" data="{{title:listData.topTitle}}" />
+    <view class="fxfwBox">
+        <scroll-view scroll-x="ture" class="scroll">
+            <block wx:for="{{listData.commodityList}}" wx:key="{{index}}">
+                <view class="box" bindtap="goMini" data-appid="{{listData.appid}}" data-clickurl="{{item.clickUrl}}">
+                    <image class="boxImage" src="{{item.picUrl}}" mode="aspectFit"></image>
+                    <view class="boxText">{{item.title}}</view>
+                    <view class="boxText">
+                        <text class="fontRed">{{item.price}}元</text><text>{{item.punit}}</text>
+                    </view>
+                </view>
+            </block>
+        </scroll-view>
+        <view class="fxfwMore" bindtap="goMore" data-appid="{{listData.appid}}" data-clickurl="{{listData.moreUrl}}">
+            查看更多招标
+            <image src="../../image/arrow.png" class="arrow"/>
+        </view>
     </view>
 </template>
 <!-- 普通模块 -->
@@ -36,7 +56,7 @@
         </block>
         <view class="norListBox">
             <block wx:for="{{listData.imageListData}}" wx:key="{{index}}">
-                <view class="norListItem" bindtap="navigatorFun" data-pagetype="{{item.pagetype}}" data-fullpath="{{item.fullpath}}"  data-cateid="{{item.cateId}}" data-listName="{{item.listName}}"  data-title="{{item.title}}">
+                <view class="norListItem" bindtap="navigatorFun" data-pagetype="{{item.pagetype}}" data-fullpath="{{item.fullpath}}" data-cateid="{{item.cateId}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
                     <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
                     <text class="norListText">{{item.title}}</text>
                 </view>
