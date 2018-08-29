@@ -140,6 +140,7 @@ const fuwu = {
 
 
             const randomStr = makeid();
+            wx.setStorageSync('token', randomStr);
             if (!wx.getStorageSync('id58')) {
                 wx.setStorageSync('id58', randomStr);
                 this.globalData.testHeader.id58 = randomStr;

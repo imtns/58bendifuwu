@@ -64,6 +64,7 @@ export default class extends wepy.app {
             navigationBarTitleText: '消息',
             enablePullDownRefresh: false,
             qbDebugKey: '00114be7ba17dc390b29a63cbc887b31',
+            // qbDebugKey: 'ee43d5799d8bf34795f5a702bc887b31',
         },
         networkTimeout: {
             request: 10000,
@@ -79,6 +80,7 @@ export default class extends wepy.app {
         // 把模板消息的参数存储上
         const self = fuwu;
         self.flag++;
+        console.log(`ISQB:${fuwu.globalData.isQB}`);
         const {
             uid, infoid, rootcateid, cateid, usersource,
         } = options.query;
