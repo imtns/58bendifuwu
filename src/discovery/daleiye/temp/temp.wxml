@@ -40,8 +40,7 @@
             </block>
         </scroll-view>
         <view class="fxfwMore" bindtap="goMore" data-appid="{{listData.appid}}" data-clickurl="{{listData.moreUrl}}">
-            查看更多招标
-            <image src="../../image/arrow.png" class="arrow"/>
+            查看更多招标 <image src="../../image/arrow.png" class="arrows"> </image>
         </view>
     </view>
 </template>
