@@ -31,7 +31,7 @@
         <scroll-view scroll-x="ture" class="scroll">
             <block wx:for="{{listData.commodityList}}" wx:key="{{index}}">
                 <view class="box" bindtap="goMini" data-appid="{{listData.appid}}" data-clickurl="{{item.clickUrl}}">
-                    <image class="boxImage" src="{{item.picUrl}}" mode="aspectFit"></image>
+                    <image class="boxImage" src="{{item.picUrl}}?w=200" mode="aspectFit"></image>
                     <view class="boxText">{{item.title}}</view>
                     <view class="boxText">
                         <text class="fontRed">{{item.price}}元</text><text>{{item.punit}}</text>
