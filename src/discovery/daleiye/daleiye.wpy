@@ -20,7 +20,7 @@
             <block wx:if="{{hotTagData.length!=0}}">
                 <template is="lrtemp" data="{{listData:hotTagData}}"/>
             </block>
-            <block>
+            <block wx:if="{{fxfw.commodityList}}">
                 <template is="fxfw" data="{{listData:fxfw}}"/>
             </block>
             <block wx:if="{{HotCateData.length!=0}}">
@@ -299,10 +299,12 @@ export default class Daleiye extends wepy.page {
       this.hotTagData = response.data.hotTagData;
       this.HotCateData = [];
       this.mainData = response.data.mainData;
-      this.fxfw = response.data.fxfw;
-      this.fxfw.commodityList.forEach(item => {
-          item.punit = item.punit.substr(1, item.punit.length - 1);
-      });
+      if (response.data.fxfw) {
+          this.fxfw = response.data.fxfw;
+          this.fxfw.commodityList.forEach(item => {
+              item.punit = item.punit.substr(1, item.punit.length - 1);
+          });
+      }
       this.bannerData =
       typeof response.data.advertBanner === 'object' &&
       JSON.parse(response.data.advertBanner.adinfo);
