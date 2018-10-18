@@ -20,9 +20,9 @@
             <block wx:if="{{hotTagData.length!=0}}">
                 <template is="lrtemp" data="{{listData:hotTagData}}"/>
             </block>
-            <block>
+            <!-- <block>
                 <template is="fxfw" data="{{listData:fxfw}}"/>
-            </block>
+            </block> -->
             <block wx:if="{{HotCateData.length!=0}}">
                 <template is="hyjktemp" data="{{listData:HotCateData}}"/>   
             </block>
@@ -54,7 +54,7 @@ const { globalDataService, fuwu } = require('../../utils/globalDataService');
 const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
 let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
 if (fuwu.globalData.isQB) {
-    tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+    tagCookie = 'spm=u-2cs9z37ee97pnc46zg.shzsqqllq;utm_source=link;';
 }
 export default class Daleiye extends wepy.page {
   config = {
