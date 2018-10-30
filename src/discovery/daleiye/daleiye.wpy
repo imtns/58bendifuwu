@@ -20,9 +20,9 @@
             <block wx:if="{{hotTagData.length!=0}}">
                 <template is="lrtemp" data="{{listData:hotTagData}}"/>
             </block>
-            <!-- <block>
+            <block wx:if="{{fxfw && fxfw.length != 0}}">
                 <template is="fxfw" data="{{listData:fxfw}}"/>
-            </block> -->
+            </block>
             <block wx:if="{{HotCateData.length!=0}}">
                 <template is="hyjktemp" data="{{listData:HotCateData}}"/>   
             </block>
@@ -52,10 +52,7 @@ import Mixin from '../../mixin/mixin';
 const { globalDataService, fuwu } = require('../../utils/globalDataService');
 
 const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
-let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
-if (fuwu.globalData.isQB) {
-    tagCookie = 'spm=u-2cs9z37ee97pnc46zg.shzsqqllq;utm_source=link;';
-}
+
 export default class Daleiye extends wepy.page {
   config = {
       navigationBarTitleText: '58同城生活助手',
@@ -142,7 +139,7 @@ export default class Daleiye extends wepy.page {
       cateData: [],
       bannerData: [],
       adData: [],
-      fxfw: {},
+      fxfw: [],
       tabIndex: 0,
   };
   onShow() {
@@ -156,13 +153,19 @@ export default class Daleiye extends wepy.page {
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-      if (options.tagCookie) {
-          tagCookie = decodeURIComponent(options.tagCookie || '');
+      if (!fuwu.globalData.isQB) {
+          fuwu.globalData.tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+          if (options.tagCookie) {
+              fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
+          }
       }
+      if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
+          fuwu.globalData.tagCookie = 'spm=u-2cs9z37ee97pnc46zg.shzsqqllq;utm_source=link;';
+      }
+
       if (options.tabIndex) {
           this.tabIndex = options.tabIndex;
       }
-      wx.setStorageSync('tagCookie', tagCookie);
       // globalDataService.set('tagCookie', tagCookie);
       wx.getSystemInfo({
           success: res => {
@@ -176,9 +179,14 @@ export default class Daleiye extends wepy.page {
           this.listTit[this.tabIndex].isSelect = true;
           this.fresh(this.listTit[this.tabIndex].type);
       } else {
+          if (fuwu.globalData.isQB) {
+              fuwu.globalData.tagCookie = 'spm=u-2ctyqrb2197pnc46zg.QBmorewebsite2; utm_source=link;';
+          }
           this.banner = 0;
           this.freshTui('hyjk');
       }
+      wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
+      this.$apply();
   }
   methods = {
       redirectAd(e) {
@@ -272,9 +280,15 @@ export default class Daleiye extends wepy.page {
           const res = await this.getCity();
           if (res.data.code === 0) {
               this.city = res.data.data.city;
+              this.$apply();
               globalDataService.set('city', res.data.data.city);
               globalDataService.set('cityId', res.data.data.cityId);
           } else {
+              wx.showToast({
+                  title: '555',
+                  icon: '',
+                  duration: 5000,
+              });
               console.error(
                   'API REQUEST ERROR. Something went wrong when request "/smallapp/common/city", and the response is:\n',
                   res,
@@ -338,7 +352,7 @@ export default class Daleiye extends wepy.page {
       this.HotCateData = res.data.HotCateData;
       this.mainData = [];
       this.cateData = res.data.cateData;
-      this.fxfw = {};
+      this.fxfw = [];
       this.$apply();
   }
   onShareAppMessage() {}

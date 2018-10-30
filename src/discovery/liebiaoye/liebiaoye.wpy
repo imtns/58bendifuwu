@@ -57,10 +57,6 @@ const { globalDataService, fuwu } = require('../../utils/globalDataService');
 const host = 'https://xiaochengxu.58.com';
 let isScrolled = false;
 let noMoreData = false;
-let tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
-if (fuwu.globalData.isQB) {
-    tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
-}
 
 export default class Liebiaoye extends wepy.page {
   data = {
@@ -137,12 +133,20 @@ export default class Liebiaoye extends wepy.page {
    * 生命周期函数--监听页面加载
    */
   async onLoad(o) {
-      const { city, title = '列表页', fullpath = 0 } = o;
-      if (o.tagCookie) {
-          tagCookie = decodeURIComponent(o.tagCookie || '');
+      if (!fuwu.globalData.isQB) {
+          fuwu.globalData.tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+          if (o.tagCookie) {
+              fuwu.globalData.tagCookie = decodeURIComponent(o.tagCookie || '');
+          }
       }
+
+      if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
+          fuwu.globalData.tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+      }
+      const { city, title = '列表页', fullpath = 0 } = o;
+
       if (fullpath) this.fullpath = fullpath;
-      wx.setStorageSync('tagCookie', tagCookie);
+      wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
       // globalDataService.set('tagCookie', tagCookie);
       wx.setNavigationBarTitle({
           title,
@@ -176,7 +180,7 @@ export default class Liebiaoye extends wepy.page {
   async getListData() {
       if (noMoreData || !this.listName) return;
       const header = {
-          cookie: fuwu.globalData.listCookie || tagCookie,
+          cookie: fuwu.globalData.listCookie || fuwu.globalData.tagCookie,
       };
       const data = { openId: wx.getStorageSync('token') };
       const url = `${host}/${this.city}/${this.listName}/pn${this.page}`;
