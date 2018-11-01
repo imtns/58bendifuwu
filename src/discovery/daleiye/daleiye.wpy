@@ -378,7 +378,7 @@ export default class Daleiye extends wepy.page {
 }
 button{
   background-color: white !important;
-  line-height: 1.8;
+  line-height: 3;
   vertical-align: top;
 }
 button::after {
@@ -423,8 +423,16 @@ page {
   overflow: scroll;
   height: 98vh;
 }
+.norListText{
+    width:220rpx;
+}
+.lrListText{
+    width:230rpx;
+    padding-left:10rpx !important;
+}
 .title {
-  width: 100%;
+  border-radius: 0;
+  width: 160rpx;
   font-size: 26rpx;
   height: 100rpx;
   text-align: center;
@@ -481,6 +489,9 @@ page {
   display: flex;
   flex-flow: wrap;
 }
+.lrListBox button{
+    border-radius: 0;
+}
 .lrListBox .lrBefore {
   width: 2rpx;
   background-color: #f6f6f6;
@@ -489,6 +500,7 @@ page {
   bottom: auto;
   left: 49.5%;
   height: 100%;
+  z-index: 999;
   position: absolute;
 }
 .lrListBox .lrAfter {
@@ -511,8 +523,7 @@ page {
   color: #555;
 }
 .lrListImg {
-  width: 90rpx;
-  height: 90rpx;
+  width: 180rpx;
   padding-left: 20rpx;
 }
 .lrListText {
