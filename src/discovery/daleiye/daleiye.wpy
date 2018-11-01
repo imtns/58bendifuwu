@@ -274,13 +274,25 @@ export default class Daleiye extends wepy.page {
               cateid: fullpath,
               pagetype: 'index',
           });
-          wx.navigateTo({
-              url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
-                  this.city
-              }&cityId=${
-                  this.cityId
-              }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
-          });
+          if (fuwu.globalData.isQB) {
+              setTimeout(() => {
+                  wx.navigateTo({
+                      url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
+                          this.city
+                      }&cityId=${
+                          this.cityId
+                      }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
+                  });
+              }, 1000);
+          } else {
+              wx.navigateTo({
+                  url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
+                      this.city
+                  }&cityId=${
+                      this.cityId
+                  }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
+              });
+          }
       },
   };
 

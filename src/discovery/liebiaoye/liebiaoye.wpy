@@ -33,7 +33,7 @@
     </view>
     <!-- 打电话谈层  s -->
     <form bindsubmit="handleFormidCollect" report-submit="true">
-        <view class="call_mask" wx:if="{{!call.hidden}}">
+        <view class="call_mask" wx:if="{{call.show}}">
             <view class="call_con">
                 <text class="call_title">拨打电话</text>
                 <text class="call_number">{{call.teleNumber}}</text>
@@ -76,7 +76,7 @@ export default class Liebiaoye extends wepy.page {
       // 400
           teleNumber: 400000000,
           tick: 0,
-          hidden: true,
+          show: false,
       },
   };
   onUnload() {
@@ -165,13 +165,14 @@ export default class Liebiaoye extends wepy.page {
           if (res.data.code === 0) {
               this.city = res.data.data.city;
               globalDataService.set('cityId', res.data.data.cityId);
-              this.$apply();
               this.getListData();
+              this.$apply();
           } else {
               console.error('bossapi.city');
           }
       } else {
           this.getListData();
+          this.$apply();
       }
   }
   onShow() {
@@ -238,6 +239,9 @@ button::after {
   padding: 0;
   border: none;
   outline: none;
+}
+.call_btn_con button{
+    border-radius: 0;
 }
 @import '../../style/list.scss';
 </style>

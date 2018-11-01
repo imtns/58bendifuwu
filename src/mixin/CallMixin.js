@@ -8,11 +8,6 @@ const { fuwu } = require('../utils/globalDataService');
 let timerId = null;
 export default class CallMixin extends wepy.mixin {
     data = {
-        call: {
-            tick: 0,
-            hidden: true,
-            teleNumber: 0,
-        },
         bgShow: true,
     };
     methods = {
@@ -32,25 +27,27 @@ export default class CallMixin extends wepy.mixin {
         },
     }
     async getCall(e) {
-        let data = {
-            sign: (typeof e === 'object' && e.currentTarget.dataset.sign) || this.sign,
-            infoId: (typeof e === 'object' && e.currentTarget.dataset.infoid) || this.infoid,
-            source: 0,
-            type: 0,
+        // let data = {
+        //     sign: (typeof e === 'object' && e.currentTarget.dataset.sign) || this.sign,
+        //     infoId: (typeof e === 'object' && e.currentTarget.dataset.infoid) || this.infoid,
+        //     source: 0,
+        //     type: 0,
+        // };
+        const postData = {
+            sign: (typeof e === 'object' && e.currentTarget.dataset.sign) || this.data.sign,
+            infoId: (typeof e === 'object' && e.currentTarget.dataset.infoid) || this.data.infoid,
+            source: 1,
+            infoType: 0,
+            channel: 5,
+            clientId: 2,
+            platform: 1,
+            activityId: 'weixinshenghuozhushou',
         };
         if (this.openid) {
-            data = Object.assign(data, {
+            Object.assign(postData, {
                 openid: this.openid,
             });
         } else if (typeof e === 'object' && e.currentTarget.dataset.type === 'adinfo') {
-            // const header = { cookie: app.globalData.listCookie };
-            // const dataHeader = {};
-            // try {
-            //     const result = await get(e.currentTarget.dataset.url, { dataHeader, header });
-            //     console.log(result);
-            // } catch (err) {
-            //     console.log(err);
-            // }
             const header = {
                 'content-type': 'application/json',
                 cookie: fuwu.globalData.listCookie,
@@ -72,21 +69,21 @@ export default class CallMixin extends wepy.mixin {
         }
 
         const header = fuwu.globalData.testHeader;
-        const url = `${fuwu.globalData.domain}/smallapp/common/link`;
+        const url = 'https://link.58.com/api/assign';
         try {
-            const result = await get(url, { data, header });
-            const res = result.data;
-            if (res.code === 0) {
+            const { data: callData } = await get(url, { data: postData, header });
+            const { code, result: teleNumberStr } = callData;
+            if (code === 0) {
                 this.call = util.constDeepMixin(this.call, {
-                    teleNumber: parseInt(res.data[0]) + 1 ? res.data : '服务忙',
+                    teleNumber: parseInt(teleNumberStr) + 1 ? teleNumberStr : '服务忙',
                     tick: 180,
-                    hidden: false,
+                    show: true,
                 });
                 this.bgShow = false;
-                this.$apply();
                 this.callTimer();
+                this.$apply();
             } else {
-                console.error('400电话异常\n', res);
+                console.error('400电话异常\n', callData);
             }
         } catch (err) {
             console.log(err);
@@ -95,7 +92,7 @@ export default class CallMixin extends wepy.mixin {
     hideCallLayer() {
         this.call = util.constDeepMixin(this.call, {
             tick: 0,
-            hidden: true,
+            show: false,
         });
         this.bgShow = true;
     }
@@ -111,7 +108,7 @@ export default class CallMixin extends wepy.mixin {
                 clearInterval(timerId);
                 this.call = util.constDeepMixin(this.call, {
                     tick: 0,
-                    hidden: true,
+                    show: false,
                 });
                 this.bgShow = true;
                 this.$apply();
