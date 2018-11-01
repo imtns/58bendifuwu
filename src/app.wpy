@@ -76,6 +76,9 @@ export default class extends wepy.app {
     };
 
     onLaunch(options) {
+        if (options.query.isQB) {
+            fuwu.globalData.isQB = true;
+        }
         wx.setStorageSync('scene', options.scene);
         // 把模板消息的参数存储上
         const self = fuwu;

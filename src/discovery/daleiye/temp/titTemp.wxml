@@ -4,9 +4,11 @@
 <template name="titHrefTemp">
     <view class="h2">
         <text>{{title}}</text>
-        <view class="titAll" bindtap="navigatorFun" data-listName="{{moreNode.listName}}" data-cateid="{{moreNode.cateId}}"  data-title="{{moreNode.title}}">
-            <text class="allText">{{moreNode.title}}</text>
-            <image class="allImage" mode="aspectFit" src="https://img.58cdn.com.cn/ds/app_hy_bdfw/j-icon-1.png" />
-        </view>
+          <form bindsubmit="handleFormidCollect" report-submit="true"> 
+            <button form-type="submit" class="titAll" bindtap="navigatorFun" data-listName="{{moreNode.listName}}" data-cateid="{{moreNode.cateId}}"  data-title="{{moreNode.title}}">
+                <text class="allText">{{moreNode.title}}</text>
+                <image class="allImage" mode="aspectFit" src="https://img.58cdn.com.cn/ds/app_hy_bdfw/j-icon-1.png" />
+            </button>
+        </form>
     </view>
 </template>

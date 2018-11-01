@@ -1,88 +1,96 @@
 <template>
-<!-- 基本信息 -->
-<view class="baseInfo">
-    <view class="baseTit">{{infoTitle}}</view>
-     <view class="tags">
-        <!-- <view class="tag"></view>
+    <!-- 基本信息 -->
+    <view class="baseInfo">
+        <view class="baseTit">{{infoTitle}}</view>
+        <view class="tags">
+            <!-- <view class="tag"></view>
         <view class="tag"></view>
         <view class="tag"></view> -->
-        <view class="baseDate">
-            <text>发布时间 {{postDate}}</text>
-        <!-- <text>已有{{liulan || 254545}}浏览</text> -->
+            <view class="baseDate">
+                <text>发布时间 {{postDate}}</text>
+                <!-- <text>已有{{liulan || 254545}}浏览</text> -->
+                <form bindsubmit="handleFormidCollect" report-submit="true">
+                    <button form-type="submit" open-type="share" class="baseInfo_share">
+                        <image class="baseInfo_shareIcon" src="/image/share.png"></image>
+                        分享
+                    </button>
+                </form>
+            </view>
 
-            <button open-type="share" class="baseInfo_share">
-            <image class="baseInfo_shareIcon" src="/image/share.png"></image>
-                分享
-            </button>
         </view>
-
-    </view> 
-   <!--  <view class="baseDate">
+        <!--  <view class="baseDate">
         <text>发布时间 {{postDate}}</text>
         <text>已有{{liulan || 254545}}浏览</text>
     </view> -->
-</view>
-<!-- 标签信息 -->
-<view class="markBox">
-    <block wx:if="{{renzheng.geren_renzheng_state||renzheng.qiye_renzheng_state}}">
-        <view class="markList">
-            <block wx:if="{{renzheng.qiye_renzheng_state}}">
-                <view class="markDes">
-                    <view class="successIcon">
-                        <view class="suceessRight"></view>
+    </view>
+    <!-- 标签信息 -->
+    <view class="markBox">
+        <block wx:if="{{renzheng.geren_renzheng_state||renzheng.qiye_renzheng_state}}">
+            <view class="markList">
+                <block wx:if="{{renzheng.qiye_renzheng_state}}">
+                    <view class="markDes">
+                        <view class="successIcon">
+                            <view class="suceessRight"></view>
+                        </view>
+                        <text>企业认证</text>
                     </view>
-                    <text>企业认证</text>
-                </view>
-            </block>
-            <block wx:elseif="{{renzheng.geren_renzheng_state}}">
-                <view class="markDes">
-                    <view class="successIcon">
-                        <view class="suceessRight"></view>
+                </block>
+                <block wx:elseif="{{renzheng.geren_renzheng_state}}">
+                    <view class="markDes">
+                        <view class="successIcon">
+                            <view class="suceessRight"></view>
+                        </view>
+                        <text>个人认证</text>
                     </view>
-                    <text>个人认证</text>
-                </view>
-            </block>
+                </block>
+            </view>
+        </block>
+    </view>
+    <view class="baseInfo">
+        <view class="baseDetal">
+            <text class="bdName">服务类型</text>
+            <text class="bdValue">{{objectType}}</text>
         </view>
-    </block>
-</view>
-<view class="baseInfo">
-    <view class="baseDetal">
-        <text class="bdName">服务类型</text>
-        <text class="bdValue">{{objectType}}</text>
-    </view>
-    <view class="baseDetal" wx:if="{{serviceRange.length>0}}">
-        <text class="bdName">服务区域</text>
-        <view class="bdValue serviceRange">
-            <block wx:for="{{serviceRange}}"  wx:key="{{index}}">{{item.localName}}</block>
+        <view class="baseDetal" wx:if="{{serviceRange.length>0}}">
+            <text class="bdName">服务区域</text>
+            <view class="bdValue serviceRange">
+                <block wx:for="{{serviceRange}}" wx:key="{{index}}">{{item.localName}}</block>
+            </view>
         </view>
-    </view>
-    <view class="baseDetal">
-        <text class="bdName">联系商家</text>
-        <text class="bdValue">{{goblianxiren}}</text>
-        <view class="baseTel" data-position="icon" @tap="callTick"></view>
-    </view>
-    <view class="baseDetal">
-        <text class="bdName">商家地址</text>
-        <view @tap="onmapFun"><view class="bdValue bdAddress">{{commparamMap['商家地址']}}</view><view class="mapIcon"></view></view>
-    </view>
-</view>
-<block wx:if="{{coupon.coupon_type !== ''}}">
-<view class="mod-view view-coupon">
-     <view class="coupon-shadow">
-        <view class="coupon-box table"  @tap="goMiniProgram" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}">
-            <view class="cell one-text coupon-left"><image class="gift" src="/image/gift.png"></image></view>
-            <!-- <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 2}}">{{coupon.relief}}<text class="coupon-discount">折</text></view>
-            <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 1}}">￥{{coupon.relief}}</view> -->
-            <view class="cell coupon-right">
-                <view class="first-row one-text " wx:if="{{coupon.coupon_type == 2}}"><text class="big-font">{{coupon.relief*0.1}}</text><text class="coupon-discount">折</text></view>
-                <view class="first-row one-text " wx:if="{{coupon.coupon_type == 1}}">￥<text class="big-font">{{coupon.relief}}</text></view>
-                <view class="second-row one-text">满{{coupon.limit}}可用</view>
-                <!-- <view class="last-row" >2018.06.08-2018.07.01</view> -->
-                <view class="receive-button">立即领取</view> 
+        <view class="baseDetal">
+            <text class="bdName">联系商家</text>
+            <text class="bdValue">{{goblianxiren}}</text>
+            <form bindsubmit="handleFormidCollect" report-submit="true">
+                <button form-type="submit" class="baseTel" data-position="icon" @tap="callTick"></button>
+            </form>
+        </view>
+        <view class="baseDetal">
+            <text class="bdName">商家地址</text>
+            <view @tap="onmapFun">
+                <view class="bdValue bdAddress">{{commparamMap['商家地址']}}</view>
+                <view class="mapIcon"></view>
             </view>
         </view>
     </view>
-    <!-- <view class="mod-view view-coupon2 font-normal">
+    <block wx:if="{{coupon.coupon_type !== ''}}">
+        <view class="mod-view view-coupon">
+            <view class="coupon-shadow">
+                <view class="coupon-box table" @tap="goMiniProgram" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}">
+                    <view class="cell one-text coupon-left">
+                        <image class="gift" src="/image/gift.png"></image>
+                    </view>
+                    <!-- <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 2}}">{{coupon.relief}}<text class="coupon-discount">折</text></view>
+            <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 1}}">￥{{coupon.relief}}</view> -->
+                    <view class="cell coupon-right">
+                        <view class="first-row one-text " wx:if="{{coupon.coupon_type == 2}}"><text class="big-font">{{coupon.relief*0.1}}</text><text class="coupon-discount">折</text></view>
+                        <view class="first-row one-text " wx:if="{{coupon.coupon_type == 1}}">￥<text class="big-font">{{coupon.relief}}</text></view>
+                        <view class="second-row one-text">满{{coupon.limit}}可用</view>
+                        <!-- <view class="last-row" >2018.06.08-2018.07.01</view> -->
+                        <view class="receive-button">立即领取</view>
+                    </view>
+                </view>
+            </view>
+            <!-- <view class="mod-view view-coupon2 font-normal">
         <scroll-view scroll-x class="coupons-scroll">
             <view class="coupon2-wrap">
                 <view class="coupon2-shadow mr-10">
@@ -143,11 +151,11 @@
             </view>
         </scroll-view>
     </view> -->
-</view>
-</block>
-<!-- 相册End -->
-<!-- 评论 -->
-<!-- <view class="commentContainer">
+        </view>
+    </block>
+    <!-- 相册End -->
+    <!-- 评论 -->
+    <!-- <view class="commentContainer">
     <view class="commentTip">
         <text class="commentNum">评价(27)</text>
         <view>
@@ -177,52 +185,54 @@
         </view>
     </view>
 </view> -->
-<!-- 商家信息 -->
-<view class="firm">
-    <view class="firmHeadBox">
-        <view class="firmImgBox">
-            <image src="{{shoplogo}}" mode="aspectFit"></image>
-        </view>
-        <view class="firmTitBox">
-            <view class="firmTit">{{qiyeEntity.enterpriseName}}</view>
-            <text class="ftMark">会员{{wltEntity.wltserviceYears}}年</text>
-        </view>
-        <view class="firmMarkBox">
-            <view class="firmLevel {{wltEntity.extendMap.level_level>=13?'huangguan':wltEntity.extendMap.level_level>=10?'zuanshi':wltEntity.extendMap.level_level>=7?'huangjin':wltEntity.extendMap.level_level>=4?'baiyin':'qingtong'}}">
-                会员{{wltEntity.wltserviceYears}}年
+    <!-- 商家信息 -->
+    <view class="firm">
+        <view class="firmHeadBox">
+            <view class="firmImgBox">
+                <image src="{{shoplogo}}" mode="aspectFit"></image>
             </view>
-            <view class="firmPerc">
-                超过<text>{{wltEntity.extendMap.level_rank}}</text>同行
+            <view class="firmTitBox">
+                <view class="firmTit">{{qiyeEntity.enterpriseName}}</view>
+                <text class="ftMark">会员{{wltEntity.wltserviceYears}}年</text>
+            </view>
+            <view class="firmMarkBox">
+                <view class="firmLevel {{wltEntity.extendMap.level_level>=13?'huangguan':wltEntity.extendMap.level_level>=10?'zuanshi':wltEntity.extendMap.level_level>=7?'huangjin':wltEntity.extendMap.level_level>=4?'baiyin':'qingtong'}}">
+                    会员{{wltEntity.wltserviceYears}}年
+                </view>
+                <view class="firmPerc">
+                    超过<text>{{wltEntity.extendMap.level_rank}}</text>同行
+                </view>
             </view>
         </view>
-    </view>
-    <view class="firmCenterBox">
-        <view class="fcbItem">
-            <view class="fcbBig">{{otherEntity.extendMap.registerTime}}个月</view>
-            <view class="fcbSmall">加入58</view>
-        </view>
-        <view class="fcbItem">
-            <view class="fcbHigh">
-                <text class="fcbRq">人气</text>
-                <text class="fcbValue">{{wltEntity.extendMap.level_popularityVal}}</text>
-                <text class="fcbLevel">{{wltEntity.extendMap.level_popularityCompare==1?'高':wltEntity.extendMap.level_popularityCompare==0?'平':'平'}}</text>
+        <view class="firmCenterBox">
+            <view class="fcbItem">
+                <view class="fcbBig">{{otherEntity.extendMap.registerTime}}个月</view>
+                <view class="fcbSmall">加入58</view>
             </view>
-            <view class="fcbHigh">
-                <text class="fcbRq">活跃</text>
-                <text class="fcbValue">{{wltEntity.extendMap.level_activeVal}}</text>
-                <text class="fcbLevel"> {{wltEntity.extendMap.level_activeCompare==1?'高':wltEntity.extendMap.level_activeCompare==0?'平':'平'}}</text>
+            <view class="fcbItem">
+                <view class="fcbHigh">
+                    <text class="fcbRq">人气</text>
+                    <text class="fcbValue">{{wltEntity.extendMap.level_popularityVal}}</text>
+                    <text class="fcbLevel">{{wltEntity.extendMap.level_popularityCompare==1?'高':wltEntity.extendMap.level_popularityCompare==0?'平':'平'}}</text>
+                </view>
+                <view class="fcbHigh">
+                    <text class="fcbRq">活跃</text>
+                    <text class="fcbValue">{{wltEntity.extendMap.level_activeVal}}</text>
+                    <text class="fcbLevel"> {{wltEntity.extendMap.level_activeCompare==1?'高':wltEntity.extendMap.level_activeCompare==0?'平':'平'}}</text>
+                </view>
+                <view class="fcbHigh">
+                    <text class="fcbRq">服务</text>
+                    <text class="fcbValue">{{wltEntity.extendMap.level_serviceVal}}</text>
+                    <text class="fcbLevel">{{wltEntity.extendMap.level_serviceCompare==1?'高':wltEntity.extendMap.level_serviceCompare==0?'平':'平'}}</text>
+                </view>
             </view>
-            <view class="fcbHigh">
-                <text class="fcbRq">服务</text>
-                <text class="fcbValue">{{wltEntity.extendMap.level_serviceVal}}</text>
-                <text class="fcbLevel">{{wltEntity.extendMap.level_serviceCompare==1?'高':wltEntity.extendMap.level_serviceCompare==0?'平':'平'}}</text>
-            </view> 
         </view>
-    </view>  
-    <view class="firmBottomBox">
-        <view class="telButton" data-position="middle" @tap="callTick">联系商家</view>
-    </view>
-    <!-- <view class="ChooseService">
+        <view class="firmBottomBox">
+            <form bindsubmit="handleFormidCollect" report-submit="true">
+                <button class="telButton" data-position="middle" form-type="submit" @tap="callTick">联系商家</button>
+            </form>
+        </view>
+        <!-- <view class="ChooseService">
         <view class="serviceName">选择服务</view>
         <view class="serviceValue">查看全部6个服务</view>
     </view>
@@ -230,23 +240,23 @@
         <view class="serviceName">分店信息</view>
         <view class="serviceValue">查看全部4家分店电话</view>
     </view> -->
-</view>
-<view class="detail">
-    <!-- <view class="detailMark" wx:if="{{otherEntity.extendMap.supportlabelList!==undefined}}">
+    </view>
+    <view class="detail">
+        <!-- <view class="detailMark" wx:if="{{otherEntity.extendMap.supportlabelList!==undefined}}">
         <view wx:for="{{otherEntity.extendMap.supportlabelList}}">{{item}}</view>
     </view> -->
-    <view class="detailMain">
-        <view class="detailTit">服务描述</view>
-        <view class="detailDes {{detailShow?'':'show'}}">{{infocontent}}</view>
-        <view class="{{detailShow?'detailMoreShow':'detailMore'}}">
-            <text @tap="detailShow">{{detailShow?'展开更多':'收起更多'}}</text>
-            <view class="dmArrow"></view>
+        <view class="detailMain">
+            <view class="detailTit">服务描述</view>
+            <view class="detailDes {{detailShow?'':'show'}}">{{infocontent}}</view>
+            <view class="{{detailShow?'detailMoreShow':'detailMore'}}">
+                <text @tap="detailShow">{{detailShow?'展开更多':'收起更多'}}</text>
+                <view class="dmArrow"></view>
+            </view>
         </view>
     </view>
-</view>
-<!-- 商家信息End -->
-<!-- 热门商家 -->
-<!-- <view class="hotSeller">
+    <!-- 商家信息End -->
+    <!-- 热门商家 -->
+    <!-- <view class="hotSeller">
     <view class="hot_title">
         <text class="hot_title_info">北京-搬家 热门商家</text>
     </view>
@@ -276,10 +286,10 @@
         </view>
     </view>
 </view> -->
-<!-- 热门商家End -->
+    <!-- 热门商家End -->
 
-<!--您可能还需要 -->
-<!-- <view class="guess">
+    <!--您可能还需要 -->
+    <!-- <view class="guess">
     <view class="guess_title">
         <text class="guess_title_info">除了搬家 您可能还需要</text>
     </view>
@@ -302,48 +312,53 @@
         </view>
     </view>
 </view> -->
-<!-- 您可能还需要End-->
-<!-- 评论End -->
-<!-- 底部悬浮 -->
-<view class="bottomBar">
-    <view class="miniBar" wx:if="{{coupon.status === 1}}" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}"  @tap="goMiniProgram">
-        <view class="miniBarIcon"></view>
-        <text>小程序</text>
-    </view>
-    <view class="telBar" data-position="bottom" @tap="callTick">
-        <view class="telBarIcon"></view>
-        <text>电话</text>
-    </view>
-    <view wx:if="{{!isQB}}" class="weiBar" @tap="goChat" data-userid="{{userid}}" data-infoid="{{infoid}}">
-        <view class="weiBarIcon"></view>
-        <text>微聊</text>
-    </view>
-</view>
+    <!-- 您可能还需要End-->
+    <!-- 评论End -->
+    <!-- 底部悬浮 -->
+    <form bindsubmit="handleFormidCollect" report-submit="true">
+        <view class="bottomBar">
 
-<!-- 打电话谈层  s -->
-<view class="call_mask" hidden="{{call.hidden}}">
-    <view class="call_con">
-        <text class="call_title">拨打电话</text>
-        <text class="call_number">{{call.teleNumber}}</text>
-        <view class="call_text">(电话<view class="call_tick">{{call.tick}}</view>秒后失效，请尽快拨打)</view>
-        <view class="call_btn_con">
-            <text class="call_left_btn" @tap="cancel_call">取消</text>
-            <text class="call_right_btn" @tap="call">拨打</text>
+            <button form-type="submit"  class="miniBar" wx:if="{{coupon.status === 1 && !isQB}}" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}" @tap="goMiniProgram">
+                <view class="miniBarIcon"></view>
+                <text>小程序</text>
+            </button>
+            <button form-type="submit" class="telBar" data-position="bottom" @tap="callTick">
+                <view class="telBarIcon"></view>
+                <text>电话</text>
+            </button>
+            <button form-type="submit" wx:if="{{!isQB}}" class="weiBar" @tap="goChat" data-userid="{{userid}}" data-infoid="{{infoid}}">
+                <view class="weiBarIcon"></view>
+                <text>微聊</text>
+            </button>
+
         </view>
-    </view>
-</view>
+    </form>
+    <form bindsubmit="handleFormidCollect" report-submit="true">
+        <!-- 打电话谈层  s -->
+        <view class="call_mask" hidden="{{call.hidden}}">
+            <view class="call_con">
+                <text class="call_title">拨打电话</text>
+                <text class="call_number">{{call.teleNumber}}</text>
+                <view class="call_text">(电话<view class="call_tick">{{call.tick}}</view>秒后失效，请尽快拨打)</view>
+                <view class="call_btn_con">
+                    <button class="call_left_btn" form-type="submit" @tap="cancel_call">取消</button>
+                    <button class="call_right_btn" form-type="submit" @tap="call">拨打</button>
+                </view>
+            </view>
+        </view>
+    </form>
 
-<!-- 举报 -->
-<view class="jubao">
-    <view>
-        签约前切勿付
-        <text>订金、押金</text>
-        等一切费用！
+    <!-- 举报 -->
+    <view class="jubao">
+        <view>
+            签约前切勿付
+            <text>订金、押金</text>
+            等一切费用！
+        </view>
+        <view>请务必<text>实地看房</text>, 查验房东和房屋证件后再签约！</view>
+        <view class="jbImg"></view>
     </view>
-    <view>请务必<text>实地看房</text>, 查验房东和房屋证件后再签约！</view>
-    <view class="jbImg"></view>
-</view>
-<!-- 举报End -->
+    <!-- 举报End -->
 
 </template>
 <script>
@@ -353,6 +368,7 @@ import { get } from '../../utils/http';
 import { track } from '../../utils/track';
 import CallMixin from '../../mixin/CallMixin';
 import Mixin from '../../mixin/mixin';
+import Form from '../../mixin/form';
 
 const im = require('../../utils/IMInit.js');
 const { fuwu } = require('../../utils/globalDataService');
@@ -398,9 +414,13 @@ export default class Xiangqingye extends wepy.page {
       },
       openid: '',
   };
-  mixins = [Mixin, CallMixin];
+  mixins = [Mixin, CallMixin, Form];
 
   methods = {
+      handleFormidCollect(e) {
+          const { formId } = e.detail;
+          this.requestFormidCollect(formId);
+      },
       goChat() {
           console.log('点击接入微聊');
           const options = {
@@ -420,7 +440,8 @@ export default class Xiangqingye extends wepy.page {
           };
           fuwu.optionsmb = options;
           im.gotoChat(options);
-      }, /**
+      },
+      /**
      * 地图跳转
      */
       onmapFun() {
@@ -471,14 +492,16 @@ export default class Xiangqingye extends wepy.page {
    */
   async onLoad(options) {
       if (!fuwu.globalData.isQB) {
-          fuwu.globalData.tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+          fuwu.globalData.tagCookie =
+        'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
           if (options.tagCookie) {
               fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
           }
       }
 
       if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
-          fuwu.globalData.tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+          fuwu.globalData.tagCookie =
+        'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
       }
       wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
       Object.assign(this, options);
@@ -498,7 +521,7 @@ export default class Xiangqingye extends wepy.page {
       }
       if (!fuwu.globalData.listCookie) {
           const setcookie =
-          result.header['Set-Cookie'] || result.header['set-cookie'];
+        result.header['Set-Cookie'] || result.header['set-cookie'];
           this.updataCookie(setcookie);
       }
       Object.assign(this, response);
@@ -525,9 +548,9 @@ export default class Xiangqingye extends wepy.page {
   onShareAppMessage() {
       return {
           title: '商家信息详情',
-          path: `discovery/xiangqingye/xiangqingye?city=${this.city}&cate2ListName=${
-              this.listName
-          }&infoid=${this.infoid}&sign=${this.sign}`,
+          path: `discovery/xiangqingye/xiangqingye?city=${
+              this.city
+          }&cate2ListName=${this.listName}&infoid=${this.infoid}&sign=${this.sign}`,
       };
   }
 }

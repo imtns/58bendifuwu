@@ -1,47 +1,51 @@
 <template>
-<view class="body">
-    <scroll-view scroll-y="true" bindscroll="scroll" style="height: 100vh;" enable-back-to-top="true"  bindscrolltolower="reachBottom" >
-        <navigator wx:for="{{listArr}}" wx:key="{{index}}" @tap="chargingLink" url="../xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}" >
-            <view class="list"  @tap="chargingLink" data-url="{{item.url}}" data-type="{{item.dataType}}" >
-                <view class="list_l">
-                    <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>
-                </view>
-                <view class="list_c">
-                    <view class="list_c_t">
-                        <text class="list_title">{{item.shortTitle}}</text>
-                    </view>
-                    <view class="list_c_b">
-                        <view class="list_area_box">
-							<text class="list_area">{{item.servicerange}}</text>
-						</view>
-                        <view class="list_icon_box">
-                            <text class="list_icon_info list_icon_info_pink" wx:if="{{item.coupon && item.coupon.coupon_type !==''}}">优惠券</text>
-                            <text class="list_icon_info" wx:if="{{item.coupon && item.coupon.status !==0}}">小程序</text>
-                            <text class="list_icon_info" wx:if="{{item.wltAge > 0}}">会员{{item.wltAge}}年</text>
+    <view class="body">
+        <scroll-view scroll-y="true" bindscroll="scroll" style="height: 100vh;" enable-back-to-top="true" bindscrolltolower="reachBottom">
+            <form bindsubmit="handleFormidCollect" report-submit="true">
+                <view wx:for="{{listArr}}" wx:key="{{index}}">
+                    <view class="list" @tap="chargingLink" data-url="{{item.url}}" data-type="{{item.dataType}}" data-link="../xiangqingye/xiangqingye?city={{item.localname}}&fullpath={{item.fullpath}}&cate2ListName={{item.listname}}&infoid={{item.infoId}}&sign={{item.infoTel400Sign}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}">
+                        <view class="list_l">
+                            <image src="{{item.picCDNUrl}}?w=160&h=120" class="list_img"></image>
+                        </view>
+                        <view class="list_c">
+                            <view class="list_c_t">
+                                <text class="list_title">{{item.shortTitle}}</text>
+                            </view>
+                            <view class="list_c_b">
+                                <view class="list_area_box">
+                                    <text class="list_area">{{item.servicerange}}</text>
+                                </view>
+                                <view class="list_icon_box">
+                                    <text class="list_icon_info list_icon_info_pink" wx:if="{{item.coupon && item.coupon.coupon_type !==''}}">优惠券</text>
+                                    <text class="list_icon_info" wx:if="{{item.coupon && item.coupon.status !==0}}">小程序</text>
+                                    <text class="list_icon_info" wx:if="{{item.wltAge > 0}}">会员{{item.wltAge}}年</text>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="list_r" catchtap="callTick" data-url="{{item.url}}" data-type="{{item.dataType}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}">
+                            <image src="http://img.58cdn.com.cn/ds/list/tels.png" class="list_tel"></image>
+                            <!-- <text class="list_comment">2条评论</text> -->
                         </view>
                     </view>
                 </view>
-                <view class="list_r" catchtap="callTick"  data-url="{{item.url}}" data-type="{{item.dataType}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}">
-                    <image src="http://img.58cdn.com.cn/ds/list/tels.png" class="list_tel"></image>
-                    <!-- <text class="list_comment">2条评论</text> -->
+            </form>
+        </scroll-view>
+    </view>
+    <!-- 打电话谈层  s -->
+    <form bindsubmit="handleFormidCollect" report-submit="true">
+        <view class="call_mask" style="display:{{call.hidden?'none':'block'}}">
+            <view class="call_con">
+                <text class="call_title">拨打电话</text>
+                <text class="call_number">{{call.teleNumber}}</text>
+                <text class="call_text">(电话<text class="call_tick">{{call.tick}}</text>秒后失效，请尽快拨打)</text>
+                <view class="call_btn_con">
+                    <button class="call_left_btn" form-type="submit" @tap="cancel_call">取消</button>
+                    <button class="call_right_btn" form-type="submit" @tap="call">拨打</button>
                 </view>
             </view>
-        </navigator>
-    </scroll-view>
-</view>
-<!-- 打电话谈层  s -->
-<view class="call_mask"  style="display:{{call.hidden?'none':'block'}}" > 
-    <view class="call_con">
-        <text class="call_title">拨打电话</text>
-        <text class="call_number">{{call.teleNumber}}</text>
-        <text class="call_text">(电话<text class="call_tick">{{call.tick}}</text>秒后失效，请尽快拨打)</text>
-        <view class="call_btn_con">
-            <text class="call_left_btn" @tap="cancel_call">取消</text>
-            <text class="call_right_btn" @tap="call">拨打</text>
         </view>
-    </view>
-</view>
-<!-- 打电话谈层  e -->
+    </form>
+    <!-- 打电话谈层  e -->
 </template>
 <script>
 import wepy from 'wepy';
@@ -51,6 +55,7 @@ import Mixin from '../../mixin/mixin';
 import { get } from '../../utils/http';
 import { track } from '../../utils/track';
 import { toast } from '../../utils/util';
+import Form from '../../mixin/form';
 
 const { globalDataService, fuwu } = require('../../utils/globalDataService');
 
@@ -79,26 +84,20 @@ export default class Liebiaoye extends wepy.page {
       noMoreData = false;
   }
   methods = {
+      handleFormidCollect(e) {
+          const { formId } = e.detail;
+          this.requestFormidCollect(formId);
+      },
       // 扣费链接
       async chargingLink(e) {
-          if (e.currentTarget.dataset.type === 'adinfo') {
-              //   const header = { cookie: app.globalData.listCookie || tagCookie };
-              //   const data = {};
-              //   try {
-              //       const result = await get(e.currentTarget.dataset.url, {
-              //           data,
-              //           header,
-              //       });
-              //       console.log(result);
-              //   } catch (err) {
-              //       console.log(err);
-              //   }
+          const { type, url, link } = e.currentTarget.dataset;
+          if (type === 'adinfo') {
               const header = {
                   'content-type': 'application/json',
                   cookie: fuwu.globalData.listCookie,
               };
               wx.request({
-                  url: e.currentTarget.dataset.url,
+                  url,
                   data: {},
                   method: 'GET',
                   dataType: 'json',
@@ -106,10 +105,17 @@ export default class Liebiaoye extends wepy.page {
                   success(response) {
                       console.log('扣费链接');
                       console.log(response);
+                      wx.navigateTo({
+                          url: link,
+                      });
                   },
                   fail() {
                       return false;
                   },
+              });
+          } else {
+              wx.navigateTo({
+                  url: link,
               });
           }
       },
@@ -134,14 +140,16 @@ export default class Liebiaoye extends wepy.page {
    */
   async onLoad(o) {
       if (!fuwu.globalData.isQB) {
-          fuwu.globalData.tagCookie = 'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+          fuwu.globalData.tagCookie =
+        'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
           if (o.tagCookie) {
               fuwu.globalData.tagCookie = decodeURIComponent(o.tagCookie || '');
           }
       }
 
       if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
-          fuwu.globalData.tagCookie = 'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+          fuwu.globalData.tagCookie =
+        'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
       }
       const { city, title = '列表页', fullpath = 0 } = o;
 
@@ -210,7 +218,7 @@ export default class Liebiaoye extends wepy.page {
           console.log(err);
       }
   }
-  mixins = [Mixin, CallMixin];
+  mixins = [Mixin, CallMixin, Form];
   /* 打电话 e */
   onShareAppMessage() {
       return {
@@ -223,5 +231,13 @@ export default class Liebiaoye extends wepy.page {
 }
 </script>
 <style lang="scss">
+button {
+  background-color: white !important;
+}
+button::after {
+  padding: 0;
+  border: none;
+  outline: none;
+}
 @import '../../style/list.scss';
 </style>

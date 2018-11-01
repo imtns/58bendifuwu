@@ -5,10 +5,12 @@
     <view class="lrListBox">
         <view class="lrBefore"></view>
         <block wx:for="{{listData.listData}}" wx:key="{{index}}">
-            <view class="lrListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
-                <image class="lrListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
-                <text class="lrListText">{{item.title}}</text>
-            </view>
+             <form bindsubmit="handleFormidCollect" report-submit="true"> 
+                <button class="lrListItem" form-type="submit" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
+                    <image class="lrListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
+                    <text class="lrListText">{{item.title}}</text>
+                </button>
+            </form>
         </block>
         <view class="lrAfter"></view>
     </view>
@@ -18,10 +20,12 @@
     <template is="titleTemp" data="{{title:listData.title}}" />
     <view class="norListBox">
         <block wx:for="{{listData.listData}}" wx:key="{{index}}">
-            <view class="norListItem" bindtap="navigatorFun" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
-                <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
-                <text class="norListText">{{item.title}}</text>
-            </view>
+        <form bindsubmit="handleFormidCollect" report-submit="true"> 
+                <button class="norListItem"  bindtap="navigatorFun" form-type="submit" data-cateid="{{item.cateId}}" data-fullpath="{{item.fullpath}}" data-pagetype="{{item.pagetype}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
+                    <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
+                    <text class="norListText">{{item.title}}</text>
+                </button>
+            </form>
         </block>
     </view>
 </template>
@@ -30,13 +34,15 @@
     <view class="fxfwBox">
         <scroll-view scroll-x="ture" class="scroll">
             <block wx:for="{{listData.commodityList}}" wx:key="{{index}}">
-                <view class="box" bindtap="goMini" data-appid="{{listData.appid}}" data-clickurl="{{item.clickUrl}}">
-                    <image class="boxImage" src="{{item.picUrl}}?w=200" mode="aspectFit"></image>
-                    <view class="boxText">{{item.title}}</view>
-                    <view class="boxText">
-                        <text class="fontRed">{{item.price}}元</text><text>{{item.punit}}</text>
-                    </view>
-                </view>
+                 <form bindsubmit="handleFormidCollect" report-submit="true"> 
+                    <button class="box" bindtap="goMini" form-type="submit" data-appid="{{listData.appid}}" data-clickurl="{{item.clickUrl}}">
+                        <image class="boxImage" src="{{item.picUrl}}?w=200" mode="aspectFit"></image>
+                        <view class="boxText">{{item.title}}</view>
+                        <view class="boxText">
+                            <text class="fontRed">{{item.price}}元</text><text>{{item.punit}}</text>
+                        </view>
+                    </button>
+                </form>
             </block>
         </scroll-view>
         <view class="fxfwMore" bindtap="goMore" data-appid="{{listData.appid}}" data-clickurl="{{listData.moreUrl}}">
@@ -55,10 +61,12 @@
         </block>
         <view class="norListBox">
             <block wx:for="{{listData.imageListData}}" wx:key="{{index}}">
-                <view class="norListItem" bindtap="navigatorFun" data-pagetype="{{item.pagetype}}" data-fullpath="{{item.fullpath}}" data-cateid="{{item.cateId}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
-                    <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
-                    <text class="norListText">{{item.title}}</text>
-                </view>
+                 <form bindsubmit="handleFormidCollect" report-submit="true"> 
+                    <button class="norListItem" bindtap="navigatorFun" form-type="submit" data-pagetype="{{item.pagetype}}" data-fullpath="{{item.fullpath}}" data-cateid="{{item.cateId}}" data-listName="{{item.listName}}" data-title="{{item.title}}">
+                        <image class="norListImg" src="{{item.picUrl}}" mode="aspectFit"></image>
+                        <text class="norListText">{{item.title}}</text>
+                    </button>
+                </form>
             </block>
         </view>
     </block>
