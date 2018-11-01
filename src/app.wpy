@@ -76,6 +76,9 @@ export default class extends wepy.app {
     };
 
     onLaunch(options) {
+        if (options.query.isQB) {
+            fuwu.globalData.isQB = true;
+        }
         wx.setStorageSync('scene', options.scene);
         // 把模板消息的参数存储上
         const self = fuwu;
@@ -109,7 +112,15 @@ export default class extends wepy.app {
                     im.getIMToken(im.imInit, self.optionsmb);
                 }
             } else {
-                im.callPassport();
+                wx.showModal({
+                    title: '提示',
+                    content: '您需要登录58验证开启微聊,是否开启',
+                    success({ confirm }) {
+                        if (confirm) {
+                            im.callPassport();
+                        }
+                    },
+                });
             }
             im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
             if (self.optionsmb && self.optionsmb.user_id) {
@@ -157,13 +168,13 @@ export default class extends wepy.app {
                     im.getIMToken(im.imInit, self.optionsmb);
                     setTimeout(() => {
                         im.gotoChat(self.optionsmb);
-                    }, 1500);
+                    }, 2000);
                 } else if (!im.isInit) {
                     console.log('如果有imtoken,但未初始化');
                     im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
                     setTimeout(() => {
                         im.gotoChat(self.optionsmb);
-                    }, 1500);
+                    }, 2000);
                 }
                 im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
             } else {

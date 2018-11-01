@@ -20,10 +20,10 @@ const http = (method, ...props) => new Promise((resolve, reject) => {
         if (!header.id58) {
             header.id58 = makeid();
         }
-        header.isQB = wx.getSystemInfoSync().isQB;
-        if (header.isQB) {
-            header.id58Test = makeid();
-        }
+        // header.isQB = wx.getSystemInfoSync().isQB;
+        // if (header.isQB) {
+        //     header.id58Test = makeid();
+        // }
         wepy.request({
             url: url + (~url.indexOf('?') ? '' : '?'),
             data,

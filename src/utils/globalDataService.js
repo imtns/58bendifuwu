@@ -12,7 +12,7 @@ const globalData = {
     uid: null,
     imtoken: null,
     tokenFirstReady: false,
-    domain: 'https://bossapi.58.com',
+    domain: 'http://bossapi.58.com',
     mainAppId: 'wx86c7b0019914401c',
     userInfo: null,
     isQB: wx.getSystemInfoSync().isQB || false, // 是否为QQ浏览器
