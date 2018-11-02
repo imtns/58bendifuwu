@@ -7,10 +7,10 @@ export default class Form extends wepy.mixin {
     data = {};
     requestFormidCollect(formId) {
         if (formId) {
-            get('https://yaofa.58.com/formidcollect/collect', {
+            get('http://bossapi.58.com/smallapp/formid/set', {
                 data: {
-                    consumerId: fuwu.globalData.token || '', // 当前用户 ID
-                    formId,
+                    code: fuwu.globalData.token || 'cde2a69612ab49101d7009815566f1e5', // 当前用户 ID
+                    formid: formId,
                 },
             });
         }

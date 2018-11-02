@@ -276,26 +276,22 @@ export default class Daleiye extends wepy.page {
           });
           if (fuwu.globalData.isQB) {
               setTimeout(() => {
-                  wx.navigateTo({
-                      url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
-                          this.city
-                      }&cityId=${
-                          this.cityId
-                      }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
-                  });
+                  this.redirect(listname, title, cateid, fullpath);
               }, 1000);
           } else {
-              wx.navigateTo({
-                  url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
-                      this.city
-                  }&cityId=${
-                      this.cityId
-                  }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
-              });
+              this.redirect(listname, title, cateid, fullpath);
           }
       },
   };
-
+  redirect(listname, title, cateid, fullpath) {
+      wx.navigateTo({
+          url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
+              this.city
+          }&cityId=${
+              this.cityId
+          }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
+      });
+  }
   /**
    * 获取城市
    */
