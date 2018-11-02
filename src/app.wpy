@@ -168,13 +168,13 @@ export default class extends wepy.app {
                     im.getIMToken(im.imInit, self.optionsmb);
                     setTimeout(() => {
                         im.gotoChat(self.optionsmb);
-                    }, 2000);
+                    }, 900);
                 } else if (!im.isInit) {
                     console.log('如果有imtoken,但未初始化');
                     im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
                     setTimeout(() => {
                         im.gotoChat(self.optionsmb);
-                    }, 2000);
+                    }, 900);
                 }
                 im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
             } else {
