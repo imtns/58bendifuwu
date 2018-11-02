@@ -332,6 +332,7 @@ export default class Daleiye extends wepy.page {
       });
       this.hotTagData = response.data.hotTagData;
       this.HotCateData = [];
+      this.cateData = [];
       this.mainData = response.data.mainData;
       if (!fuwu.globalData.isQB) {
           this.fxfw = response.data.fxfw;
