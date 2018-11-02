@@ -192,7 +192,6 @@ export default class Daleiye extends wepy.page {
           this.banner = 0;
           this.freshTui('hyjk');
       }
-      console.log(`COOKIE IS:${fuwu.globalData.tagCookie}`);
       wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
       this.$apply();
   }

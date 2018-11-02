@@ -117,7 +117,7 @@ export default class Liebiaoye extends wepy.page {
                   wx.navigateTo({
                       url: link,
                   });
-              }, 1000);
+              }, 500);
           } else {
               wx.navigateTo({
                   url: link,

@@ -12,6 +12,7 @@ var _usersTopic = {};
 
 //打开页面方式：navigateTo（默认），redirectTo,navigateBack,switchTab,reLaunch
 var gotoPageByRout = function (router_type, url) {
+    console.log('gotoPageByRout:'+router_type)
     switch (router_type) {
         case 'redirectTo':
             wx.redirectTo({
@@ -162,17 +163,20 @@ module.exports = {
     gotoChat: function (options, success, error) {
         // 错误验证
         // 如果未登录
+        console.log('TN:'+JSON.stringify(options))
         if (!_isLogined.call(this)) {
             error && error(_getError(1));
             return config.get('on-notlogin')();
-        } else if (_isEmpty(options) || _isEmpty(options.user_id) || _isEmpty(options.user_source)) {
+        } else if (!options || !options.user_id || !options.user_source) {
             return error && error(_getError(2));
         }
         // 设置refer字段
-        if (!_isEmpty(options.refer)) {
+        console.log(JSON.stringify(options.refer))
+        if (options.refer) {
             _sdk.setRefer(options.user_id, options.user_source, options.refer);
         }
         let url = config.get('im-absolute-path') + '/pages/chat/chat?userid=' + options.user_id + '&usersource=' + options.user_source;
+        console.log('chat URL:'+url);
         gotoPageByRout(options.router_type, url);
         success && success();
     },
