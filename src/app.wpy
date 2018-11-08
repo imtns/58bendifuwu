@@ -66,7 +66,10 @@ export default class extends wepy.app {
             qbDebugKey: '00114be7ba17dc390b29a63cbc887b31',
             // qbDebugKey: 'ee43d5799d8bf34795f5a702bc887b31',
         },
-        navigateToMiniProgramAppIdList: ['wx2a9c6eeb1c44a284'],
+        navigateToMiniProgramAppIdList: [
+            'wx2a9c6eeb1c44a284', // 58验证
+            'wx86c7b0019914401c', // 58优选
+        ],
         networkTimeout: {
             request: 10000,
             connectSocket: 10000,
