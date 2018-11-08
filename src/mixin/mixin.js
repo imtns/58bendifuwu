@@ -21,7 +21,6 @@ export default class Mixin extends wepy.mixin {
     }
     // 获取cookie
     updataCookie(strCookie) {
-        if (fuwu.globalData.isQB) return;
         console.log(strCookie);
         const str = strCookie;
         let arr = [];
