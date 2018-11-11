@@ -69,6 +69,7 @@ export default class extends wepy.app {
         navigateToMiniProgramAppIdList: [
             'wx2a9c6eeb1c44a284', // 58验证
             'wx86c7b0019914401c', // 58优选
+            'wx56f4459e89f63e7a', // 58同城放心服务
         ],
         networkTimeout: {
             request: 10000,
