@@ -297,7 +297,7 @@ page {
   position: absolute;
   top: 0;
   right: 134rpx;
-  background: url('http://img.58cdn.com.cn/lbg/jianzhan/images/stamp.png')
+  background: url('https://img.58cdn.com.cn/lbg/jianzhan/images/stamp.png')
     no-repeat top left;
   background-size: 100%;
 }

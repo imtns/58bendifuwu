@@ -24,7 +24,7 @@
                         </view>
                         <form bindsubmit="handleFormidCollect" report-submit="true">
                         <button class="list_r" form-type="submit" catchtap="callTick" data-url="{{item.url}}" data-type="{{item.dataType}}" data-infoId="{{item.infoId}}" data-sign="{{item.infoTel400Sign}}">
-                            <image src="http://img.58cdn.com.cn/ds/list/tels.png" class="list_tel"></image>
+                            <image src="https://img.58cdn.com.cn/ds/list/tels.png" class="list_tel"></image>
                             <!-- <text class="list_comment">2条评论</text> -->
                         </button>
                         </form>
