@@ -69,10 +69,10 @@ export default class CallMixin extends wepy.mixin {
         }
 
         const header = fuwu.globalData.testHeader;
-        const url = 'https://link.58.com/api/assign';
+        const url = 'https://bossapi.58.com/smallapp/common/link';
         try {
             const { data: callData } = await get(url, { data: postData, header });
-            const { code, result: teleNumberStr } = callData;
+            const { code, data: teleNumberStr } = callData;
             if (code === 0) {
                 this.call = util.constDeepMixin(this.call, {
                     teleNumber: parseInt(teleNumberStr) + 1 ? teleNumberStr : '服务忙',

@@ -47,6 +47,12 @@ export default class Mixin extends wepy.mixin {
                 if (i.includes('sessionid')) {
                     arr2.push(i);
                 }
+                if (i.includes('id58')) {
+                    wx.setStorageSync('id58', `${i};`);
+                }
+                if (i.includes('cookieuid')) {
+                    wx.setStorageSync('cookieuid', `${i};`);
+                }
             });
         }
         globalDataService.set('listCookie', `${wx.getStorageSync('tagCookie') + wx.getStorageSync('cookieuid') + wx.getStorageSync('id58') + arr2.join(';')}`);

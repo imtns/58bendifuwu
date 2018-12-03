@@ -77,7 +77,7 @@
             <view class="coupon-shadow">
                 <view class="coupon-box table" @tap="goMiniProgram" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}">
                     <view class="cell one-text coupon-left">
-                        <image class="gift" src="/image/gift.png"></image>
+                        <image class="gift" mode="aspectFill" src="/image/gift.png"></image>
                     </view>
                     <!-- <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 2}}">{{coupon.relief}}<text class="coupon-discount">折</text></view>
             <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 1}}">￥{{coupon.relief}}</view> -->

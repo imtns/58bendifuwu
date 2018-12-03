@@ -28,14 +28,6 @@ page {
   margin-right: 24rpx;
 }
 
-.gift {
-  width: 100%;
-  height: 90%;
-  position: relative;
-  top: 30rpx;
-  left: 30rpx;
-}
-
 .baseInfo_share {
   text-align: right;
   font-size: 26rpx;
@@ -1332,12 +1324,18 @@ button {
 
 .coupon-left {
   width: 174rpx;
-  max-width: 174rpx;
-  line-height: 180rpx;
   font-size: 60rpx;
   color: #ff552e;
   vertical-align: middle;
   text-align: center;
+
+  .gift {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    left: 30rpx;
+  }
+
 }
 
 .coupon-discount {
