@@ -1,5 +1,6 @@
 /* eslint-disable */
 //sessions.js
+import LoginHelper from '../../../../utils/login';
 const im = require('../../../../utils/IMInit.js');
 import { track } from '../../../../utils/track.js';
 const _im = require('../../index');
@@ -7,15 +8,12 @@ const _timeFormat = require('../../utils/timeFormat.js');
 // 图片路径添加https前缀
 const _convertUrl = require('../../utils/util').convertUrl;
 const _config = require('../../global/config');
-
-const {fuwu} = require('../../../../utils/globalDataService');
-
+const { fuwu } = require('../../../../utils/globalDataService');
 let _sdk;
 let _have_more = true; // 是否仍有未加载的会话
 let _load_count = 0; // 已加载会话数量
 let _first_min_count = 15; // 首页占满需加载会话数量(暂时定死)
 let _getSessions; // 获取会话列表方法
-
 // 会话列表中最后一条消息内容格式处理
 var _sessionLastMsg = session => {
     let content = session.msg.content || {
@@ -65,7 +63,6 @@ var _sessionLastMsg = session => {
     session.lastMsg = lastMsg;
 };
 var handleSession;
-
 Page({
     /**
      * 页面的初始数据
@@ -76,66 +73,37 @@ Page({
             showLoading: true,
             loadInfo: ''
         },
-        isQB:!!fuwu.globalData.isQB,
-        isLogin:!!wx.getStorageSync('ppu')
+        isQB: !!fuwu.globalData.isQB,
+        isLogin: !!wx.getStorageSync('ppu')
     },
-    login(){
-        if (!wx.getStorageSync('ppu')) {
-            this.checkPPU()
-        }else{
-            this.goLogin()
-        }
+    login() {
+        fuwu.globalData.jumpBack = '/vendors/im/pages/sessions/sessions';
+        LoginHelper.goLogin();
     },
-    checkPPU(){
-        if (!wx.getStorageSync('ppu')) {
-            console.log("没有ppu")
-            try {
-                wx.navigateToMiniProgram({
-                    appId: 'wx2a9c6eeb1c44a284',
-                    path: 'pages/index/index',
-                    extraData: {},
-                    envVersion: 'release', //trial release
-                    success(res) {
-                        // 打开成功
-                        console.log('打开成功！');
-                    },
-                    complete: function (resp) {
-                        console.log(resp.errMsg)
-                    }
-                });
-            } catch (e) {
-                wx.showToast({
-                    title: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。',
-                    icon: '',
-                    duration: 5000
-                });
-            }
-        }
-    },
-    onShow(){
-        track('show',{
+    onShow() {
+        track('show', {
             pagetype: "list", // 页面类型，没有置空【必填】
         })
     },
-    onLoad(){
-        this.checkPPU()
+    onLoad() {
+        if (wx.getStorageSync('ppu')) {
+            this.delayFun()
+        }
     },
-    delayFun(){
+    delayFun() {
         this.setData({
             isLogin: !!wx.getStorageSync('ppu')
         })
         var self = this;
-       
         //有改动
-        // if (!_im.me()) {
-        //     return;
-        // }
+        if (!_im.me()) {
+            console.log('微聊为初始化！！！！！！！');
+            return;
+        }
         _sdk = _im.sdk();
         // 会话列表更新时，更新UI会话列表
         handleSession = () => {
-             
             let sessions = _sdk.getAllSessions();
-
             if (sessions.length === 0) {
                 this.setData({
                     loadStatus: {
@@ -147,14 +115,12 @@ Page({
             }
             // 外部session列表处理
             _config.get('sessions-converter')(sessions, sessions => {
-
                 _load_count = sessions.length;
                 let unread = _sdk.getAllUnreadAmount();
                 let userkeys = sessions.map(session => ({
                     'user_id': session.user.user_id,
                     'user_source': session.user.user_source
                 }));
-
                 _sdk.getContact(userkeys, contacts => {
                     sessions.forEach(session => {
                         let session_user = session.user;
@@ -180,7 +146,6 @@ Page({
                         // 最后一条消息内容及状态
                         _sessionLastMsg(session);
                     });
-
                     // 更新会话列表
                     this.setData({
                         sessionList: sessions,
@@ -189,7 +154,6 @@ Page({
                             loadInfo: '加载成功！'
                         }
                     });
-
                     // 如果首屏未加载满则继续加载
                     if (_first_min_count > _load_count && _have_more) {
                         _getSessions(have_more => _have_more = have_more);
@@ -205,7 +169,6 @@ Page({
         _sdk.listen('sessionChanged', handleSession);
         // 未读消息数变更时，更新会话列表
         _sdk.listen('unreadChanged', handleSession);
-       
         // 初次进入页面加载会话列表，保证铺满屏幕(每个会话item所占高度：148 rpx)
         /*wx.getSystemInfo({
          success: function (res) {
@@ -216,7 +179,6 @@ Page({
          });
          }
          });*/
-
         // 获取会话列表
         _getSessions = (success, fail) => {
             _sdk.getSessions({}, (sessionlist, have_more) => {
@@ -252,10 +214,9 @@ Page({
             });
         }
         // 再次进入页面时，加载sdk已经查询出的会话列表
-        if (_sdk.getAllSessions().length > 0)
-            handleSession();
+        if (_sdk.getAllSessions().length > 0) handleSession();
     },
-    goLogin(){
+    goLogin() {
         setTimeout(() => {
             this.delayFun()
         }, 500);
@@ -263,10 +224,10 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onShow: function (options) {
-        this.goLogin()
+    onShow: function(options) {
+        // this.goLogin()
     },
-    onUnload: function () {
+    onUnload: function() {
         // changed
         if (!_sdk) {
             return;
@@ -279,11 +240,10 @@ Page({
         // 未读消息数变更时，更新会话列表
         _sdk.remove('unreadChanged', handleSession);
     },
-
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
+    onReachBottom: function() {
         if (_have_more) {
             this.setData({
                 loadStatus: {

@@ -1,0 +1,1 @@
+<login wx:if="{{loaded}}" params="{{params}}" bind:onjump="onJump" />

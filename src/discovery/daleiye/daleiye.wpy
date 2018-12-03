@@ -48,13 +48,13 @@ import wepy from 'wepy';
 
 import { get } from '../../utils/http';
 import { track } from '../../utils/track';
-
 import Mixin from '../../mixin/mixin';
 import Form from '../../mixin/form';
 
 const { globalDataService, fuwu } = require('../../utils/globalDataService');
 
 const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
+
 
 export default class Daleiye extends wepy.page {
   config = {
@@ -198,11 +198,15 @@ export default class Daleiye extends wepy.page {
   methods = {
       redirectAd(e) {
           const { link } = e.currentTarget.dataset;
-          if (link) {
-              wx.navigateTo({
-                  url: `../../${link}`,
-              });
-          }
+          const appid = link.split(',')[0];
+          const pageUrl = link.split(',')[1];
+          wx.navigateToMiniProgram({
+              appId: appid,
+              path: pageUrl,
+              success(res) {
+                  console.log(res);
+              },
+          });
           //   wx.switchTab({
           //       url: '../../benefit/benefit',
           //   });

@@ -1,0 +1,2 @@
+<!--pages/passport/passport.wxml-->
+<pluginPassport wx:if="{{loaded}}" params="{{params}}" bind:onjump="onJump" />

@@ -1,37 +1,41 @@
+import LoginHelper from '../utils/login';
+
 const im = require('../vendors/im/index.js');
 
 let isInit = false;
 
-function callPassport() {
-    try {
-        wx.navigateToMiniProgram({
-            appId: 'wx2a9c6eeb1c44a284',
-            path: 'pages/index/index',
-            extraData: {},
-            envVersion: 'release', // trial release
-            success() {
-                // 打开成功
-                console.log('打开成功！');
-            },
-            complete(resp) {
-                console.log(resp.errMsg);
-            },
-        });
-    } catch (e) {
-        wx.showToast({
-            title: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。',
-            icon: '',
-            duration: 5000,
-        });
-    }
-}
+// function callPassport() {
+//     try {
+//         wx.navigateToMiniProgram({
+//             appId: 'wx2a9c6eeb1c44a284',
+//             path: 'pages/index/index',
+//             extraData: {},
+//             envVersion: 'release', // trial release
+//             success() {
+//                 // 打开成功
+//                 console.log('打开成功！');
+//             },
+//             complete(resp) {
+//                 console.log(resp.errMsg);
+//             },
+//         });
+//     } catch (e) {
+//         wx.showToast({
+//             title: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。',
+//             icon: '',
+//             duration: 5000,
+//         });
+//     }
+// }
 // 获取token  调用翔远接口
 function getIMToken(cb, optionsmb) {
+    if (!wx.getStorageSync('ppu')) {
+        // callPassport();
+        LoginHelper.goLogin();
+        return;
+    }
     console.log('调用getimtoken接口');
     console.log('access im token get');
-    if (!wx.getStorageSync('ppu')) {
-        callPassport();
-    }
     wx.request({
         url: 'https://bossapi.58.com/smallapp/imtoken/get',
         header: {
@@ -81,7 +85,8 @@ function imInit(imToken) {
         ui: {
             'im-absolute-path': '/vendors/im',
             'on-notlogin'() {
-                callPassport();
+                LoginHelper.goLogin();
+                // callPassport();
                 console.log('on-notlogin');
             },
         },
@@ -97,7 +102,8 @@ function IMsuccess(data) {
 }
 
 function IMerror() {
-    callPassport();
+    // callPassport();
+    LoginHelper.goLogin();
 }
 
 function goToSession(options) {
@@ -129,7 +135,8 @@ function callShangjiatong() {
 function getIMTokenPromise(cb, optionsmb) {
     const p = new Promise(((resolve, reject) => {
         if (!wx.getStorageSync('ppu')) {
-            callPassport();
+            LoginHelper.goLogin();
+            // callPassport();
         }
         wx.request({
             // TODO: 将域名写活
@@ -196,7 +203,7 @@ module.exports = {
     goToSession,
     gotoChat,
     imInit,
-    callPassport,
+    // callPassport,
     getIMTokenPromise,
     IMsuccess,
     IMerror,

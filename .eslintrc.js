@@ -13,7 +13,8 @@ module.exports = {
     plugins: ['html'],
     globals: {
         wx: true,
-        Page: true
+        Page: true,
+        requirePlugin:true
     },
     settings: {
         "import/resolver": {

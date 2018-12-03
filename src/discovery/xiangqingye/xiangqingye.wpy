@@ -439,6 +439,8 @@ export default class Xiangqingye extends wepy.page {
               },
               router_type: 'navigateTo',
           };
+          fuwu.globalData.jumpBack = `/discovery/xiangqingye/xiangqingye?city=${this.linstName}}&fullpath=${this.fullpath}&cate2ListName=${this.listName}&
+          infoid=${this.infoid}&sign=${this.sign}`;
           fuwu.optionsmb = options;
           im.gotoChat(options);
       },
@@ -499,7 +501,17 @@ export default class Xiangqingye extends wepy.page {
               fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
           }
       }
-
+      fuwu.globalData.pageParams = '';
+      Object.keys(options).forEach((key) => {
+          if (options[key]) {
+              const value = options[key];
+              fuwu.globalData.pageParams += `${key}=${value}&`;
+          }
+      });
+      if (fuwu.globalData.pageParams) {
+          fuwu.globalData.pageParams = fuwu.globalData.pageParams.substr(0, fuwu.globalData.pageParams.length - 1);
+      }
+      console.log(fuwu.globalData.paegParams);
       if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
           fuwu.globalData.tagCookie =
         'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';

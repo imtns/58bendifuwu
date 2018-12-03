@@ -22,6 +22,7 @@ const globalData = {
     token: '',
     userType: 0,
     unionid: '',
+    jumpBack: '',
     testHeader: {
         version: '7',
         channel: '5',
@@ -51,6 +52,7 @@ const fuwu = {
     globalData,
     optionsmb: {}, // gochat的参数
     global: '',
+    pageParams: '',
     flag: 0,
     login(callback) {
         const self = fuwu;
@@ -111,7 +113,7 @@ const fuwu = {
                             // self.setUserInfo();
                         }
                     } else if (res.data.code === -5) {
-                        im.callPassport();
+                        // im.callPassport();
                         console.log(res.data.code);
                     }
                 },
@@ -123,22 +125,6 @@ const fuwu = {
         console.log(makeid());
         // const that = this;
         if (fuwu.globalData.isQB) {
-            // wx.qbLogin({
-            //     appkey: '58TONGCHENG', // 该appkey是QB分配给小程序开发者的，用于映射QB小程序在微信下的appid
-            //     type: '1', // 1: 微信换取的是openid，
-            //     // 2：微信换取的是unionid，不填该字段默认换取的是openid
-            //     // 3: 微信获取的是:openid+unionid
-            //     success(res) {
-            //         console.log('------------------------------QB--------------------------------');
-            //         console.log(that.objToString(res));
-            //     },
-            //     fail(e) {
-            //         console.log('------------------------------QBError--------------------------------');
-            //         console.log(that.objToString(e));
-            //     },
-            // });
-
-
             const randomStr = makeid();
             wx.setStorageSync('token', randomStr);
             if (!wx.getStorageSync('id58')) {
@@ -160,9 +146,6 @@ const fuwu = {
                 },
                 fail() {
                     console.error('Failed to call wx.login()');
-                    wx.navigateTo({
-                        url: '/errorpage/errorpage?errMsg=Failed_to_call_wx.login()',
-                    });
                 },
             });
         }
