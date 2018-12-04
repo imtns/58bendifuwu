@@ -51,6 +51,7 @@ import { track } from '../../utils/track';
 import Mixin from '../../mixin/mixin';
 import Form from '../../mixin/form';
 
+const im = require('../../utils/IMInit.js');
 const { globalDataService, fuwu } = require('../../utils/globalDataService');
 
 const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
@@ -151,6 +152,18 @@ export default class Daleiye extends wepy.page {
               pagetype: 'index', // 页面类型，没有置空【必填】
           });
       }, 3500);
+      if (wx.getStorageSync('ppu') && wx.getStorageSync('fromLogin')) {
+          try {
+              im.getIMToken(im.imInit);
+          } catch (e) {
+              console.log('setSyncSTORE异常');
+          }
+          if (fuwu.optionsmb && fuwu.optionsmb.user_id) {
+              wx.removeStorageSync('fromLogin');
+              im.gotoChat(fuwu.optionsmb);
+          }
+          im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+      }
   }
   /**
    * 生命周期函数--监听页面加载

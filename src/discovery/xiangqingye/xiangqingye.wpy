@@ -369,6 +369,7 @@ import { track } from '../../utils/track';
 import CallMixin from '../../mixin/CallMixin';
 import Mixin from '../../mixin/mixin';
 import Form from '../../mixin/form';
+import LoginHelper from '../../utils/login';
 
 const im = require('../../utils/IMInit.js');
 const { fuwu } = require('../../utils/globalDataService');
@@ -439,10 +440,15 @@ export default class Xiangqingye extends wepy.page {
               },
               router_type: 'navigateTo',
           };
-          fuwu.globalData.jumpBack = `/discovery/xiangqingye/xiangqingye?city=${this.linstName}}&fullpath=${this.fullpath}&cate2ListName=${this.listName}&
-          infoid=${this.infoid}&sign=${this.sign}`;
           fuwu.optionsmb = options;
-          im.gotoChat(options);
+          if (wx.getStorageSync('ppu')) {
+              // 如果有ppu
+              im.gotoChat(options);
+          } else {
+              fuwu.globalData.jumpBack = `/discovery/xiangqingye/xiangqingye?city=${this.linstName}}&fullpath=${this.fullpath}&cate2ListName=${this.listName}&
+          infoid=${this.infoid}&sign=${this.sign}`;
+              LoginHelper.goLogin();
+          }
       },
       /**
      * 地图跳转
@@ -489,6 +495,13 @@ export default class Xiangqingye extends wepy.page {
               pagetype: 'detail',
           });
       }, 3500);
+      if (fuwu.globalData.jumpBack.indexOf('xiangqingye') > -1 && wx.getStorageSync('ppu')) {
+          setTimeout(() => {
+              wx.removeStorageSync('fromLogin');
+              fuwu.globalData.jumpBack = '';
+              im.gotoChat(fuwu.optionsmb);
+          }, 500);
+      }
   }
   /**
    * 生命周期函数--监听页面加载

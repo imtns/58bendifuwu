@@ -30,11 +30,6 @@ function redirect() {
                 url: fuwu.globalData.jumpBack || '/discovery/daleiye/daleiye',
             });
         }
-        if (fuwu.optionsmb.user_id) {
-            setTimeout(() => {
-                im.gotoChat(fuwu.optionsmb);
-            }, 500);
-        }
     }, 500);
 }
 const callback = (code) => {
@@ -76,7 +71,8 @@ export default {
      * @param {Object} cfg { username, mobile }
      */
     goLogin(cfg = {}) {
-        // const PPU = 'UID=30624233&UN=imtns&TT=642e9646a27a33242db7beaa1c13ddef&PBODY=MqXLrbVlkDD8w_8IJ0nbQH2fzWAkfkoMp4y6Bx7Aw-IEVRc7HTdOwMJga06XRSv_jy3sGQF_yE9wPrAh_XLZXvZSpedlSu3c7ATBSvLXwlCKjaVWUC2k9NtKDD8PSTJjnWSRpNRc-2taD65wBLtCI61U4S_UGndPXio0XxJ3bo4&VER=1';
+        // const PPU = 'UID=30624233&UN=imtns&TT=642e9646a27a33242db7beaa1c13ddef&PBODY=MqXLrbVlkDD8w_8IJ0nbQH2fzWAkfkoMp4y6Bx7Aw-IEVRc7HTdOwMJga06XRSv_jy3sGQF_yE9wPrA
+        // h_XLZXvZSpedlSu3c7ATBSvLXwlCKjaVWUC2k9NtKDD8PSTJjnWSRpNRc-2taD65wBLtCI61U4S_UGndPXio0XxJ3bo4&VER=1';
         // wx.setStorageSync('ppu', PPU);
         // wx.setStorageSync('uid', PPU.split('=')[1].split('&')[0]);
         // if (wx.getStorageSync('im_token')) {

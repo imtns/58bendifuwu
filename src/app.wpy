@@ -92,78 +92,49 @@ export default class extends wepy.app {
       if (options.query.isQB) {
           fuwu.globalData.isQB = true;
       }
+      wx.setStorageSync('fromLogin', false);
       wx.setStorageSync('scene', options.scene);
-      // 把模板消息的参数存储上
-      const self = fuwu;
-      self.flag++;
       console.log(`ISQB:${fuwu.globalData.isQB}`);
-      const {
-          uid, infoid, rootcateid, cateid, usersource,
-      } = options.query;
-      if (wx.getStorageSync('ppu')) {
-          // 如果有ppu
-          if (wx.getStorageSync('im_token') && !_im.me()) {
-              im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
-          } else {
-              im.getIMToken(im.imInit, self.optionsmb);
-          }
-      }
-      if (uid) {
-      // 如果从消息推送进入到小程序
-          self.optionsmb = {
-              user_id: uid, // 聊天对方 id
-              user_source: usersource, // 聊天对方来源
-              refer: {
-                  invitation: {
-                      id: infoid,
-                      rootcateid: rootcateid,
-                      cateid: cateid,
-                      scene: '',
-                      role: 1,
-                      refer_time: new Date().getTime(),
-                  },
-              },
-              router_type: 'navigateTo',
-          };
-          if (!wx.getStorageSync('ppu')) {
-              // 如果有ppu
-              //   wx.showModal({
-              //       title: '提示',
-              //       content: '您需要登录58验证开启微聊,是否开启',
-              //       success({ confirm }) {
-              //           if (confirm) {
-              //               LoginHelper.goLogin();
-              //               // im.callPassport();
-              //           }
-              //       },
-              //   });
-              fuwu.globalData.jumpBack = '/discovery/daleiye/daleiye';
-              LoginHelper.goLogin();
-          }
-          im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-          if (self.optionsmb && self.optionsmb.user_id && wx.getStorageSync('ppu')) {
-              setTimeout(() => {
-                  im.gotoChat(self.optionsmb);
-              }, 1000);
-
-              console.log('登录youcashu----------------');
-          }
-      }
-      self.login(() => {
-          this.globalData.tokenFirstReady = true;
-      //    console.log('登录层高----------------');
-      });
+      //   const {
+      //       uid, infoid, rootcateid, cateid, usersource,
+      //   } = options.query;
+      //   if (wx.getStorageSync('ppu')) {
+      //       // 如果有ppu
+      //       if (wx.getStorageSync('im_token') && !_im.me()) {
+      //           im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+      //       } else {
+      //           im.getIMToken(im.imInit, self.optionsmb);
+      //       }
+      //   }
+      //   if (uid) {
+      //   // 如果从消息推送进入到小程序
+      //       self.optionsmb = {
+      //           user_id: uid, // 聊天对方 id
+      //           user_source: usersource, // 聊天对方来源
+      //           refer: {
+      //               invitation: {
+      //                   id: infoid,
+      //                   rootcateid: rootcateid,
+      //                   cateid: cateid,
+      //                   scene: '',
+      //                   role: 1,
+      //                   refer_time: new Date().getTime(),
+      //               },
+      //           },
+      //           router_type: 'navigateTo',
+      //       };
+      //       im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+      //       if (self.optionsmb && self.optionsmb.user_id && wx.getStorageSync('ppu')) {
+      //           setTimeout(() => {
+      //               im.gotoChat(self.optionsmb);
+      //           }, 1000);
+      //           console.log('登录youcashu----------------');
+      //       }
+      //   }
   }
   onShow(options) {
       const self = fuwu;
       self.flag++;
-      if (wx.getStorageSync('fromLogin')) {
-          if (self.optionsmb && self.optionsmb.user_id) {
-              im.gotoChat(self.optionsmb);
-              console.log('登录youcashu----------------');
-          }
-          return;
-      }
       if (options.scene !== 1011 && options.scene !== 1043) {
           if (wx.getStorageSync('ppu')) {
               try {
@@ -171,19 +142,10 @@ export default class extends wepy.app {
               } catch (e) {
                   console.log('setSyncSTORE异常');
               }
-              //   /** 新逻辑 */
-              //   if (!wx.getStorageSync('im_token')) {
-              //       im.getIMToken(im.imInit, self.optionsmb);
-              //       setTimeout(() => {
-              //           im.gotoChat(self.optionsmb);
-              //       }, 900);
-              //   } else if (!im.isInit) {
-              //       console.log('如果有imtoken,但未初始化');
-              //       im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
-              //       setTimeout(() => {
-              //           im.gotoChat(self.optionsmb);
-              //       }, 900);
-              //   }
+              if (wx.getStorageSync('fromLogin') && self.optionsmb && self.optionsmb.user_id) {
+                  wx.removeStorageSync('fromLogin');
+                  im.gotoChat(self.optionsmb);
+              }
               im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
           }
       }
@@ -216,42 +178,56 @@ export default class extends wepy.app {
                   } else {
                       im.getIMToken(im.imInit, self.optionsmb);
                   }
+                  im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+                  if (self.optionsmb && self.optionsmb.user_id) {
+                      im.gotoChat(self.optionsmb);
+                  }
               } else {
-                  //   LoginHelper.goLogin();
-                  //   im.callPassport();
-              }
-              im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-              if (self.optionsmb && self.optionsmb.user_id) {
-                  im.gotoChat(self.optionsmb);
+                  setTimeout(() => {
+                      LoginHelper.goLogin();
+                  }, 1000);
               }
           }
       }
       if (options.scene === 1043) {
       // 如果uid有值且 self.optionsmb没值
           if (self.flag === 1) {
-              if (options.query.uid && _im.me() && _im.me().user_id) {
-                  const {
-                      uid, infoid, rootcateid, cateid, usersource,
-                  } = options.query;
-                  if (uid) {
-                      // 如果从消息推送进入到小程序
-                      self.optionsmb = {
-                          user_id: uid, // 聊天对方 id
-                          user_source: usersource, // 聊天对方来源
-                          refer: {
-                              invitation: {
-                                  id: infoid, // 帖子id
-                                  rootcateid: rootcateid, // 一级分类id(表现类别)
-                                  cateid: cateid, // 最细类别id(表现类别)
-                                  scene: '', // 聊天触发的场景(listing"为列表详情页，其余由业务侧自己定义)
-                                  role: 1, // 角色标识,"1"为发帖者(业务线统一都传"1")
-                                  refer_time: new Date().getTime(),
-                              },
+              const {
+                  uid, infoid, rootcateid, cateid, usersource,
+              } = options.query;
+              if (uid) {
+                  // 如果从消息推送进入到小程序
+                  self.optionsmb = {
+                      user_id: uid, // 聊天对方 id
+                      user_source: usersource, // 聊天对方来源
+                      refer: {
+                          invitation: {
+                              id: infoid, // 帖子id
+                              rootcateid: rootcateid, // 一级分类id(表现类别)
+                              cateid: cateid, // 最细类别id(表现类别)
+                              scene: '', // 聊天触发的场景(listing"为列表详情页，其余由业务侧自己定义)
+                              role: 1, // 角色标识,"1"为发帖者(业务线统一都传"1")
+                              refer_time: new Date().getTime(),
                           },
-                          router_type: 'navigateTo', // 打开聊天页面方式 ：navigateTo（默认），redirectTo,navigateBack,switchTab,reLaunch
-                      };
+                      },
+                      router_type: 'navigateTo', // 打开聊天页面方式 ：navigateTo（默认），redirectTo,navigateBack,switchTab,reLaunch
+                  };
+              }
+              if (wx.getStorageSync('ppu')) {
+                  // 如果有ppu
+                  if (wx.getStorageSync('im_token') && !_im.me()) {
+                      im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
+                  } else {
+                      im.getIMToken(im.imInit, self.optionsmb);
                   }
-                  im.gotoChat(self.optionsmb);
+                  im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+                  if (self.optionsmb && self.optionsmb.user_id) {
+                      im.gotoChat(self.optionsmb);
+                  }
+              } else {
+                  setTimeout(() => {
+                      LoginHelper.goLogin();
+                  }, 1000);
               }
           }
           self.flag = 0;
