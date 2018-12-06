@@ -1,28 +1,45 @@
 <template>
-<view class="body">
-  <view class="container_coupon">
-        <view class="coupon-title">满299元可用</view>
-        <!-- <view class="coupon-subtitle mt-10">满99元可用</view> -->
-        <!-- <view class="coupon-value">￥<text>20</text></view> -->
-        <view class="coupon-value"><text>2</text>折</view>
-        <view class="coupon-cate">仅限家庭保洁服务类</view>
-        <view class="coupon-period">2018.06.22-2018.06.30</view>
-        <view class="coupon-period">领取后5天可用</view>
-        <!-- <view class="coupon-period">领取后立即生效</view> -->
-        <view class="use-button" @tap="useCoupon">立即使用</view>
-        <button class="share-button" open-type="share">分享给好友</button>
-        <view class="split-title">使用说明</view>
-        <view class="use-instro">暂无使用说明</view>
+    <nav :navbarData.sync="navbarData"></nav>
+    <view class="body">
+        <view class="container_coupon">
+            <view class="coupon-title">满299元可用</view>
+            <!-- <view class="coupon-subtitle mt-10">满99元可用</view> -->
+            <!-- <view class="coupon-value">￥<text>20</text></view> -->
+            <view class="coupon-value"><text>2</text>折</view>
+            <view class="coupon-cate">仅限家庭保洁服务类</view>
+            <view class="coupon-period">2018.06.22-2018.06.30</view>
+            <view class="coupon-period">领取后5天可用</view>
+            <!-- <view class="coupon-period">领取后立即生效</view> -->
+            <view
+                class="use-button"
+                @tap="useCoupon"
+            >立即使用</view>
+            <button
+                class="share-button"
+                open-type="share"
+            >分享给好友</button>
+            <view class="split-title">使用说明</view>
+            <view class="use-instro">暂无使用说明</view>
+        </view>
     </view>
-</view>
 </template>
 <script>
 import wepy from 'wepy';
+import Nav from '../../components/nav';
 
 export default class CouponDetail extends wepy.page {
-  config = {
-      navigationBarTitleText: '优惠券详情',
+  data = {
+      navbarData: {
+          title: '',
+          showCapsule: true,
+      },
   };
+  components = {
+      nav: Nav,
+  };
+  onLoad() {
+      this.navbarData.title = '优惠券详情';
+  }
 }
 </script>
 <style lang="scss" scoped>

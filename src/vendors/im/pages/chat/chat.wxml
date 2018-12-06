@@ -2,6 +2,16 @@
 <import src="../../templates/msg/editor.wxml"/>
 <import src="../../templates/msg/captcha.wxml"/>
 <import src="../../templates/msg/topic.wxml"/>
+<view class='nav-wrap'>
+    <view class="nav-top-extra"></view>
+    <view class="nav-top">
+        <view class='nav-title'>{{title}}</view>
+        <view class='nav-capsule'>
+                <!-- <view src='/imgs/back-pre.png' mode='aspectFill' class='back-pre'></view> -->
+            <view bindtap='back' class='back'>返回</view>
+        </view>
+    </view>
+</view>
 <view bindtouchstart="ontouchstart" class="{{topic?'paddingTop':''}}">
     <view style="height:{{scrollHeight}}px;" class="msg-mask" wx:if="{{hidemsg}}"></view>
     <template is="topic" data="{{topic}}" wx:if="{{topic}}"/>

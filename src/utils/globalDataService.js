@@ -19,10 +19,12 @@ const globalData = {
     city: 'bj',
     netType: '',
     hyname: '',
+    height: 0,
     token: '',
     userType: 0,
     unionid: '',
     jumpBack: '',
+    share: false,
     testHeader: {
         version: '7',
         channel: '5',
@@ -124,31 +126,20 @@ const fuwu = {
         }
         console.log(makeid());
         // const that = this;
-        if (fuwu.globalData.isQB) {
-            const randomStr = makeid();
-            wx.setStorageSync('token', randomStr);
-            if (!wx.getStorageSync('id58')) {
-                wx.setStorageSync('id58', randomStr);
-                this.globalData.testHeader.id58 = randomStr;
-            } else {
-                this.globalData.testHeader.id58 = wx.getStorageSync('id58');
-            }
-        } else {
-            wx.login({
-                // 小程序登录，获取code
-                success(res) {
-                    console.log('成功调取wx.login');
-                    if (res.code) {
-                        getSmallAppToken(res.code);
-                    } else {
-                        console.log(`获取用户登录态失败！${res.errMsg}`);
-                    }
-                },
-                fail() {
-                    console.error('Failed to call wx.login()');
-                },
-            });
-        }
+        wx.login({
+            // 小程序登录，获取code
+            success(res) {
+                console.log('成功调取wx.login');
+                if (res.code) {
+                    getSmallAppToken(res.code);
+                } else {
+                    console.log(`获取用户登录态失败！${res.errMsg}`);
+                }
+            },
+            fail() {
+                console.error('Failed to call wx.login()');
+            },
+        });
     },
     async getUnionID() {
         try {

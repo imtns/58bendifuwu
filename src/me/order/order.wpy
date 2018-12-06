@@ -1,4 +1,5 @@
 <template>
+  <nav :navbarData.sync="navbarData"></nav>
   <view class="body">
     <view class="order-tabs-container">
        <tab :tabList="tabList" :spaceDistance="spaceDistance" :left="left"></tab>
@@ -45,6 +46,7 @@ import Tab from '../components/tabs';
 import { get } from '../../utils/http';
 import { GET_ORDERLIST } from '../../utils/url';
 import { formatTime } from '../../utils/date';
+import Nav from '../../components/nav';
 
 
 const pageNum = 1;
@@ -53,11 +55,16 @@ const pageSize = 10;
 export default class Order extends wepy.page {
   components = {
       tab: Tab,
+      nav: Nav,
   };
   data = {
       spaceDistance: 189,
       left: 60,
       scrollValue: 0,
+      navbarData: {
+          title: '',
+          showCapsule: false,
+      },
       tabList: [
           {
               name: '待接单',

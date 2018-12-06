@@ -85,6 +85,11 @@ Page({
             pagetype: "list", // 页面类型，没有置空【必填】
         })
     },
+    back() {
+        wx.navigateBack({
+            delta: 1,
+        });
+    },
     onLoad() {
         if (wx.getStorageSync('ppu')) {
             this.delayFun()

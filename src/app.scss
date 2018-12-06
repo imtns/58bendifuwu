@@ -1,7 +1,8 @@
 @import 'style/weui';
 @import 'style/wx-ui';
-
+@import 'style/nav';
 page {
+    margin-top:128rpx;
     height: 100%;
     font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
     background: rgb(246, 246, 246);

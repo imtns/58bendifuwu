@@ -1,8 +1,12 @@
 <template>
+    <nav :navbarData.sync="navbarData"></nav>
     <block wx:if="{{list.length==0 && finisiLoading}}">
         <view>
             <view class="msg_box">
-                <image src="/image/nomsg.png" class="msg_no_img"></image>
+                <image
+                    src="/image/nomsg.png"
+                    class="msg_no_img"
+                ></image>
                 <view class="msg_txt_box">
                     <view>附近暂无优惠商家~~</view>
                     <view>改天再来看看吧</view>
@@ -10,33 +14,47 @@
             </view>
         </view>
     </block>
-<block wx:else>
-    <view class="body">
-        <scroll-view scroll-y="true"  style="height: 100vh;" enable-back-to-top="true"  bindscrolltolower="reachBottom" >
-            <view wx:for="{{list}}" wx:key="{{index}}" @tap="goMiniProgram" data-appid="{{item.appid}}"  data-userid="{{item.userid}}">
-                <view class="list">
-                    <view class="list_l">
-                        <image src="{{picDomain + item.logo}}" class="list_img"></image>
-                    </view>
-                    <view class="list_c">
-                        <view class="list_c_t">
-                            <text class="list_title">{{item.shopName}}</text>
+    <block wx:else>
+        <view class="body">
+            <scroll-view
+                scroll-y="true"
+                style="height: 100vh;"
+                enable-back-to-top="true"
+                bindscrolltolower="reachBottom"
+            >
+                <view
+                    wx:for="{{list}}"
+                    wx:key="{{index}}"
+                    @tap="goMiniProgram"
+                    data-appid="{{item.appid}}"
+                    data-userid="{{item.userid}}"
+                >
+                    <view class="list">
+                        <view class="list_l">
+                            <image
+                                src="{{picDomain + item.logo}}"
+                                class="list_img"
+                            ></image>
                         </view>
-                        <view class="list_c_b">
-                            <view class="list_icon_box">
-                                <text class="list_icon_info list_icon_info_pink">优惠券</text>
-                                <text class="list_icon_info">小程序</text>
-                                <text class="list_icon_info">会员{{item.year}}年</text>
+                        <view class="list_c">
+                            <view class="list_c_t">
+                                <text class="list_title">{{item.shopName}}</text>
+                            </view>
+                            <view class="list_c_b">
+                                <view class="list_icon_box">
+                                    <text class="list_icon_info list_icon_info_pink">优惠券</text>
+                                    <text class="list_icon_info">小程序</text>
+                                    <text class="list_icon_info">会员{{item.year}}年</text>
+                                </view>
                             </view>
                         </view>
+                        <view class="coupon_button">领取优惠</view>
                     </view>
-                    <view class="coupon_button" >领取优惠</view>
                 </view>
-            </view>
-        </scroll-view>
-    </view>
-</block>
-<!-- 打电话谈层  e -->
+            </scroll-view>
+        </view>
+    </block>
+    <!-- 打电话谈层  e -->
 </template>
 <script>
 import wepy from 'wepy';
@@ -47,6 +65,7 @@ import { GET_BENEFITLIST } from '../utils/url';
 import { toast } from '../utils/util';
 import { track } from '../utils/track';
 import Mixin from '../mixin/mixin';
+import Nav from '../components/nav';
 
 const { fuwu } = require('../utils/globalDataService');
 
@@ -61,9 +80,13 @@ export default class Benefit extends wepy.page {
       finisiLoading: false,
       list: [],
       picDomain: 'https://pic1.58cdn.com.cn/',
+      navbarData: {
+          title: '',
+          showCapsule: false,
+      },
   };
-  config = {
-      navigationBarTitleText: '优惠',
+  components = {
+      nav: Nav,
   };
   methods = {
       reachBottom() {
@@ -79,6 +102,7 @@ export default class Benefit extends wepy.page {
   }
   onLoad() {
       this.getList();
+      this.navbarData.title = '优惠';
   }
   async getList() {
       if (noMoreData) return;

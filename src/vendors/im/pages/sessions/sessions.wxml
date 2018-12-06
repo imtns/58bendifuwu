@@ -1,5 +1,11 @@
 <!--sessions.wxml-->
 <import src="../../templates/session/list.wxml"/>
+<view class='nav-wrap'>
+    <view class="nav-top-extra"></view>
+    <view class="nav-top">
+        <view class='nav-title'>最新消息</view>
+    </view>
+</view>
  <block wx:if="{{isLogin}}">
     <template is="session-list" data="{{sessionList: sessionList, loadStatus: loadStatus}}"/>
 </block>

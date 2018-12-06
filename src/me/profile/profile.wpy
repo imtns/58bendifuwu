@@ -1,48 +1,99 @@
 <template>
-<scroll-view wx:if="{{role=='user'}}" scroll-y="true">
-    <view class="item-avatar-lg">
-        <image src="{{me.photo}}" background-size="cover" style="border-radius: 50%;"></image>
-        <view class="text_box padding">
-            <view class="flex">
-                <text class="name">{{me.name}} </text>
-                <image wx:if="{{me.sex==1}}" src="/image/s1.png" id="gender_icon"></image>
-                <image wx:if="{{me.sex==2}}" src="/image/s2.png" id="gender_icon"></image>
+    <nav :navbarData.sync="navbarData"></nav>
+    <scroll-view
+        wx:if="{{role=='user'}}"
+        scroll-y="true"
+    >
+        <view class="item-avatar-lg">
+            <image
+                src="{{me.photo}}"
+                background-size="cover"
+                style="border-radius: 50%;"
+            ></image>
+            <view class="text_box padding">
+                <view class="flex">
+                    <text class="name">{{me.name}} </text>
+                    <image
+                        wx:if="{{me.sex==1}}"
+                        src="/image/s1.png"
+                        id="gender_icon"
+                    ></image>
+                    <image
+                        wx:if="{{me.sex==2}}"
+                        src="/image/s2.png"
+                        id="gender_icon"
+                    ></image>
+                </view>
+
             </view>
-            
         </view>
-    </view>
-    <view style="background: #fff">
-        <view class="item-avatar-xs" bindtap="openDebug">
-            <text class="input_title">完善基本资料</text>
+        <view style="background: #fff">
+            <view
+                class="item-avatar-xs"
+                bindtap="openDebug"
+            >
+                <text class="input_title">完善基本资料</text>
+            </view>
+            <view class="item-avatar-xs">
+                <text class="input_key">手机号码</text>
+                <input
+                    placeholder="请输入您的手机号码"
+                    class="input_val"
+                    value="{{me.phone}}"
+                    bindblur="bindPhoneInput"
+                    bindconfirm="bindPhoneInput"
+                    type="number"
+                />
+            </view>
+            <view class="item-avatar-xs">
+                <text class="input_key">年龄</text>
+                <input
+                    placeholder="请输入您的年龄"
+                    class="input_val"
+                    value="{{me.age}}"
+                    bindblur="bindAgeInput"
+                    bindconfirm="bindAgeInput"
+                />
+            </view>
+            <view
+                class="item-avatar-xs"
+                style="height: auto;"
+            >
+                <text class="input_key ">详细地址</text>
+                <input
+                    placeholder="请输入您的详细地址"
+                    class="input_val"
+                    value="{{me.address}}"
+                    bindblur="bindAddressInput"
+                    bindconfirm="bindAddressInput"
+                />
+            </view>
+            <view class="item-avatar-xs">
+                <text class="input_key">所属行业</text>
+                <text
+                    class="input_val {{me.trade? 'have' : 'nohave' }}"
+                    @tap="tradeUrl"
+                >{{me.trade? me.trade : "请选择您的行业" }}</text>
+            </view>
+            <view class="item-avatar-xs">
+                <text class="input_key">目前职位</text>
+                <input
+                    placeholder="请输入您的职位"
+                    class="input_val"
+                    value="{{me.position}}"
+                    bindblur="bindPositionInput"
+                    bindconfirm="bindPositionInput"
+                />
+            </view>
+
         </view>
-        <view class="item-avatar-xs">
-            <text class="input_key">手机号码</text>
-            <input placeholder="请输入您的手机号码" class="input_val" value="{{me.phone}}"  bindblur="bindPhoneInput" bindconfirm="bindPhoneInput" type="number"/>
-        </view>
-        <view class="item-avatar-xs">
-            <text class="input_key">年龄</text>
-            <input placeholder="请输入您的年龄" class="input_val" value="{{me.age}}"  bindblur="bindAgeInput" bindconfirm="bindAgeInput"/>
-        </view>
-        <view class="item-avatar-xs" style="height: auto;">
-            <text class="input_key ">详细地址</text>
-            <input placeholder="请输入您的详细地址" class="input_val" value="{{me.address}}" bindblur="bindAddressInput" bindconfirm="bindAddressInput"/>
-        </view>
-        <view class="item-avatar-xs">
-            <text class="input_key">所属行业</text>
-            <text class="input_val {{me.trade? 'have' : 'nohave' }}" @tap="tradeUrl">{{me.trade? me.trade : "请选择您的行业" }}</text>            
-       </view>
-        <view class="item-avatar-xs">
-            <text class="input_key">目前职位</text>
-            <input placeholder="请输入您的职位" class="input_val" value="{{me.position}}" bindblur="bindPositionInput" bindconfirm="bindPositionInput"/>
-        </view>
-        
-    </view>
-</scroll-view>
+    </scroll-view>
 </template>
 <script>
 import wepy from 'wepy';
 import Mixin from '../../mixin/mixin';
 import { openDebug } from '../../utils/debug';
+import Nav from '../../components/nav';
 
 const util = require('../../utils/util');
 const { fuwu } = require('../../utils/globalDataService');
@@ -50,105 +101,113 @@ const { fuwu } = require('../../utils/globalDataService');
 const { post } = require('../../utils/http');
 
 export default class MyProfile extends wepy.page {
-    config = {
-        navigationBarTitleText: '我的信息',
-    };
-    data = {
-        role: '',
-        me: {},
-        hidden: false,
-        serviceIntroducePackup: {
-            unpack: false,
-            packupBound: 100,
-            show: false,
-        },
-    };
-    mixins = [Mixin];
-    async onLoad() {
-        this.role = wx.getStorageSync('role');
-        await this.getProfile();
-    }
-    serviceIntroducePackupSwitch() {
-        this.serviceIntroducePackup = util.constDeepMixin(
-            this.serviceIntroducePackup,
-            {
-                unpack: !this.serviceIntroducePackup.unpack,
-            },
-        );
-    }
-    onShow() {
-        const { hyname } = fuwu.globalData;
-        if (hyname) {
-            this.me.trade = hyname;
-            this.setProfile();
-        }
-    }
-    methods = {
-        openDebug,
-        bindAddressInput(e) {
-            if (e.detail.value === '') return;
-            this.me.address = e.detail.value;
-            this.setProfile();
-        },
-        bindPhoneInput(e) {
-            if (e.detail.value === '') return;
-            this.me.phone = e.detail.value;
-            this.setProfile();
-        },
-        bindIntroInput(e) {
-            if (e.detail.value === '') return;
-            this.me.intro = e.detail.value;
-            this.setProfile();
-        },
-        bindTradeInput(e) {
-            if (e.detail.value === '') return;
-            this.me.trade = e.detail.value;
-            this.setProfile();
-        },
-        bindAgeInput(e) {
-            if (e.detail.value === '') return;
-            this.me.age = e.detail.value;
-            this.setProfile();
-        },
-        bindPositionInput(e) {
-            if (e.detail.value === '') return;
-            this.me.position = e.detail.value;
-            this.setProfile();
-        },
-    }
+  data = {
+      role: '',
+      me: {},
+      hidden: false,
+      serviceIntroducePackup: {
+          unpack: false,
+          packupBound: 100,
+          show: false,
+      },
+      navbarData: {
+          title: '',
+          showCapsule: true,
+      },
+  };
+  components = {
+      nav: Nav,
+  };
+  mixins = [Mixin];
+  async onLoad() {
+      this.navbarData.title = '我的信息';
+      this.role = wx.getStorageSync('role');
+      await this.getProfile();
+  }
+  serviceIntroducePackupSwitch() {
+      this.serviceIntroducePackup = util.constDeepMixin(
+          this.serviceIntroducePackup,
+          {
+              unpack: !this.serviceIntroducePackup.unpack,
+          },
+      );
+  }
+  onShow() {
+      const { hyname } = fuwu.globalData;
+      if (hyname) {
+          this.me.trade = hyname;
+          this.setProfile();
+      }
+  }
+  methods = {
+      openDebug,
+      bindAddressInput(e) {
+          if (e.detail.value === '') return;
+          this.me.address = e.detail.value;
+          this.setProfile();
+      },
+      bindPhoneInput(e) {
+          if (e.detail.value === '') return;
+          this.me.phone = e.detail.value;
+          this.setProfile();
+      },
+      bindIntroInput(e) {
+          if (e.detail.value === '') return;
+          this.me.intro = e.detail.value;
+          this.setProfile();
+      },
+      bindTradeInput(e) {
+          if (e.detail.value === '') return;
+          this.me.trade = e.detail.value;
+          this.setProfile();
+      },
+      bindAgeInput(e) {
+          if (e.detail.value === '') return;
+          this.me.age = e.detail.value;
+          this.setProfile();
+      },
+      bindPositionInput(e) {
+          if (e.detail.value === '') return;
+          this.me.position = e.detail.value;
+          this.setProfile();
+      },
+  };
 
-    async setProfile() {
-        const that = this;
-        const val = {
-            phone: this.me.phone || '',
-            intro: this.me.intro || '',
-            trade: this.me.trade || '',
-            age: this.me.age || '',
-            position: this.me.position || '',
-        };
-        const data = Object.keys(val)
-            .reduce((a, k) => {
-                if (val[k]) {
-                    a.push(`${k}=${val[k]}`);
-                }
-                return a;
-            }, [])
-            .join('&');
-        const header = { 'access-token': wx.getStorageSync('token') };
-        const res = await post(`${fuwu.globalData.domain}/smallapp/user/profile-set`, { data, header });
-        if (res.data.code === 1) {
-            wx.setStorageSync('me', that.me);
-        }
-    }
-    onPullDownRefresh() {
-        this.onLoad();
-        wx.stopPullDownRefresh();
-    }
-    tradeUrl() {
-        wx.navigateTo({
-            url: '/me/trade/trade',
-        });
-    }
+  async setProfile() {
+      const that = this;
+      const val = {
+          phone: this.me.phone || '',
+          intro: this.me.intro || '',
+          trade: this.me.trade || '',
+          age: this.me.age || '',
+          position: this.me.position || '',
+      };
+      const data = Object.keys(val)
+          .reduce((a, k) => {
+              if (val[k]) {
+                  a.push(`${k}=${val[k]}`);
+              }
+              return a;
+          }, [])
+          .join('&');
+      const header = { 'access-token': wx.getStorageSync('token') };
+      const res = await post(
+          `${fuwu.globalData.domain}/smallapp/user/profile-set`,
+          { data, header },
+      );
+      if (res.data.code === 1) {
+          wx.setStorageSync('me', that.me);
+      }
+  }
+  onPullDownRefresh() {
+      this.onLoad();
+      wx.stopPullDownRefresh();
+  }
+  tradeUrl() {
+      wx.navigateTo({
+          url: '/me/trade/trade',
+      });
+  }
 }
 </script>
 <style lang="scss">

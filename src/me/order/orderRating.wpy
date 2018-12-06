@@ -1,4 +1,5 @@
 <template>
+ <nav :navbarData.sync="navbarData"></nav>
 <view class="orderRating">
     <view class="orderRaging-wrapper ">
         <view class="orderRaing-frameWrapper orderRaing-frameWrapper-line">
@@ -22,9 +23,13 @@ import wepy from 'wepy';
 import { post } from '../../utils/http';
 import { POST_ORDERRATING } from '../../utils/url';
 import { toast } from '../../utils/util';
+import Nav from '../../components/nav';
 
 let stars;
 export default class OrderRating extends wepy.page {
+      components = {
+          nav: Nav,
+      };
   data = {
       isDisable: true,
       starPath: {
@@ -40,6 +45,10 @@ export default class OrderRating extends wepy.page {
               3: 'grey',
               4: 'grey',
           },
+      },
+      navbarData: {
+          title: '',
+          showCapsule: true,
       },
   };
   starClick(e) {

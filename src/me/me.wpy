@@ -1,96 +1,157 @@
 <template>
-<!-- <loading hidden="{{hidden}}">
+    <!-- <loading hidden="{{hidden}}">
     加载中...
 </loading> -->
+    <nav :navbarData.sync="navbarData"></nav>
     <view>
-    <block wx:if="{{isQB}}">
-        <view class="top_box">
-            <view>
-                <button class="loginButton" @tap="egg">
-                    <view class="avator-back">
-                        <view class="avator-head"></view>
-                        <view class="avator-body"></view>
-                    </view>
-                </button>
-            </view>
-        </view>
-        <view class="list_ul">
-            <view class="list_li" @tap="callService" data-url="/me/me">
-                <image src="/image/phone-icon.png" class="image1"></image>
-                <text class="title">客服热线</text>
-                <!-- 填写正确的客服电话 -->
-                <text class="phone">400-810-7258</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </view>
-            <view wx:if="{{showEgg}}">isQB:{{isQB}}  id58:{{id58}}</view>
-        </view>
-        
-    </block>
-    <block wx:else>
-        <view class="top_box">
-            <!-- 如果已经登录了 -->
-            <block wx:if="{{ hidden }}">
-                <image src="{{me.photo}}" background-size="cover" style="border-radius: 50%;"></image>
-                <view class="user_name">
-                    <text>{{me.name}}</text>
-                </view>
-            </block>
-            <!-- 如果未登录 -->
-            <view wx:else @tap="getUserInfo">
-                <button class="loginButton" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-                    <view class="avator-back">
-                        <view class="avator-head"></view>
-                        <view class="avator-body"></view>
-                    </view>
-                </button>
-                <view class="user_name">
-                    <button class="loginButton" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-                        登录查看更多
+        <block wx:if="{{isQB}}">
+            <view class="top_box">
+                <view>
+                    <button
+                        class="loginButton"
+                        @tap="egg"
+                    >
+                        <view class="avator-back">
+                            <view class="avator-head"></view>
+                            <view class="avator-body"></view>
+                        </view>
                     </button>
                 </view>
             </view>
-        </view>
-        <view class="list_ul">
-            <!-- <view class="list_li" @tap="tradeUrl" data-url="/me/order/order">
+            <view class="list_ul">
+                <view
+                    class="list_li"
+                    @tap="callService"
+                    data-url="/me/me"
+                >
+                    <image
+                        src="/image/phone-icon.png"
+                        class="image1"
+                    ></image>
+                    <text class="title">客服热线</text>
+                    <!-- 填写正确的客服电话 -->
+                    <text class="phone">400-810-7258</text>
+                    <image
+                        src="/image/icon_more.png"
+                        class="image2"
+                    ></image>
+                </view>
+                <view wx:if="{{showEgg}}">isQB:{{isQB}} id58:{{id58}}</view>
+            </view>
+
+        </block>
+        <block wx:else>
+            <view class="top_box">
+                <!-- 如果已经登录了 -->
+                <block wx:if="{{ hidden }}">
+                    <image
+                        src="{{me.photo}}"
+                        background-size="cover"
+                        style="border-radius: 50%;"
+                    ></image>
+                    <view class="user_name">
+                        <text>{{me.name}}</text>
+                    </view>
+                </block>
+                <!-- 如果未登录 -->
+                <view
+                    wx:else
+                    @tap="getUserInfo"
+                >
+                    <button
+                        class="loginButton"
+                        open-type="getUserInfo"
+                        bindgetuserinfo="bindGetUserInfo"
+                    >
+                        <view class="avator-back">
+                            <view class="avator-head"></view>
+                            <view class="avator-body"></view>
+                        </view>
+                    </button>
+                    <view class="user_name">
+                        <button
+                            class="loginButton"
+                            open-type="getUserInfo"
+                            bindgetuserinfo="bindGetUserInfo"
+                        >
+                            登录查看更多
+                        </button>
+                    </view>
+                </view>
+            </view>
+            <view class="list_ul">
+                <!-- <view class="list_li" @tap="tradeUrl" data-url="/me/order/order">
             <image src="/image/dingdan.png" class="image1"></image>
             <text class="title">我的订单</text>
             <image src="/image/icon_more.png" class="image2"></image>
         </view>-->
-        <view class="list_li">
-            <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-url="coupon/coupon">
-                <image src="/image/youhui.png" class="image1"></image>
-                <text class="title">我的优惠券</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </button>
-        </view> 
-            <button class="list_li" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-url="profile/profile">
-                <image src="/image/area.png" class="image1"></image>
-                <text class="title">我的信息</text>
-                <image src="/image/icon_more.png" class="image2"></image>
-            </button>
-            <view class="list_li" @tap="callService" data-url="/me/me">
-                <image src="/image/phone-icon.png" class="image1"></image>
-                <text class="title">客服热线</text>
-                <!-- 填写正确的客服电话 -->
-                <text class="phone">400-810-7258</text>
-                <image src="/image/icon_more.png" class="image2"></image>
+                <view class="list_li">
+                    <button
+                        class="list_li"
+                        open-type="getUserInfo"
+                        bindgetuserinfo="bindGetUserInfo"
+                        data-url="coupon/coupon"
+                    >
+                        <image
+                            src="/image/youhui.png"
+                            class="image1"
+                        ></image>
+                        <text class="title">我的优惠券</text>
+                        <image
+                            src="/image/icon_more.png"
+                            class="image2"
+                        ></image>
+                    </button>
+                </view>
+                <button
+                    class="list_li"
+                    open-type="getUserInfo"
+                    bindgetuserinfo="bindGetUserInfo"
+                    data-url="profile/profile"
+                >
+                    <image
+                        src="/image/area.png"
+                        class="image1"
+                    ></image>
+                    <text class="title">我的信息</text>
+                    <image
+                        src="/image/icon_more.png"
+                        class="image2"
+                    ></image>
+                </button>
+                <view
+                    class="list_li"
+                    @tap="callService"
+                    data-url="/me/me"
+                >
+                    <image
+                        src="/image/phone-icon.png"
+                        class="image1"
+                    ></image>
+                    <text class="title">客服热线</text>
+                    <!-- 填写正确的客服电话 -->
+                    <text class="phone">400-810-7258</text>
+                    <image
+                        src="/image/icon_more.png"
+                        class="image2"
+                    ></image>
+                </view>
             </view>
-        </view>
-    </block>
-</view>
+        </block>
+    </view>
 </template>
 <script>
 import wepy from 'wepy';
 import Mixin from '../mixin/mixin';
-
+import Nav from '../components/nav';
 
 const { fuwu } = require('../utils/globalDataService');
 
 const { track } = require('../utils/track');
 
 export default class Me extends wepy.page {
-  config = {
-      navigationBarTitleText: '我',
+  components = {
+      nav: Nav,
   };
   data = {
       role: '',
@@ -102,6 +163,10 @@ export default class Me extends wepy.page {
       showEgg: false,
       showEggCount: 0,
       id58: '',
+      navbarData: {
+          title: '',
+          showCapsule: false,
+      },
   };
   mixins = [Mixin];
   onShow() {
@@ -128,6 +193,7 @@ export default class Me extends wepy.page {
               }
           },
       });
+      this.navbarData.title = '我';
   }
 
   methods = {

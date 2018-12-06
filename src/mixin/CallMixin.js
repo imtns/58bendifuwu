@@ -27,12 +27,6 @@ export default class CallMixin extends wepy.mixin {
         },
     }
     async getCall(e) {
-        // let data = {
-        //     sign: (typeof e === 'object' && e.currentTarget.dataset.sign) || this.sign,
-        //     infoId: (typeof e === 'object' && e.currentTarget.dataset.infoid) || this.infoid,
-        //     source: 0,
-        //     type: 0,
-        // };
         const postData = {
             sign: (typeof e === 'object' && e.currentTarget.dataset.sign) || this.data.sign,
             infoId: (typeof e === 'object' && e.currentTarget.dataset.infoid) || this.data.infoid,
@@ -43,11 +37,7 @@ export default class CallMixin extends wepy.mixin {
             platform: 1,
             activityId: 'weixinshenghuozhushou',
         };
-        if (this.openid) {
-            Object.assign(postData, {
-                openid: this.openid,
-            });
-        } else if (typeof e === 'object' && e.currentTarget.dataset.type === 'adinfo') {
+        if (typeof e === 'object' && e.currentTarget.dataset.type === 'adinfo') {
             const header = {
                 'content-type': 'application/json',
                 cookie: fuwu.globalData.listCookie,
@@ -68,11 +58,19 @@ export default class CallMixin extends wepy.mixin {
             });
         }
 
-        const header = fuwu.globalData.testHeader;
-        const url = 'https://bossapi.58.com/smallapp/common/link';
+        const header = {
+            'content-type': 'application/json',
+            cookie: fuwu.globalData.listCookie,
+        };
+        // const url = 'https://bossapi.58.com/smallapp/common/link';
+        const url = 'https://link.58.com/api/assign';
         try {
             const { data: callData } = await get(url, { data: postData, header });
-            const { code, data: teleNumberStr } = callData;
+            const { code, bindId, result: teleNumberStr } = callData;
+            if (this.openid) {
+                this.callPingjia(this.openid, bindId);
+            }
+            console.log(bindId);
             if (code === 0) {
                 this.call = util.constDeepMixin(this.call, {
                     teleNumber: parseInt(teleNumberStr) + 1 ? teleNumberStr : '服务忙',
@@ -88,6 +86,10 @@ export default class CallMixin extends wepy.mixin {
         } catch (err) {
             console.log(err);
         }
+    }
+    async callPingjia(openId, bindId) {
+        const result = await get('https://bossapi.58.com/smallapp/common/linkpingjia', { data: { openId, bindId } });
+        console.log(result);
     }
     hideCallLayer() {
         this.call = util.constDeepMixin(this.call, {

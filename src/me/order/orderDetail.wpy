@@ -1,4 +1,5 @@
 <template>
+ <nav :navbarData.sync="navbarData"></nav>
 <view class="orderDetail">
     <view class="mod-view orderDetail-info ">
         <view class="orderDetail-frameWrapper orderDetail-line">
@@ -65,8 +66,12 @@
 import wepy from 'wepy';
 import { get } from '../../utils/http';
 import { GET_ORDER } from '../../utils/url';
+import Nav from '../../components/nav';
 
 export default class OrderDetail extends wepy.page {
+      components = {
+          nav: Nav,
+      };
   data = {
       status: {
           1: '待接单',
@@ -80,6 +85,10 @@ export default class OrderDetail extends wepy.page {
       starPath: {
           red: '../../image/star-red.png',
           grey: '../../image/star-grey.png',
+      },
+      navbarData: {
+          title: '',
+          showCapsule: true,
       },
   };
   confirmOrder() {

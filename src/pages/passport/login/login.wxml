@@ -1,1 +1,11 @@
+<view class='nav-wrap'>
+    <view class="nav-top-extra"></view>
+    <view class="nav-top">
+        <view class='nav-title'>58同城生活助手</view>
+        <view class='nav-capsule'>
+                <!-- <view src='/imgs/back-pre.png' mode='aspectFill' class='back-pre'></view> -->
+            <view bindtap='back' class='back'>返回</view>
+        </view>
+    </view>
+</view>
 <login wx:if="{{loaded}}" params="{{params}}" bind:onjump="onJump" />

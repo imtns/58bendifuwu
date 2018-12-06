@@ -1,6 +1,7 @@
 import wepy from 'wepy';
 
-const { makeid } = require('../utils/random');
+const { fuwu } = require('../utils/globalDataService');
+// const { makeid } = require('../utils/random');
 
 const http = (method, ...props) => new Promise((resolve, reject) => {
     try {
@@ -12,18 +13,13 @@ const http = (method, ...props) => new Promise((resolve, reject) => {
         }
         wx.showLoading && wx.showLoading({ title: '加载中', mask: true });
         let header = props[1] ? props[1].header : null;
+        const cookie = (fuwu && fuwu.globalData.listCookie) || wx.getStorageSync('tagCookie');
         if (!header || (header && !('cookie' in header))) {
             header = Object.assign(header || {}, {
-                cookie: wx.getStorageSync('tagCookie'),
+                cookie,
+                // cookie: fuwu.globalData.listCookie,
             });
         }
-        if (!header.id58) {
-            header.id58 = makeid();
-        }
-        // header.isQB = wx.getSystemInfoSync().isQB;
-        // if (header.isQB) {
-        //     header.id58Test = makeid();
-        // }
         wepy.request({
             url: url + (~url.indexOf('?') ? '' : '?'),
             data,

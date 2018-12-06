@@ -1,49 +1,74 @@
 <template>
-  <view class="body">
-    <!-- <view class="coupon-tabs-container">
+    <nav :navbarData.sync="navbarData"></nav>
+    <view class="body">
+        <!-- <view class="coupon-tabs-container">
       <tab :tabList="tabList" :spaceDistance="spaceDistance" :left="left"></tab>
     <view style="left:{{left}}rpx" class="coupon-tabs-underline"></view>
     </view> -->
-    <view class="coupon-view">
-      <block wx:if="{{couponList}}">
-      <scroll-view lower-threshold="70" scroll-top="{{scrollValue}}" bindscrolltolower="reachBottom" style="height:91vh" scroll-y="true">
-        <repeat for="{{couponList}}" key="index" index="index" item="item">
-            <view @tap="goMiniProgram" data-appid="{{item.appid}}"  data-userid="{{item.userid}}">
-                <view class="coupon">
-                    <view class="coupon-amout {{currentStatus != 1 ? 'used-font':''}}">
-                        <view  wx:if="{{item.coupon_type==1}}" class="coupon-amount-price">￥<text class="price">{{item.relief}}</text></view>
-                        <view  wx:if="{{item.coupon_type==2}}" class="coupon-amount-price"><text class="price">{{item.relief*0.1}}</text>折</view>
-                        <view class="coupon-amout-condition  {{currentStatus != 1  ? 'used-font':''}}">满{{item.limit}}可用</view>
-                    </view>
-                    <view class="coupon-info {{currentStatus != 1  ? 'used-font':''}}">
-                    <text class="tip">店</text><text class="coupon-info-title">{{item.nick_name}}</text>
-                    <view class="coupon-info-block">
-                        <view class="info">
-                            <view class="coupon-info-type">{{item.sub_title}}</view>
-                            <view class="coupon-info-range">{{item.start_time}}-{{item.end_time}}</view>
+        <view class="coupon-view">
+            <block wx:if="{{couponList}}">
+                <scroll-view
+                    lower-threshold="70"
+                    scroll-top="{{scrollValue}}"
+                    bindscrolltolower="reachBottom"
+                    style="height:91vh"
+                    scroll-y="true"
+                >
+                    <repeat
+                        for="{{couponList}}"
+                        key="index"
+                        index="index"
+                        item="item"
+                    >
+                        <view
+                            @tap="goMiniProgram"
+                            data-appid="{{item.appid}}"
+                            data-userid="{{item.userid}}"
+                        >
+                            <view class="coupon">
+                                <view class="coupon-amout {{currentStatus != 1 ? 'used-font':''}}">
+                                    <view
+                                        wx:if="{{item.coupon_type==1}}"
+                                        class="coupon-amount-price"
+                                    >￥<text class="price">{{item.relief}}</text></view>
+                                    <view
+                                        wx:if="{{item.coupon_type==2}}"
+                                        class="coupon-amount-price"
+                                    ><text class="price">{{item.relief*0.1}}</text>折</view>
+                                    <view class="coupon-amout-condition  {{currentStatus != 1  ? 'used-font':''}}">满{{item.limit}}可用</view>
+                                </view>
+                                <view class="coupon-info {{currentStatus != 1  ? 'used-font':''}}">
+                                    <text class="tip">店</text><text class="coupon-info-title">{{item.nick_name}}</text>
+                                    <view class="coupon-info-block">
+                                        <view class="info">
+                                            <view class="coupon-info-type">{{item.sub_title}}</view>
+                                            <view class="coupon-info-range">{{item.start_time}}-{{item.end_time}}</view>
+                                        </view>
+                                        <view class="coupon-info-button  {{currentStatus != 1 ? 'used-button':''}}">
+                                            立即使用
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="arrow"></view>
+                            </view>
                         </view>
-                        <view class="coupon-info-button  {{currentStatus != 1 ? 'used-button':''}}">
-                               立即使用
-                         </view>
-                    </view>         
-                    </view>
-                    <view  class="arrow" ></view>
+                    </repeat>
+                </scroll-view>
+            </block>
+            <block wx:else>
+                <view class="coupon-empty">
+                    <image
+                        class="coupon-empty-icon"
+                        src="/image/empty.png"
+                    ></image>
+                    <text class="text">
+                        暂时没有发现您的优惠券~
+                        去首页查找更多信息吧
+                    </text>
                 </view>
-            </view>
-        </repeat>
-      </scroll-view>
-      </block>
-      <block wx:else>
-      <view class="coupon-empty">
-        <image class="coupon-empty-icon" src="/image/empty.png"></image>
-        <text class="text">
-            暂时没有发现您的优惠券~
-            去首页查找更多信息吧
-        </text>
-      </view>
-      </block>
+            </block>
+        </view>
     </view>
-  </view>
 </template>
 <script>
 import wepy from 'wepy';
@@ -51,17 +76,23 @@ import Tab from '../components/tabs';
 import { get } from '../../utils/http';
 import { GET_COUPONLIST, GET_UNIONID } from '../../utils/url';
 import Mixin from '../../mixin/mixin';
+import Nav from '../../components/nav';
 
 const page = 1;
 const pagesize = 20;
 export default class Coupon extends wepy.page {
   components = {
       tab: Tab,
+      nav: Nav,
   };
   data = {
       scrollValue: 0,
       couponList: [],
       currentStatus: 1,
+      navbarData: {
+          title: '',
+          showCapsule: true,
+      },
   };
   mixins = [Mixin];
   methods = {
@@ -78,10 +109,8 @@ export default class Coupon extends wepy.page {
           });
       }
   }
-  config = {
-      navigationBarTitleText: '我的优惠券',
-  };
   async onLoad() {
+      this.navbarData.title = '我的优惠券';
       const unionid = await this.getUnionID();
       this.loadCoupon(unionid);
   }
@@ -121,7 +150,7 @@ page {
 .coupon-view {
   z-index: 1;
   position: relative;
-//   top: 108rpx;
+  //   top: 108rpx;
   padding: 30rpx 30rpx;
 }
 

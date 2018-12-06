@@ -1,0 +1,97 @@
+<template lang="wxml">
+<view class='nav-wrap'>
+    <view class="nav-top-extra"></view>
+    <view class="nav-top">
+        <view class='nav-title'>{{navbarData.title}}</view>
+        <view class='nav-capsule' wx:if='{{navbarData.showCapsule}}'>
+            <view @tap='back' wx:if='{{!navbarData.share}}'>
+                <!-- <view src='/imgs/back-pre.png' mode='aspectFill' class='back-pre'></view> -->
+                <view  class='back'>返回</view>
+            </view>
+            <view @tap='home' wx:else>
+                <!-- <view src='/imgs/back-home.png' mode='aspectFill' class='back-home'></view> -->
+                <view  class='home'>首页</view>
+            </view>
+        </view>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class NAV extends wepy.component {
+  data = {
+      height: 0,
+  };
+  props = {
+      navbarData: {
+          type: Object,
+          default: {
+              title: '',
+              showCapsule: true,
+          },
+      },
+      share: {
+          type: Boolean,
+          default: false,
+      },
+  };
+  methods = {
+      back() {
+          wepy.navigateBack({
+              delta: 1, // 返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+          });
+      },
+      home() {
+          this.share = false;
+          wepy.switchTab({ url: '/discovery/daleiye/daleiye' });
+      },
+  };
+  events = {};
+  onLoad() {}
+}
+</script>
+
+<style lang="scss">
+.nav-wrap {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: black;
+  color: white;
+  z-index: 9999999;
+  .nav-top-extra {
+    width: 100%;
+    height: 40rpx;
+  }
+  .nav-top {
+    width: 100%;
+    height: 88rpx;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    .nav-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 34rpx;
+    }
+    .nav-capsule {
+      display: flex;
+      align-items: center;
+      margin-left: 30rpx;
+      width: 140rpx;
+      justify-content: space-between;
+      height: 100%;
+      .back, .home{
+          font-size:32rpx;
+      }
+    }
+  }
+}
+
+</style>

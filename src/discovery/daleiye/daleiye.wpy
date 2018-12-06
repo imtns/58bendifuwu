@@ -1,4 +1,5 @@
 <template>
+    <nav :navbarData.sync="navbarData"></nav>
     <import src="temp/temp.wxml" />
     <view class="body">
         <scroll-view scroll-y="ture" class="menu">
@@ -50,6 +51,7 @@ import { get } from '../../utils/http';
 import { track } from '../../utils/track';
 import Mixin from '../../mixin/mixin';
 import Form from '../../mixin/form';
+import Nav from '../../components/nav';
 
 const im = require('../../utils/IMInit.js');
 const { globalDataService, fuwu } = require('../../utils/globalDataService');
@@ -59,9 +61,13 @@ const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
 
 export default class Daleiye extends wepy.page {
   config = {
-      navigationBarTitleText: '58同城生活助手',
+      //   navigationBarTitleText: '',
       enablePullDownRefresh: false,
+      disableScroll: true,
   };
+  components = {
+      nav: Nav,
+  }
   mixins = [Mixin, Form];
   data = {
       scrollTopNumber: 0,
@@ -71,6 +77,10 @@ export default class Daleiye extends wepy.page {
       onSelect: 0,
       banner: 0,
       url: '',
+      navbarData: {
+          title: '',
+          showCapsule: false,
+      },
       height: 0,
       isShowed: false,
       hideAd: true,
@@ -169,32 +179,22 @@ export default class Daleiye extends wepy.page {
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-      if (!fuwu.globalData.isQB) {
-          fuwu.globalData.tagCookie =
+      fuwu.globalData.tagCookie =
         'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
-          if (options.tagCookie) {
-              fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
-          }
+      if (options.tagCookie) {
+          fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
       }
-      if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
-          fuwu.globalData.tagCookie =
-        'spm=u-2cs9z37ee97pnc46zg.shzsqqllq;utm_source=link;';
-      }
-
+      this.navbarData.title = '58同城生活助手';
       if (options.tabIndex) {
           this.tabIndex = options.tabIndex;
       }
       // globalDataService.set('tagCookie', tagCookie);
       wx.getSystemInfo({
           success: res => {
-              this.height = res.windowHeight;
+              this.height = res.windowHeight - 50;
           },
       });
       this.GetCity();
-      if (fuwu.globalData.isQB && options.spam) {
-          fuwu.globalData.tagCookie =
-        'spm=u-2ctyqrb2197pnc46zg.QBmorewebsite2; utm_source=link;';
-      }
       if (this.tabIndex) {
           this.banner = 1;
           this.listTit[0].isSelect = false;
@@ -290,13 +290,7 @@ export default class Daleiye extends wepy.page {
               cateid: fullpath,
               pagetype: 'index',
           });
-          if (fuwu.globalData.isQB) {
-              setTimeout(() => {
-                  this.redirect(listname, title, cateid, fullpath);
-              }, 1000);
-          } else {
-              this.redirect(listname, title, cateid, fullpath);
-          }
+          this.redirect(listname, title, cateid, fullpath);
       },
   };
   redirect(listname, title, cateid, fullpath) {
@@ -350,12 +344,10 @@ export default class Daleiye extends wepy.page {
       this.HotCateData = [];
       this.cateData = [];
       this.mainData = response.data.mainData;
-      if (!fuwu.globalData.isQB) {
-          this.fxfw = response.data.fxfw;
-          this.fxfw.commodityList.forEach(item => {
-              item.punit = item.punit.substr(1, item.punit.length - 1);
-          });
-      }
+      this.fxfw = response.data.fxfw;
+      this.fxfw.commodityList.forEach(item => {
+          item.punit = item.punit.substr(1, item.punit.length - 1);
+      });
       this.bannerData =
       typeof response.data.advertBanner === 'object' &&
       JSON.parse(response.data.advertBanner.adinfo);
@@ -443,16 +435,21 @@ page {
   width: 21%;
   background-color: #fff;
   position: fixed;
-  top: 0;
+  top: 128rpx;
   left: 0;
   overflow: scroll;
-  height: 98vh;
+  height: 90vh;
 }
 .norListText{
     width:220rpx;
 }
+button{
+    padding-left:0;
+    padding-right: 0;
+}
 .lrListText{
-    width:230rpx;
+    width:250rpx;
+    white-space: nowrap;
     padding-left:10rpx !important;
 }
 .title {

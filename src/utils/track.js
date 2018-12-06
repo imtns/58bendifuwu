@@ -20,7 +20,7 @@ module.exports.track = (type, params) => {
         cate: params.cateid || '', // 表现类别全路径，没有置空【必填】
         area: wx.getStorageSync('cityId') || '1', // 表现地域全路径，没有置空【必填】
         pagetype: params.pagetype || '', // 页面类型，没有置空【必填】
-        page: fuwu.globalData.isQB ? `${url}_QB` : '', // 二级页面类型，没有置空
+        page: '', // 二级页面类型，没有置空
         pagePath: url, // 小程序路径【必填】
         refPagePath: prevUrl || '', // 上一级路径，没有置空【必填】
         scene: wx.getStorageSync('scene') || 1001, // 打开小程序的场景值，如1001【必填】

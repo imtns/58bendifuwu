@@ -66,6 +66,7 @@ export default class extends wepy.app {
           navigationBarTitleText: '消息',
           enablePullDownRefresh: false,
           qbDebugKey: '00114be7ba17dc390b29a63cbc887b31',
+          navigationStyle: 'custom',
       // qbDebugKey: 'ee43d5799d8bf34795f5a702bc887b31',
       },
       navigateToMiniProgramAppIdList: [
@@ -89,12 +90,8 @@ export default class extends wepy.app {
   };
 
   onLaunch(options) {
-      if (options.query.isQB) {
-          fuwu.globalData.isQB = true;
-      }
       wx.setStorageSync('fromLogin', false);
       wx.setStorageSync('scene', options.scene);
-      console.log(`ISQB:${fuwu.globalData.isQB}`);
       //   const {
       //       uid, infoid, rootcateid, cateid, usersource,
       //   } = options.query;
@@ -131,6 +128,10 @@ export default class extends wepy.app {
       //           console.log('登录youcashu----------------');
       //       }
       //   }
+      fuwu.login(() => {
+          fuwu.globalData.tokenFirstReady = true;
+          //    console.log('登录层高----------------');
+      });
   }
   onShow(options) {
       const self = fuwu;
@@ -188,6 +189,10 @@ export default class extends wepy.app {
                   }, 1000);
               }
           }
+      }
+      console.log(`scene:${options.scene}`);
+      if (options.scene === 1007) {
+          fuwu.globalData.share = true;
       }
       if (options.scene === 1043) {
       // 如果uid有值且 self.optionsmb没值
