@@ -150,7 +150,7 @@ export default class extends wepy.app {
           }
       }
 
-      if (options.scene === 1011) {
+      if (options.scene === 1011 && !options.query.tel) {
           const {
               uid, infoid, rootcateid, cateid, usersource,
           } = options.query;
@@ -191,7 +191,7 @@ export default class extends wepy.app {
       }
       if (options.scene === 1043) {
       // 如果uid有值且 self.optionsmb没值
-          if (self.flag === 1) {
+          if (self.flag === 1 && !options.query.tel) {
               const {
                   uid, infoid, rootcateid, cateid, usersource,
               } = options.query;
@@ -225,9 +225,9 @@ export default class extends wepy.app {
                       im.gotoChat(self.optionsmb);
                   }
               } else {
-                  setTimeout(() => {
-                      LoginHelper.goLogin();
-                  }, 1000);
+                  //   setTimeout(() => {
+                  LoginHelper.goLogin();
+                  //   }, 1000);
               }
           }
           self.flag = 0;
