@@ -191,7 +191,7 @@ export default class extends wepy.app {
           }
       }
       console.log(`scene:${options.scene}`);
-      if (options.scene === 1007) {
+      if (options.scene === 1007 || options.scene === 1008) {
           fuwu.globalData.share = true;
       }
       if (options.scene === 1043) {
