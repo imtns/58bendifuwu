@@ -7,7 +7,8 @@
     "start": "wepy build --watch",
     "dev": "wepy build --watch",
     "build": "cross-env NODE_ENV=production wepy build --no-cache",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gemini": "cross-env NODE_ENV=production wepy build --no-cache --watch",
   },
   "author": "zhangzhihua <zhangzhihua01@58ganji.com>",
   "license": "MIT",
