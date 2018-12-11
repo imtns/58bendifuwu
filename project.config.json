@@ -37,15 +37,54 @@
 			"current": -1,
 			"list": [
 				{
-					"id": -1,
-					"name": "大类页",
+					"id": 0,
+					"name": "微聊",
 					"pathName": "discovery/daleiye/daleiye",
-					"query": "listName=baomu&city=bj&tagCookie=spm%3Du-2cb763vej97pnc4f21.shenghuozhushou_demo%3B%20utm_source%3Dlink_demo%3B",
-					"scene": "1038",
-					"referrerInfo": {
-						"appId": "wx2a9c6eeb1c44a284",
-						"extraData": "{\"ppu\":\"UID=21442486609414&UN=qq624515059&TT=bdc0aacb46f50cb7c5e95044308ca3c2&PBODY=S_4ifJrbynqZ-L7NQU8vkSTDpf9DnmxEVoaemXO2FBXTMRX5EgbrA_r9_OZ9o2hoNI8F2s9OD1ZYZxJwAKXY5N3_0hT55Zv6VrnfjwvDjKi0mNv0MdWjGlArg8s-97VbdzFKGjcgzYHX6pSLfOo_cQIDNdLOlgrMRnxd8tVLFB0&VER=1\"}"
-					}
+					"query": "uid=32922302228999&infoid=30929792589885&cateid=95&usersource=2",
+					"scene": "1043",
+					"referrerInfo": {}
+				},
+				{
+					"id": -1,
+					"name": "qb",
+					"pathName": "discovery/daleiye/daleiye",
+					"query": "isQB=true"
+				},
+				{
+					"id": 2,
+					"name": "qb列表页",
+					"pathName": "discovery/liebiaoye/liebiaoye",
+					"query": "listName=ssmeifa&city=bj&cityId=1&title=全部&cateid=14539&isQB=true"
+				},
+				{
+					"id": 3,
+					"name": "qb首页带着spm",
+					"pathName": "discovery/daleiye/daleiye",
+					"query": "isQB=true&spam=true"
+				},
+				{
+					"id": 4,
+					"name": "Call",
+					"pathName": "discovery/xiangqingye/xiangqingye",
+					"query": "cate2ListName=baomu&infoid=35512091595338&city=bj&cityId=1&isPet=false&sign=6cb4c891c9a408dea0e7f5a86874174d59ac1880&tel=true&openid=oP6UWs8TNnp9_Bq9xM-U8nI6kSbY",
+					"scene": "1043",
+					"referrerInfo": {}
+				},
+				{
+					"id": 5,
+					"name": "微聊2",
+					"pathName": "discovery/daleiye/daleiye",
+					"query": "uid=3198699339014&infoid=32024767091911&cateid=125&usersource=2",
+					"scene": "1043",
+					"referrerInfo": {}
+				},
+				{
+					"id": 6,
+					"name": "微聊3",
+					"pathName": "discovery/daleiye/daleiye",
+					"query": "uid=25382835761926&infoid=36105601503762&cateid=719&usersource=2",
+					"scene": "1043",
+					"referrerInfo": {}
 				}
 			]
 		}
