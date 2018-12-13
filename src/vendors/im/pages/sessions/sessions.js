@@ -91,17 +91,18 @@ Page({
         });
     },
     onLoad() {
+        this.setData({
+            isLogin: !!wx.getStorageSync('ppu')
+        })
         if (wx.getStorageSync('ppu')) {
             this.delayFun()
         }
     },
     delayFun() {
-        this.setData({
-            isLogin: !!wx.getStorageSync('ppu')
-        })
         var self = this;
         //有改动
         if (!_im.me()) {
+            LoginHelper.goLogin();
             console.log('微聊为初始化！！！！！！！');
             return;
         }

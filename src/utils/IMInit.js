@@ -52,6 +52,7 @@ function getIMToken(cb, optionsmb) {
                     cb(resp.data.ret, optionsmb);
                 }
             } else {
+               
                 console.log('imtoekn msg', resp.data.msg);
             }
         },
@@ -158,6 +159,7 @@ function getIMTokenPromise(cb, optionsmb) {
                         cb(resp.data.ret, optionsmb);
                     }
                 } else {
+                    LoginHelper.goLogin();
                     console.log('imtoekn msg', resp.data.msg);
                     reject(resp.data.ret);
                 }
@@ -190,6 +192,7 @@ function bindppu(ppu, accesstoken) {
             } else {
                 console.log('绑定ppu失败');
                 console.log(resp.data.msg);
+                // wx.removeStorageSync('ppu');
             }
         },
         fail(err) {

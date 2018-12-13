@@ -598,12 +598,17 @@ button.view-all {
       -moz-box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
       box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
       .boxImage {
+        float:left;
         width: 240rpx;
         height: 180rpx;
+        margin-bottom:15rpx;
       }
       .boxText {
         margin-left: 15rpx;
         width: 100%;
+        float:left;
+        text-align: left;
+        line-height: 35rpx;
         font-size: 22rpx;
         color: #333;
         .fontRed {
