@@ -646,6 +646,7 @@ export default class Xiangqingye extends wepy.page {
       const url = `${host}/${options.city}/${options.cate2ListName}/${
           options.infoid
       }x.shtml`;
+      console.log(`URL=${url}`);
       // const url = 'http://xiaochengxu.58.com/cd/zulin/32712780174284x.shtml';
       const result = await get(url);
       const response = result.data;

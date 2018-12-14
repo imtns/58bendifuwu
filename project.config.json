@@ -14,7 +14,7 @@
 	"libVersion": "1.9.98",
 	"appid": "wxc81edb242dec62d4",
 	"projectname": "bendifuwu-wepy",
-	"miniprogramRoot": "./dist",
+	"miniprogramRoot": "",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

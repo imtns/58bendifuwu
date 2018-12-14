@@ -78,7 +78,7 @@ export default class NAV extends wepy.component {
       top: 50%;
       transform: translate(-50%, -50%);
       color: white;
-      font-size: 34rpx;
+      font-size: 33rpx;
     }
     .nav-capsule {
       display: flex;

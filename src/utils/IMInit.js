@@ -4,29 +4,6 @@ const im = require('../vendors/im/index.js');
 
 let isInit = false;
 
-// function callPassport() {
-//     try {
-//         wx.navigateToMiniProgram({
-//             appId: 'wx2a9c6eeb1c44a284',
-//             path: 'pages/index/index',
-//             extraData: {},
-//             envVersion: 'release', // trial release
-//             success() {
-//                 // 打开成功
-//                 console.log('打开成功！');
-//             },
-//             complete(resp) {
-//                 console.log(resp.errMsg);
-//             },
-//         });
-//     } catch (e) {
-//         wx.showToast({
-//             title: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。',
-//             icon: '',
-//             duration: 5000,
-//         });
-//     }
-// }
 // 获取token  调用翔远接口
 function getIMToken(cb, optionsmb) {
     if (!wx.getStorageSync('ppu')) {
@@ -52,7 +29,6 @@ function getIMToken(cb, optionsmb) {
                     cb(resp.data.ret, optionsmb);
                 }
             } else {
-               
                 console.log('imtoekn msg', resp.data.msg);
             }
         },
@@ -192,7 +168,7 @@ function bindppu(ppu, accesstoken) {
             } else {
                 console.log('绑定ppu失败');
                 console.log(resp.data.msg);
-                // wx.removeStorageSync('ppu');
+                wx.removeStorageSync('ppu');
             }
         },
         fail(err) {
