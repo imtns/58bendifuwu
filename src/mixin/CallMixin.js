@@ -25,11 +25,15 @@ export default class CallMixin extends wepy.mixin {
             });
             this.hideCallLayer();
         },
-    }
+    };
     async getCall(e) {
         const postData = {
-            sign: (typeof e === 'object' && e.currentTarget.dataset.sign) || this.data.sign,
-            infoId: (typeof e === 'object' && e.currentTarget.dataset.infoid) || this.data.infoid,
+            sign:
+                (typeof e === 'object' && e.currentTarget.dataset.sign) ||
+                this.data.sign,
+            infoId:
+                (typeof e === 'object' && e.currentTarget.dataset.infoid) ||
+                this.data.infoid,
             source: 1,
             infoType: 0,
             channel: 5,
@@ -37,7 +41,10 @@ export default class CallMixin extends wepy.mixin {
             platform: 1,
             activityId: 'weixinshenghuozhushou',
         };
-        if (typeof e === 'object' && e.currentTarget.dataset.type === 'adinfo') {
+        if (
+            typeof e === 'object' &&
+            e.currentTarget.dataset.type === 'adinfo'
+        ) {
             const header = {
                 'content-type': 'application/json',
                 cookie: fuwu.globalData.listCookie,
@@ -65,7 +72,10 @@ export default class CallMixin extends wepy.mixin {
         // const url = 'https://bossapi.58.com/smallapp/common/link';
         const url = 'https://link.58.com/api/assign';
         try {
-            const { data: callData } = await get(url, { data: postData, header });
+            const { data: callData } = await get(url, {
+                data: postData,
+                header,
+            });
             const { code, bindId, result: teleNumberStr } = callData;
             if (this.openid) {
                 this.callPingjia(this.openid, bindId);
@@ -73,7 +83,8 @@ export default class CallMixin extends wepy.mixin {
             console.log(bindId);
             if (code === 0) {
                 this.call = util.constDeepMixin(this.call, {
-                    teleNumber: parseInt(teleNumberStr) + 1 ? teleNumberStr : '服务忙',
+                    teleNumber:
+                        parseInt(teleNumberStr) + 1 ? teleNumberStr : '服务忙',
                     tick: 180,
                     show: true,
                 });
@@ -88,7 +99,10 @@ export default class CallMixin extends wepy.mixin {
         }
     }
     async callPingjia(openId, bindId) {
-        const result = await get('https://bossapi.58.com/smallapp/common/linkpingjia', { data: { openId, bindId } });
+        const result = await get(
+            'https://bossapi.58.com/smallapp/common/linkpingjia',
+            { data: { openId, bindId } },
+        );
         console.log(result);
     }
     hideCallLayer() {

@@ -14,7 +14,13 @@ function formatTime(onlyDate) {
     if (onlyDate) {
         return [year, month, day].map(formatNumber).join('.');
     }
-    return `${[year, month, day].map(formatNumber).join('-')} ${[hour, minute, second].map(formatNumber).join(':')}`;
+    return `${[year, month, day].map(formatNumber).join('-')} ${[
+        hour,
+        minute,
+        second,
+    ]
+        .map(formatNumber)
+        .join(':')}`;
 }
 
 function formatTimeExtra(time, withYear) {
@@ -25,14 +31,27 @@ function formatTimeExtra(time, withYear) {
     const hour = date.getHours();
     const minute = date.getMinutes();
     if (withYear) {
-        return `${[year, month, day].map(formatNumber).join('.')} ${[hour, minute].map(formatNumber).join(':')}`;
+        return `${[year, month, day].map(formatNumber).join('.')} ${[
+            hour,
+            minute,
+        ]
+            .map(formatNumber)
+            .join(':')}`;
     }
-    return `${[month, day].map(formatNumber).join('.')} ${[hour, minute].map(formatNumber).join(':')}`;
+    return `${[month, day].map(formatNumber).join('.')} ${[hour, minute]
+        .map(formatNumber)
+        .join(':')}`;
 }
 
 function parseTime(dateString) {
-    const reg = new RegExp(/([0-9]{4})-([0-1]{0,1}[0-9]{1})-([0-3]{0,1}[0-9]{1})\s?([0-6]{0,1}[0-9]{1})?:?([0-6]{0,1}[0-9]{1})?:?([0-6]{0,1}[0-9]{1})?/);
-    const [year, date = 1, hours = 0, minutes = 0, seconds = 0] = dateString.toString().match(reg);
+    const reg = new RegExp(/([0-9]{4})-([0-1]{0,1}[0-9]{1})-([0-3]{0,1}[0-9]{1})\s?([0-6]{0,1}[0-9]{1})?:?([0-6]{0,1}[0-9]{1})?:?([0-6]{0,1}[0-9]{1})?/,);
+    const [
+        year,
+        date = 1,
+        hours = 0,
+        minutes = 0,
+        seconds = 0,
+    ] = dateString.toString().match(reg);
     let { month = 1 } = dateString.toString().match(reg);
     const newDate = new Date();
     newDate.setFullYear(year - 0);

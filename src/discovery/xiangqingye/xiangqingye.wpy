@@ -4,35 +4,17 @@
     <view class="baseInfo">
         <view class="baseTit">{{infoTitle}}</view>
         <view class="tags">
-            <!-- <view class="tag"></view>
-        <view class="tag"></view>
-        <view class="tag"></view> -->
             <view class="baseDate">
                 <text>发布时间 {{postDate}}</text>
-                <!-- <text>已有{{liulan || 254545}}浏览</text> -->
-                <form
-                    bindsubmit="handleFormidCollect"
-                    report-submit="true"
-                >
-                    <button
-                        form-type="submit"
-                        open-type="share"
-                        class="baseInfo_share"
-                    >
-                        <image
-                            class="baseInfo_shareIcon"
-                            src="/image/share.png"
-                        ></image>
+                <form bindsubmit="handleFormidCollect" report-submit="true">
+                    <button form-type="submit" open-type="share" class="baseInfo_share">
+                        <image class="baseInfo_shareIcon" src="/image/share.png"></image>
                         分享
                     </button>
                 </form>
             </view>
 
         </view>
-        <!--  <view class="baseDate">
-        <text>发布时间 {{postDate}}</text>
-        <text>已有{{liulan || 254545}}浏览</text>
-    </view> -->
     </view>
     <!-- 标签信息 -->
     <view class="markBox">
@@ -62,31 +44,17 @@
             <text class="bdName">服务类型</text>
             <text class="bdValue">{{objectType}}</text>
         </view>
-        <view
-            class="baseDetal"
-            wx:if="{{serviceRange.length>0}}"
-        >
+        <view class="baseDetal" wx:if="{{serviceRange.length>0}}">
             <text class="bdName">服务区域</text>
             <view class="bdValue serviceRange">
-                <block
-                    wx:for="{{serviceRange}}"
-                    wx:key="{{index}}"
-                >{{item.localName}}</block>
+                <block wx:for="{{serviceRange}}" wx:key="{{index}}">{{item.localName}}</block>
             </view>
         </view>
         <view class="baseDetal">
             <text class="bdName">联系商家</text>
             <text class="bdValue">{{goblianxiren}}</text>
-            <form
-                bindsubmit="handleFormidCollect"
-                report-submit="true"
-            >
-                <button
-                    form-type="submit"
-                    class="baseTel"
-                    data-position="icon"
-                    @tap="callTick"
-                ></button>
+            <form bindsubmit="handleFormidCollect" report-submit="true">
+                <button form-type="submit" class="baseTel" data-position="icon" @tap="callTick"></button>
             </form>
         </view>
         <view class="baseDetal">
@@ -100,139 +68,26 @@
     <block wx:if="{{coupon.coupon_type !== ''}}">
         <view class="mod-view view-coupon">
             <view class="coupon-shadow">
-                <view
-                    class="coupon-box table"
-                    @tap="goMiniProgram"
-                    data-appid="{{coupon.appid}}"
-                    data-userid="{{coupon.userid}}"
-                >
+                <view class="coupon-box table" @tap="goMiniProgram" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}">
                     <view class="cell one-text coupon-left">
-                        <image
-                            class="gift"
-                            mode="aspectFill"
-                            src="/image/gift.png"
-                        ></image>
+                        <image class="gift" mode="aspectFill" src="/image/gift.png"></image>
                     </view>
-                    <!-- <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 2}}">{{coupon.relief}}<text class="coupon-discount">折</text></view>
-            <view class="cell one-text coupon-left" wx:if="{{coupon.coupon_type == 1}}">￥{{coupon.relief}}</view> -->
                     <view class="cell coupon-right">
-                        <view
-                            class="first-row one-text "
-                            wx:if="{{coupon.coupon_type == 2}}"
-                        ><text class="big-font">{{coupon.relief*0.1}}</text><text class="coupon-discount">折</text></view>
-                        <view
-                            class="first-row one-text "
-                            wx:if="{{coupon.coupon_type == 1}}"
-                        >￥<text class="big-font">{{coupon.relief}}</text></view>
+                        <view class="first-row one-text " wx:if="{{coupon.coupon_type == 2}}"><text class="big-font">{{coupon.relief*0.1}}</text><text class="coupon-discount">折</text></view>
+                        <view class="first-row one-text " wx:if="{{coupon.coupon_type == 1}}">￥<text class="big-font">{{coupon.relief}}</text></view>
                         <view class="second-row one-text">满{{coupon.limit}}可用</view>
                         <!-- <view class="last-row" >2018.06.08-2018.07.01</view> -->
                         <view class="receive-button">立即领取</view>
                     </view>
                 </view>
             </view>
-            <!-- <view class="mod-view view-coupon2 font-normal">
-        <scroll-view scroll-x class="coupons-scroll">
-            <view class="coupon2-wrap">
-                <view class="coupon2-shadow mr-10">
-                    <view class="table coupon2 font-normal">
-                        <view class="cell coupon2-left">
-                             <view class="one-text">￥
-                                <text class="font-large2">2</text>
-                            </view> 
-                            <view class="one-text">
-                                <text class="font-large2">2</text>
-                                折
-                            </view>
-                            <view class="one-text">满233可用</view>
-                            <view class="font-yellow2 one-text mt-5">2018.06.20前有效</view>
-                            <view wx:elif="{{item.validAfterDays>0}}" class="font-yellow2 one-text mt-5">领取后30天可用</view>
-                            <view wx:else class="font-yellow2 one-text mt-5">领取后立即使用</view> 
-                        </view>
-                        <view class="cell coupon2-right">点击领取</view>
-                    </view>
-                </view>
-                <view class="coupon2-shadow mr-10">
-                    <view class="table coupon2 font-normal">
-                        <view class="cell coupon2-left">
-                            <view class="one-text">￥
-                                <text class="font-large2">2</text>
-                            </view> 
-                            <view class="one-text">
-                                <text class="font-large2">2</text>
-                                折
-                            </view>
-                            <view class="one-text">满233可用</view>
-                            <view class="font-yellow2 one-text mt-5">2018.06.20前有效</view>
-                            <view wx:elif="{{item.validAfterDays>0}}" class="font-yellow2 one-text mt-5">领取后30天可用</view>
-                            <view wx:else class="font-yellow2 one-text mt-5">领取后立即使用</view> 
-                        </view>
-                        <view class="cell coupon2-right">点击领取</view>
-                    </view>
-                </view>
-                <view class="coupon2-shadow mr-10">
-                    <view class="table coupon2 font-normal">
-                        <view class="cell coupon2-left">
-                            <view class="one-text">￥
-                                <text class="font-large2">2</text>
-                            </view> 
-                            <view class="one-text">
-                                <text class="font-large2">2</text>
-                                折
-                            </view>
-                            <view class="one-text">满233可用</view>
-                            <view class="font-yellow2 one-text mt-5">2018.06.20前有效</view>
-                             <view wx:elif="{{item.validAfterDays>0}}" class="font-yellow2 one-text mt-5">领取后30天可用</view>
-                            <view wx:else class="font-yellow2 one-text mt-5">领取后立即使用</view> 
-                        </view>
-                        <view class="cell coupon2-right">点击领取</view>
-                    </view>
-                </view>
-                <view class="table coupon2 none-coupon font-normal mr-20"></view>
-            </view>
-        </scroll-view>
-    </view> -->
         </view>
     </block>
-    <!-- 相册End -->
-    <!-- 评论 -->
-    <!-- <view class="commentContainer">
-    <view class="commentTip">
-        <text class="commentNum">评价(27)</text>
-        <view>
-            总分:
-            <text class="commentScore">5.0分</text>
-        </view>
-    </view>
-    <view class="commentBlock">
-        <view class="thumbContainer">
-            <image src="../../image/fx_1.png" class="thumb"></image>
-        </view>
-        <view class="commentInfo">
-            <view class="info">
-                <view class="nameContainer">
-                    <view class="nickName">天堂猫</view>
-                    <view class="stars">
-                        <image class="star" src="../../image/commentStar.png"></image>
-                        <image class="star" src="../../image/commentStar.png"></image>
-                        <image class="star" src="../../image/commentStar.png"></image>
-                        <image class="star" src="../../image/commentStar.png"></image>
-                        <image class="star" src="../../image/commentStar.png"></image>
-                    </view>
-                </view>
-                <text class="commentDate">2018-03-23</text>
-            </view>
-            <view class="comment">服务态度好，服务专业，服务准时，搬了15件家具，收了1400，不过总体还是不错的</view>
-        </view>
-    </view>
-</view> -->
     <!-- 商家信息 -->
     <view class="firm">
         <view class="firmHeadBox">
             <view class="firmImgBox">
-                <image
-                    src="{{shoplogo}}"
-                    mode="aspectFit"
-                ></image>
+                <image src="{{shoplogo}}" mode="aspectFit"></image>
             </view>
             <view class="firmTitBox">
                 <view class="firmTit">{{qiyeEntity.enterpriseName}}</view>
@@ -271,31 +126,12 @@
             </view>
         </view>
         <view class="firmBottomBox">
-            <form
-                bindsubmit="handleFormidCollect"
-                report-submit="true"
-            >
-                <button
-                    class="telButton"
-                    data-position="middle"
-                    form-type="submit"
-                    @tap="callTick"
-                >联系商家</button>
+            <form bindsubmit="handleFormidCollect" report-submit="true">
+                <button class="telButton" data-position="middle" form-type="submit" @tap="callTick">联系商家</button>
             </form>
         </view>
-        <!-- <view class="ChooseService">
-        <view class="serviceName">选择服务</view>
-        <view class="serviceValue">查看全部6个服务</view>
-    </view>
-    <view class="ChooseService">
-        <view class="serviceName">分店信息</view>
-        <view class="serviceValue">查看全部4家分店电话</view>
-    </view> -->
     </view>
     <view class="detail">
-        <!-- <view class="detailMark" wx:if="{{otherEntity.extendMap.supportlabelList!==undefined}}">
-        <view wx:for="{{otherEntity.extendMap.supportlabelList}}">{{item}}</view>
-    </view> -->
         <view class="detailMain">
             <view class="detailTit">服务描述</view>
             <view class="detailDes {{detailShow?'':'show'}}">{{infocontent}}</view>
@@ -305,131 +141,35 @@
             </view>
         </view>
     </view>
-    <!-- 商家信息End -->
-    <!-- 热门商家 -->
-    <!-- <view class="hotSeller">
-    <view class="hot_title">
-        <text class="hot_title_info">北京-搬家 热门商家</text>
-    </view>
-    <view class="hot_list">
-        <view class="hot_list_item">
-            <view class="hot_list_l">
-                <image src="https://t1.58cdn.com.cn/bidding/tiny/n_v247e2b0326cc4461aa96cf3289ea00f32.jpg?w=160&h=120" class="hot_list_img"></image>
-            </view>
-            <view class="hot_list_c">
-                <view class="hot_list_c_t">
-                    <view class="hot_list_title">北京26年老字号30分钟内快速上门士大夫阿斯蒂芬阿萨德阿萨德</view>
-                </view>
-                <view class="hot_list_category">
-                    <text >居民搬家、公司搬家、长途搬家</text>
-                </view>
-                <view class="hot_list_c_b">
-                    <view class="hot_list_icon_box">
-                        <text class="hot_list_icon_info">立减十元</text>
-                        <text class="hot_list_icon_info">立减十元</text>
-                        <text class="hot_list_icon_info">立减十元</text>
-                    </view>
-                </view>
-            </view>
-        </view>
-        <view class="hot_more">
-            查看更多优质同行服务
-        </view>
-    </view>
-</view> -->
-    <!-- 热门商家End -->
-
-    <!--您可能还需要 -->
-    <!-- <view class="guess">
-    <view class="guess_title">
-        <text class="guess_title_info">除了搬家 您可能还需要</text>
-    </view>
-    <view class="guess_list">
-        <view class="guess_list_item">
-            <image class="thumb" src="https://t1.58cdn.com.cn/bidding/tiny/n_v20662b5b868924d268eef1bb2f3002c19.jpg?w=160&h=120"></image>
-            <text class="name">家政服务</text>
-        </view>
-        <view class="guess_list_item">
-            <image class="thumb" src="https://t1.58cdn.com.cn/bidding/tiny/n_v20662b5b868924d268eef1bb2f3002c19.jpg?w=160&h=120"></image>
-            <text class="name">家政服务</text>
-        </view>
-        <view class="guess_list_item">
-            <image class="thumb" src="https://t1.58cdn.com.cn/bidding/tiny/n_v20662b5b868924d268eef1bb2f3002c19.jpg?w=160&h=120"></image>
-            <text class="name">家政服务</text>
-        </view>
-        <view class="guess_list_item">
-            <image class="thumb" src="https://t1.58cdn.com.cn/bidding/tiny/n_v20662b5b868924d268eef1bb2f3002c19.jpg?w=160&h=120"></image>
-            <text class="name">家政服务</text>
-        </view>
-    </view>
-</view> -->
-    <!-- 您可能还需要End-->
-    <!-- 评论End -->
     <!-- 底部悬浮 -->
-    <form
-        bindsubmit="handleFormidCollect"
-        report-submit="true"
-    >
+    <form bindsubmit="handleFormidCollect" report-submit="true">
         <view class="bottomBar">
 
-            <button
-                form-type="submit"
-                class="miniBar"
-                wx:if="{{coupon.status === 1 && !isQB}}"
-                data-appid="{{coupon.appid}}"
-                data-userid="{{coupon.userid}}"
-                @tap="goMiniProgram"
-            >
+            <button form-type="submit" class="miniBar" wx:if="{{coupon.status === 1 && !isQB}}" data-appid="{{coupon.appid}}" data-userid="{{coupon.userid}}" @tap="goMiniProgram">
                 <view class="miniBarIcon"></view>
                 <text>小程序</text>
             </button>
-            <button
-                form-type="submit"
-                class="telBar"
-                data-position="bottom"
-                @tap="callTick"
-            >
+            <button form-type="submit" class="telBar" data-position="bottom" @tap="callTick">
                 <view class="telBarIcon"></view>
                 <text>电话</text>
             </button>
-            <button
-                form-type="submit"
-                wx:if="{{!isQB}}"
-                class="weiBar"
-                @tap="goChat"
-                data-userid="{{userid}}"
-                data-infoid="{{infoid}}"
-            >
+            <button form-type="submit" wx:if="{{!isQB}}" class="weiBar" @tap="goChat" data-userid="{{userid}}" data-infoid="{{infoid}}">
                 <view class="weiBarIcon"></view>
                 <text>微聊</text>
             </button>
 
         </view>
     </form>
-    <form
-        bindsubmit="handleFormidCollect"
-        report-submit="true"
-    >
+    <form bindsubmit="handleFormidCollect" report-submit="true">
         <!-- 打电话谈层  s -->
-        <view
-            class="call_mask"
-            wx:if="{{call.show}}"
-        >
+        <view class="call_mask" wx:if="{{call.show}}">
             <view class="call_con">
                 <text class="call_title">拨打电话</text>
                 <text class="call_number">{{call.teleNumber}}</text>
                 <view class="call_text">(电话<view class="call_tick">{{call.tick}}</view>秒后失效，请尽快拨打)</view>
                 <view class="call_btn_con">
-                    <button
-                        class="call_left_btn"
-                        form-type="submit"
-                        @tap="cancel_call"
-                    >取消</button>
-                    <button
-                        class="call_right_btn"
-                        form-type="submit"
-                        @tap="call"
-                    >拨打</button>
+                    <button class="call_left_btn" form-type="submit" @tap="cancel_call">取消</button>
+                    <button class="call_right_btn" form-type="submit" @tap="call">拨打</button>
                 </view>
             </view>
         </view>
@@ -464,230 +204,235 @@ const { fuwu } = require('../../utils/globalDataService');
 
 const host = 'https://xiaochengxu.58.com';
 export default class Xiangqingye extends wepy.page {
-  config = {
-      enablePullDownRefresh: false,
-  };
-  /**
-   * 页面的初始数据
-   */
-  data = {
-      isQB: fuwu.globalData.isQB,
-      detailShow: true, // 控制服务描述展示
-      imgShow: true, // 控制图片展示
-      bgShow: true, // 控制背景展示
-      apCurrent: 0, // 控制轮播的索引
-      infoTitle: '', // 标题
-      infocontent: '', // 服务描述
-      objectType: '', // 服务类型
-      postDate: '', // 发布日期
-      renzheng: {}, // 认证相关
-      qiyeEntity: {},
-      liulan: '666', // 浏览量
-      commparamMap: '', // 地图数据
-      otherEntity: {}, // 其他认证
-      wltEntity: {},
-      serviceRange: [], // 服务区域
-      goblianxiren: '',
-      navbarData: {
-          title: '',
-          showCapsule: false,
-      },
-      fullpath: '',
-      coupon: {
-          coupon_type: '',
-      },
-      call: {
-          tick: 0,
-          show: false,
-          teleNumber: 0,
-      },
-      infoid: '',
-      userId: '',
-      city: '',
-      shoplogo: '',
-      openid: '',
-      fromShare: false,
-  };
-  mixins = [Mixin, CallMixin, Form];
-  components = {
-      nav: Nav,
-  };
-  methods = {
-      handleFormidCollect(e) {
-          const { formId } = e.detail;
-          this.requestFormidCollect(formId);
-      },
-      goChat() {
-          console.log('点击接入微聊');
-          const options = {
-              user_id: this.userId,
-              user_source: 2,
-              refer: {
-                  invitation: {
-                      id: this.infoid, // 帖子id
-                      rootcateid: this.listName, // 一级分类id(表现类别)
-                      cateid: '', // 最细类别id(表现类别)
-                      scene: '', // 聊天触发的场景(listing"为列表详情页，其余由业务侧自己定义)
-                      role: 1, // 角色标识,"1"为发帖者(业务线统一都传"1")
-                      refer_time: new Date().getTime(),
-                  },
-              },
-              router_type: 'navigateTo',
-          };
-          fuwu.optionsmb = options;
-          if (wx.getStorageSync('ppu')) {
-              // 如果有ppu
-              im.gotoChat(options);
-          } else {
-              fuwu.globalData.jumpBack = `/discovery/xiangqingye/xiangqingye?city=${
-                  this.linstName
-              }}&fullpath=${this.fullpath}&cate2ListName=${this.listName}&
+    config = {
+        enablePullDownRefresh: false,
+    };
+    /**
+     * 页面的初始数据
+     */
+    data = {
+        isQB: fuwu.globalData.isQB,
+        detailShow: true, // 控制服务描述展示
+        imgShow: true, // 控制图片展示
+        bgShow: true, // 控制背景展示
+        apCurrent: 0, // 控制轮播的索引
+        infoTitle: '', // 标题
+        infocontent: '', // 服务描述
+        objectType: '', // 服务类型
+        postDate: '', // 发布日期
+        renzheng: {}, // 认证相关
+        qiyeEntity: {},
+        liulan: '666', // 浏览量
+        commparamMap: '', // 地图数据
+        otherEntity: {}, // 其他认证
+        wltEntity: {},
+        serviceRange: [], // 服务区域
+        goblianxiren: '',
+        navbarData: {
+            title: '',
+            showCapsule: false,
+        },
+        fullpath: '',
+        coupon: {
+            coupon_type: '',
+        },
+        call: {
+            tick: 0,
+            show: false,
+            teleNumber: 0,
+        },
+        infoid: '',
+        userId: '',
+        city: '',
+        shoplogo: '',
+        openid: '',
+        fromShare: false,
+    };
+    mixins = [Mixin, CallMixin, Form];
+    components = {
+        nav: Nav,
+    };
+    methods = {
+        handleFormidCollect(e) {
+            const { formId } = e.detail;
+            this.requestFormidCollect(formId);
+        },
+        goChat() {
+            console.log('点击接入微聊');
+            const options = {
+                user_id: this.userId,
+                user_source: 2,
+                refer: {
+                    invitation: {
+                        id: this.infoid, // 帖子id
+                        rootcateid: this.listName, // 一级分类id(表现类别)
+                        cateid: '', // 最细类别id(表现类别)
+                        scene: '', // 聊天触发的场景(listing"为列表详情页，其余由业务侧自己定义)
+                        role: 1, // 角色标识,"1"为发帖者(业务线统一都传"1")
+                        refer_time: new Date().getTime(),
+                    },
+                },
+                router_type: 'navigateTo',
+            };
+            fuwu.optionsmb = options;
+            if (wx.getStorageSync('ppu')) {
+                // 如果有ppu
+                im.gotoChat(options);
+            } else {
+                fuwu.globalData.jumpBack = `/discovery/xiangqingye/xiangqingye?city=${
+                    this.linstName
+                }}&fullpath=${this.fullpath}&cate2ListName=${this.listName}&
           infoid=${this.infoid}&sign=${this.sign}`;
-              LoginHelper.goLogin();
-          }
-      },
-      /**
-     * 地图跳转
+                LoginHelper.goLogin();
+            }
+        },
+        /**
+         * 地图跳转
+         */
+        onmapFun() {
+            this.showMap();
+        },
+        /* 打电话 s */
+        callTick(e) {
+            if (typeof e === 'object') {
+                const { position } = e.currentTarget.dataset;
+                track('click', {
+                    pagetype: 'detail',
+                    clickTag: `xiangqingye_call_${position}`,
+                });
+            }
+        },
+        /**
+         * 控制服务描述展示
+         */
+        detailShow() {
+            if (this.detailShow) {
+                this.detailShow = false;
+            } else {
+                this.detailShow = true;
+            }
+        },
+    };
+    showMap() {
+        const x = Math.floor(this.commparamMap.latitude * 100000) / 100000;
+        const y = Math.floor(this.commparamMap.longitude * 100000) / 100000;
+        wx.openLocation({
+            latitude: x,
+            longitude: y,
+            address: this.commparamMap['商家地址'],
+            name: this.qiyeEntity.enterpriseName,
+        });
+    }
+    onShow() {
+        if (this.fromShare) return;
+        this.fromShare = false;
+        setTimeout(() => {
+            track('show', {
+                cateid: this.fullpath,
+                area: fuwu.globalData.cityId,
+                pagetype: 'detail',
+            });
+        }, 3500);
+        if (
+            fuwu.globalData.jumpBack.indexOf('xiangqingye') > -1 &&
+            wx.getStorageSync('ppu')
+        ) {
+            setTimeout(() => {
+                wx.removeStorageSync('fromLogin');
+                fuwu.globalData.jumpBack = '';
+                im.gotoChat(fuwu.optionsmb);
+            }, 500);
+        }
+        if (!this.navbarData.share) {
+            this.navbarData.share = fuwu.globalData.share;
+            fuwu.globalData.share = false;
+        }
+    }
+    /**
+     * 生命周期函数--监听页面加载
      */
-      onmapFun() {
-          this.showMap();
-      },
-      /* 打电话 s */
-      callTick(e) {
-          if (typeof e === 'object') {
-              const { position } = e.currentTarget.dataset;
-              track('click', {
-                  pagetype: 'detail',
-                  clickTag: `xiangqingye_call_${position}`,
-              });
-          }
-      },
-      /**
-     * 控制服务描述展示
-     */
-      detailShow() {
-          if (this.detailShow) {
-              this.detailShow = false;
-          } else {
-              this.detailShow = true;
-          }
-      },
-  };
-  showMap() {
-      const x = Math.floor(this.commparamMap.latitude * 100000) / 100000;
-      const y = Math.floor(this.commparamMap.longitude * 100000) / 100000;
-      wx.openLocation({
-          latitude: x,
-          longitude: y,
-          address: this.commparamMap['商家地址'],
-          name: this.qiyeEntity.enterpriseName,
-      });
-  }
-  onShow() {
-      if (this.fromShare) return;
-      this.fromShare = false;
-      setTimeout(() => {
-          track('show', {
-              cateid: this.fullpath,
-              area: fuwu.globalData.cityId,
-              pagetype: 'detail',
-          });
-      }, 3500);
-      if (
-          fuwu.globalData.jumpBack.indexOf('xiangqingye') > -1 &&
-      wx.getStorageSync('ppu')
-      ) {
-          setTimeout(() => {
-              wx.removeStorageSync('fromLogin');
-              fuwu.globalData.jumpBack = '';
-              im.gotoChat(fuwu.optionsmb);
-          }, 500);
-      }
-      if (!this.navbarData.share) { this.navbarData.share = fuwu.globalData.share; fuwu.globalData.share = false; }
-  }
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  async onLoad(options) {
-      fuwu.globalData.tagCookie =
-      'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
-      if (options.tagCookie) {
-          fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
-      }
-      fuwu.globalData.pageParams = '';
-      Object.keys(options).forEach(key => {
-          if (options[key]) {
-              const value = options[key];
-              fuwu.globalData.pageParams += `${key}=${value}&`;
-          }
-      });
-      if (fuwu.globalData.pageParams) {
-          fuwu.globalData.pageParams = fuwu.globalData.pageParams.substr(
-              0,
-              fuwu.globalData.pageParams.length - 1,
-          );
-      }
-      console.log(fuwu.globalData.paegParams);
-      if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
-          fuwu.globalData.tagCookie =
-        'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
-      }
-      wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
-      Object.assign(this, options);
-      this.listName = options.cate2ListName;
-      this.infoid = options.infoid;
-      this.sign = options.sign;
-      this.fullpath = options.fullpath;
-      this.navbarData = {
-          title: '商家信息详情',
-          showCapsule: true,
-          share: !!options.tel,
-      };
-      const url = `${host}/${options.city}/${options.cate2ListName}/${
-          options.infoid
-      }x.shtml`;
-      console.log(`URL=${url}`);
-      // const url = 'http://xiaochengxu.58.com/cd/zulin/32712780174284x.shtml';
-      const result = await get(url);
-      const response = result.data;
-      if (!this.fullpath) {
-          this.fullpath = result.data.fullpath;
-      }
-      if (!fuwu.globalData.listCookie) {
-          const setcookie =
-        result.header['Set-Cookie'] || result.header['set-cookie'];
-          this.updataCookie(setcookie);
-      }
-      Object.assign(this, response);
-      this.shoplogo =
-      response.shop &&
-      response.shop.extendMap &&
-      response.shop.extendMap.shoplogo
-          ? response.shop.extendMap.shoplogo
-          : 'https://img.58cdn.com.cn/olympia/img/shenghuo/final/default-shopimg.png';
-      this.userId = response.uid;
-      if (options.tel) {
-          setTimeout(() => {
-              this.getCall(1);
-          }, 500);
-      }
-      this.openid = options.openid || '';
-      this.$apply();
-      if (options.map) {
-          this.showMap();
-      }
-  }
+    async onLoad(options) {
+        fuwu.globalData.tagCookie =
+            'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+        if (options.tagCookie) {
+            fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
+        }
+        fuwu.globalData.pageParams = '';
+        Object.keys(options).forEach(key => {
+            if (options[key]) {
+                const value = options[key];
+                fuwu.globalData.pageParams += `${key}=${value}&`;
+            }
+        });
+        if (fuwu.globalData.pageParams) {
+            fuwu.globalData.pageParams = fuwu.globalData.pageParams.substr(
+                0,
+                fuwu.globalData.pageParams.length - 1,
+            );
+        }
+        console.log(fuwu.globalData.paegParams);
+        if (fuwu.globalData.isQB && !fuwu.globalData.tagCookie) {
+            fuwu.globalData.tagCookie =
+                'spm=u-2cb763vej97pnc4f21.keywords;utm_source=link;';
+        }
+        wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
+        Object.assign(this, options);
+        this.listName = options.cate2ListName;
+        this.infoid = options.infoid;
+        this.sign = options.sign;
+        this.fullpath = options.fullpath;
+        this.navbarData = {
+            title: '商家信息详情',
+            showCapsule: true,
+            share: !!options.tel,
+        };
+        const url = `${host}/${options.city}/${options.cate2ListName}/${
+            options.infoid
+        }x.shtml`;
+        console.log(`URL=${url}`);
+        // const url = 'http://xiaochengxu.58.com/cd/zulin/32712780174284x.shtml';
+        const result = await get(url);
+        const response = result.data;
+        if (!this.fullpath) {
+            this.fullpath = result.data.fullpath;
+        }
+        if (!fuwu.globalData.listCookie) {
+            const setcookie =
+                result.header['Set-Cookie'] || result.header['set-cookie'];
+            this.updataCookie(setcookie);
+        }
+        Object.assign(this, response);
+        this.shoplogo =
+            response.shop &&
+            response.shop.extendMap &&
+            response.shop.extendMap.shoplogo
+                ? response.shop.extendMap.shoplogo
+                : 'https://img.58cdn.com.cn/olympia/img/shenghuo/final/default-shopimg.png';
+        this.userId = response.uid;
+        if (options.tel) {
+            setTimeout(() => {
+                this.getCall(1);
+            }, 500);
+        }
+        this.openid = options.openid || '';
+        this.$apply();
+        if (options.map) {
+            this.showMap();
+        }
+    }
 
-  // 分享
-  onShareAppMessage() {
-      this.fromShare = true;
-      return {
-          title: '商家信息详情',
-          path: `discovery/xiangqingye/xiangqingye?city=${
-              this.city
-          }&cate2ListName=${this.listName}&infoid=${this.infoid}&sign=${this.sign}`,
-      };
-  }
+    // 分享
+    onShareAppMessage() {
+        this.fromShare = true;
+        return {
+            title: '商家信息详情',
+            path: `discovery/xiangqingye/xiangqingye?city=${
+                this.city
+            }&cate2ListName=${this.listName}&infoid=${this.infoid}&sign=${
+                this.sign
+            }`,
+        };
+    }
 }
 </script>
 <style lang="scss">

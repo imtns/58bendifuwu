@@ -76,7 +76,7 @@ export default class extends wepy.app {
       ],
       plugins: {
           LoginSdk: {
-              version: '2.0.3',
+              version: '2.2.0',
               provider: 'wxd1d3a59c204109d4',
           },
       },

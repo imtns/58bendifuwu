@@ -58,587 +58,589 @@ const { globalDataService, fuwu } = require('../../utils/globalDataService');
 
 const url = 'https://xiaochengxu.58.com/shenghuo.shtml';
 
-
 export default class Daleiye extends wepy.page {
-  config = {
-      //   navigationBarTitleText: '',
-      enablePullDownRefresh: false,
-      disableScroll: true,
-  };
-  components = {
-      nav: Nav,
-  }
-  mixins = [Mixin, Form];
-  data = {
-      scrollTopNumber: 0,
-      city: 'bj',
-      cityId: 1,
-      tabName: '推荐服务',
-      onSelect: 0,
-      banner: 0,
-      url: '',
-      navbarData: {
-          title: '',
-          showCapsule: false,
-      },
-      height: 0,
-      isShowed: false,
-      hideAd: true,
-      /* 类别 */
-      listTit: [
-          {
-              title: '推荐服务',
-              type: 'hyjk',
-              isSelect: true,
-          },
-          {
-              title: '家政服务',
-              type: 'shenghuo',
-              isSelect: false,
-          },
-          {
-              title: '商务服务',
-              type: 'shangwu',
-              isSelect: false,
-          },
-          {
-              title: '招商加盟',
-              type: 'zhaoshang',
-              isSelect: false,
-          },
-          {
-              title: '汽车服务',
-              type: 'qichefw',
-              isSelect: false,
-          },
-          {
-              title: '教育培训',
-              type: 'jiaoyu',
-              isSelect: false,
-          },
-          {
-              title: '装修建材',
-              type: 'zhuangxiujc',
-              isSelect: false,
-          },
-          {
-              title: '婚庆摄影',
-              type: 'hunjiehunqing',
-              isSelect: false,
-          },
-          {
-              title: '旅游酒店',
-              type: 'lvyouxiuxian',
-              isSelect: false,
-          },
-          {
-              title: '休闲娱乐',
-              type: 'xiuxianyl',
-              isSelect: false,
-          },
-          {
-              title: '餐饮美食',
-              type: 'canyin',
-              isSelect: false,
-          },
-          {
-              title: '丽人美容',
-              type: 'liren',
-              isSelect: false,
-          },
-      ],
-      hotTagData: {},
-      HotCateData: {},
-      mainData: [],
-      cateData: [],
-      bannerData: [],
-      adData: [],
-      fxfw: [],
-      tabIndex: 0,
-  };
-  onShow() {
-      setTimeout(() => {
-          track('show', {
-              pagetype: 'index', // 页面类型，没有置空【必填】
-          });
-      }, 3500);
-      if (wx.getStorageSync('ppu') && wx.getStorageSync('fromLogin')) {
-          try {
-              im.getIMToken(im.imInit);
-          } catch (e) {
-              console.log('setSyncSTORE异常');
-          }
-          if (fuwu.optionsmb && fuwu.optionsmb.user_id) {
-              wx.removeStorageSync('fromLogin');
-              im.gotoChat(fuwu.optionsmb);
-          }
-          im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-      }
-  }
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-      fuwu.globalData.tagCookie =
-        'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
-      if (options.tagCookie) {
-          fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
-      }
-      this.navbarData.title = '58同城生活助手';
-      if (options.tabIndex) {
-          this.tabIndex = options.tabIndex;
-      }
-      // globalDataService.set('tagCookie', tagCookie);
-      wx.getSystemInfo({
-          success: res => {
-              this.height = res.windowHeight - 50;
-          },
-      });
-      this.GetCity();
-      if (this.tabIndex) {
-          this.banner = 1;
-          this.listTit[0].isSelect = false;
-          this.onSelect = this.tabIndex;
-          this.listTit[this.tabIndex].isSelect = true;
-          this.fresh(this.listTit[this.tabIndex].type);
-      } else {
-          this.banner = 0;
-          this.freshTui('hyjk');
-      }
-      wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
-      this.$apply();
-  }
-  methods = {
-      redirectAd(e) {
-          const { link } = e.currentTarget.dataset;
-          const appid = link.split(',')[0];
-          const pageUrl = link.split(',')[1];
-          wx.navigateToMiniProgram({
-              appId: appid,
-              path: pageUrl,
-              success(res) {
-                  console.log(res);
-              },
-          });
-          //   wx.switchTab({
-          //       url: '../../benefit/benefit',
-          //   });
-          this.hideAd = true;
-      },
-      closeAd() {
-          this.hideAd = true;
-      },
-      goMini(e) {
-          const { appid, clickurl } = e.currentTarget.dataset;
-          wx.navigateToMiniProgram({
-              appId: appid,
-              path: clickurl,
-              success(res) {
-                  console.log(res);
-              },
-              fail(res) {
-                  console.log(res);
-              },
-          });
-      },
-      handleFormidCollect(e) {
-          const { formId } = e.detail;
-          this.requestFormidCollect(formId);
-      },
-      goMore(e) {
-          const { appid, clickurl } = e.currentTarget.dataset;
-          wx.navigateToMiniProgram({
-              appId: appid,
-              path: clickurl,
-              success(res) {
-                  console.log(res);
-              },
-          });
-      },
-      /**
-     * 选择类别
+    config = {
+        //   navigationBarTitleText: '',
+        enablePullDownRefresh: false,
+        disableScroll: true,
+    };
+    components = {
+        nav: Nav,
+    };
+    mixins = [Mixin, Form];
+    data = {
+        scrollTopNumber: 0,
+        city: 'bj',
+        cityId: 1,
+        tabName: '推荐服务',
+        onSelect: 0,
+        banner: 0,
+        url: '',
+        navbarData: {
+            title: '',
+            showCapsule: false,
+        },
+        height: 0,
+        isShowed: false,
+        hideAd: true,
+        /* 类别 */
+        listTit: [
+            {
+                title: '推荐服务',
+                type: 'hyjk',
+                isSelect: true,
+            },
+            {
+                title: '家政服务',
+                type: 'shenghuo',
+                isSelect: false,
+            },
+            {
+                title: '商务服务',
+                type: 'shangwu',
+                isSelect: false,
+            },
+            {
+                title: '招商加盟',
+                type: 'zhaoshang',
+                isSelect: false,
+            },
+            {
+                title: '汽车服务',
+                type: 'qichefw',
+                isSelect: false,
+            },
+            {
+                title: '教育培训',
+                type: 'jiaoyu',
+                isSelect: false,
+            },
+            {
+                title: '装修建材',
+                type: 'zhuangxiujc',
+                isSelect: false,
+            },
+            {
+                title: '婚庆摄影',
+                type: 'hunjiehunqing',
+                isSelect: false,
+            },
+            {
+                title: '旅游酒店',
+                type: 'lvyouxiuxian',
+                isSelect: false,
+            },
+            {
+                title: '休闲娱乐',
+                type: 'xiuxianyl',
+                isSelect: false,
+            },
+            {
+                title: '餐饮美食',
+                type: 'canyin',
+                isSelect: false,
+            },
+            {
+                title: '丽人美容',
+                type: 'liren',
+                isSelect: false,
+            },
+        ],
+        hotTagData: {},
+        HotCateData: {},
+        mainData: [],
+        cateData: [],
+        bannerData: [],
+        adData: [],
+        fxfw: [],
+        tabIndex: 0,
+    };
+    onShow() {
+        setTimeout(() => {
+            track('show', {
+                pagetype: 'index', // 页面类型，没有置空【必填】
+            });
+        }, 3500);
+        if (wx.getStorageSync('ppu') && wx.getStorageSync('fromLogin')) {
+            try {
+                im.getIMToken(im.imInit);
+            } catch (e) {
+                console.log('setSyncSTORE异常');
+            }
+            if (fuwu.optionsmb && fuwu.optionsmb.user_id) {
+                wx.removeStorageSync('fromLogin');
+                im.gotoChat(fuwu.optionsmb);
+            }
+            im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
+        }
+    }
+    /**
+     * 生命周期函数--监听页面加载
      */
-      changeCateFun(event) {
-          const { index, locallistname } = event.target.dataset;
-          const { listTit } = this;
-          listTit[index].isSelect = true;
-          listTit[this.onSelect].isSelect = false;
-          track('click', {
-              pagetype: 'index', // 页面类型，没有置空【必填】
-              clickTag: `lefttab_${index + 1}_${locallistname}`,
-          });
-          this.onSelect = index;
-          this.listTit = listTit;
-          this.scrollTopNumber = 0;
-          if (locallistname === 'hyjk') {
-              this.banner = 0;
-              this.freshTui(locallistname);
-          } else {
-              this.banner = 1;
-              this.fresh(locallistname);
-          }
-      },
+    onLoad(options) {
+        fuwu.globalData.tagCookie =
+            'spm=u-2cb763vej97pnc4f21.shenghuozhushou; utm_source=link;';
+        if (options.tagCookie) {
+            fuwu.globalData.tagCookie = decodeURIComponent(options.tagCookie || '');
+        }
+        this.navbarData.title = '58同城生活助手';
+        if (options.tabIndex) {
+            this.tabIndex = options.tabIndex;
+        }
+        // globalDataService.set('tagCookie', tagCookie);
+        wx.getSystemInfo({
+            success: res => {
+                this.height = res.windowHeight - 50;
+            },
+        });
+        this.GetCity();
+        if (this.tabIndex) {
+            this.banner = 1;
+            this.listTit[0].isSelect = false;
+            this.onSelect = this.tabIndex;
+            this.listTit[this.tabIndex].isSelect = true;
+            this.fresh(this.listTit[this.tabIndex].type);
+        } else {
+            this.banner = 0;
+            this.freshTui('hyjk');
+        }
+        wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
+        this.$apply();
+    }
+    methods = {
+        redirectAd(e) {
+            const { link } = e.currentTarget.dataset;
+            const appid = link.split(',')[0];
+            const pageUrl = link.split(',')[1];
+            wx.navigateToMiniProgram({
+                appId: appid,
+                path: pageUrl,
+                success(res) {
+                    console.log(res);
+                },
+            });
+            //   wx.switchTab({
+            //       url: '../../benefit/benefit',
+            //   });
+            this.hideAd = true;
+        },
+        closeAd() {
+            this.hideAd = true;
+        },
+        goMini(e) {
+            const { appid, clickurl } = e.currentTarget.dataset;
+            wx.navigateToMiniProgram({
+                appId: appid,
+                path: clickurl,
+                success(res) {
+                    console.log(res);
+                },
+                fail(res) {
+                    console.log(res);
+                },
+            });
+        },
+        handleFormidCollect(e) {
+            const { formId } = e.detail;
+            this.requestFormidCollect(formId);
+        },
+        goMore(e) {
+            const { appid, clickurl } = e.currentTarget.dataset;
+            wx.navigateToMiniProgram({
+                appId: appid,
+                path: clickurl,
+                success(res) {
+                    console.log(res);
+                },
+            });
+        },
+        /**
+         * 选择类别
+         */
+        changeCateFun(event) {
+            const { index, locallistname } = event.target.dataset;
+            const { listTit } = this;
+            listTit[index].isSelect = true;
+            listTit[this.onSelect].isSelect = false;
+            track('click', {
+                pagetype: 'index', // 页面类型，没有置空【必填】
+                clickTag: `lefttab_${index + 1}_${locallistname}`,
+            });
+            this.onSelect = index;
+            this.listTit = listTit;
+            this.scrollTopNumber = 0;
+            if (locallistname === 'hyjk') {
+                this.banner = 0;
+                this.freshTui(locallistname);
+            } else {
+                this.banner = 1;
+                this.fresh(locallistname);
+            }
+        },
 
-      /**
-     * 跳转
+        /**
+         * 跳转
+         */
+        navigatorFun(e) {
+            const {
+                fullpath,
+                listname,
+                cateid,
+                title,
+            } = e.currentTarget.dataset;
+            track('click', {
+                cateid: fullpath,
+                pagetype: 'index',
+            });
+            this.redirect(listname, title, cateid, fullpath);
+        },
+    };
+    redirect(listname, title, cateid, fullpath) {
+        wx.navigateTo({
+            url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
+                this.city
+            }&cityId=${
+                this.cityId
+            }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
+        });
+    }
+    /**
+     * 获取城市
      */
-      navigatorFun(e) {
-          const {
-              fullpath, listname, cateid, title,
-          } = e.currentTarget.dataset;
-          track('click', {
-              cateid: fullpath,
-              pagetype: 'index',
-          });
-          this.redirect(listname, title, cateid, fullpath);
-      },
-  };
-  redirect(listname, title, cateid, fullpath) {
-      wx.navigateTo({
-          url: `../liebiaoye/liebiaoye?listName=${listname}&city=${
-              this.city
-          }&cityId=${
-              this.cityId
-          }&title=${title}&cateid=${cateid}&fullpath=${fullpath}`,
-      });
-  }
-  /**
-   * 获取城市
-   */
-  async GetCity() {
-      try {
-          const res = await this.getCity();
-          if (res.data.code === 0) {
-              this.city = res.data.data.city;
-              this.$apply();
-              globalDataService.set('city', res.data.data.city);
-              globalDataService.set('cityId', res.data.data.cityId);
-          } else {
-              wx.showToast({
-                  title: '555',
-                  icon: '',
-                  duration: 5000,
-              });
-              console.error(
-                  'API REQUEST ERROR. Something went wrong when request "/smallapp/common/city", and the response is:\n',
-                  res,
-              );
-          }
-      } catch (e) {
-          console.error(
-              'API REQUEST ERROR. Something went wrong when request "/smallapp/common/city", and the response is:\n',
-              e,
-          );
-      }
-  }
-  /**
-   * 更新视图
-   */
-  async freshTui(str) {
-      const data = { type: str };
-      const response = await get(url, { data });
-      response.data.mainData.forEach(element => {
-          element.listData.splice(3, element.listData.length - 2);
-      });
-      this.hotTagData = response.data.hotTagData;
-      this.HotCateData = [];
-      this.cateData = [];
-      this.mainData = response.data.mainData;
-      this.fxfw = response.data.fxfw;
-      this.fxfw.commodityList.forEach(item => {
-          item.punit = item.punit.substr(1, item.punit.length - 1);
-      });
-      this.bannerData =
-      typeof response.data.advertBanner === 'object' &&
-      JSON.parse(response.data.advertBanner.adinfo);
-      this.adData =
-      typeof response.data.advert === 'object' &&
-      JSON.parse(response.data.advert.adinfo);
-      if (this.adData && !this.isShowed) {
-          this.hideAd = false;
-          this.isShowed = true;
-      }
-      this.$apply();
-      // 加cookie
-      if (!fuwu.globalData.listCookie) {
-          const setcookie =
-        response.header['Set-Cookie'] || response.header['set-cookie'];
-          this.updataCookie(setcookie);
-      }
-  }
-  async fresh(str) {
-      const data = { type: str };
-      const res = await get(url, { data });
-      this.bannerData =
-      typeof res.data.advertBanner === 'object' &&
-      JSON.parse(res.data.advertBanner.adinfo);
-      this.url = this.bannerData.link;
-      this.adData =
-      typeof res.data.advert === 'object' && JSON.parse(res.data.advert.adinfo);
-      if (this.adData && !this.isShowed) {
-          this.hideAd = false;
-          this.isShowed = true;
-      }
-      this.hotTagData = [];
-      this.HotCateData = res.data.HotCateData;
-      this.mainData = [];
-      this.cateData = res.data.cateData;
-      this.fxfw = [];
-      this.$apply();
-  }
-  onShareAppMessage() {}
+    async GetCity() {
+        try {
+            const res = await this.getCity();
+            if (res.data.code === 0) {
+                this.city = res.data.data.city;
+                this.$apply();
+                globalDataService.set('city', res.data.data.city);
+                globalDataService.set('cityId', res.data.data.cityId);
+            } else {
+                wx.showToast({
+                    title: '555',
+                    icon: '',
+                    duration: 5000,
+                });
+                console.error(
+                    'API REQUEST ERROR. Something went wrong when request "/smallapp/common/city", and the response is:\n',
+                    res,
+                );
+            }
+        } catch (e) {
+            console.error(
+                'API REQUEST ERROR. Something went wrong when request "/smallapp/common/city", and the response is:\n',
+                e,
+            );
+        }
+    }
+    /**
+     * 更新视图
+     */
+    async freshTui(str) {
+        const data = { type: str };
+        const response = await get(url, { data });
+        response.data.mainData.forEach(element => {
+            element.listData.splice(3, element.listData.length - 2);
+        });
+        this.hotTagData = response.data.hotTagData;
+        this.HotCateData = [];
+        this.cateData = [];
+        this.mainData = response.data.mainData;
+        this.fxfw = response.data.fxfw;
+        this.fxfw.commodityList.forEach(item => {
+            item.punit = item.punit.substr(1, item.punit.length - 1);
+        });
+        this.bannerData =
+            typeof response.data.advertBanner === 'object' &&
+            JSON.parse(response.data.advertBanner.adinfo);
+        this.adData =
+            typeof response.data.advert === 'object' &&
+            JSON.parse(response.data.advert.adinfo);
+        if (this.adData && !this.isShowed) {
+            this.hideAd = false;
+            this.isShowed = true;
+        }
+        this.$apply();
+        // 加cookie
+        if (!fuwu.globalData.listCookie) {
+            const setcookie =
+                response.header['Set-Cookie'] || response.header['set-cookie'];
+            this.updataCookie(setcookie);
+        }
+    }
+    async fresh(str) {
+        const data = { type: str };
+        const res = await get(url, { data });
+        this.bannerData =
+            typeof res.data.advertBanner === 'object' &&
+            JSON.parse(res.data.advertBanner.adinfo);
+        this.url = this.bannerData.link;
+        this.adData =
+            typeof res.data.advert === 'object' &&
+            JSON.parse(res.data.advert.adinfo);
+        if (this.adData && !this.isShowed) {
+            this.hideAd = false;
+            this.isShowed = true;
+        }
+        this.hotTagData = [];
+        this.HotCateData = res.data.HotCateData;
+        this.mainData = [];
+        this.cateData = res.data.cateData;
+        this.fxfw = [];
+        this.$apply();
+    }
+    onShareAppMessage() {}
 }
 </script>
 <style lang="scss">
-.h2 button{
-     background-color: rgb(246,246,246) !important;
+.h2 button {
+    background-color: rgb(246, 246, 246) !important;
 }
-button{
-  background-color: white !important;
-  line-height: 3;
-  vertical-align: top;
+button {
+    background-color: white !important;
+    line-height: 3;
+    vertical-align: top;
 }
 button::after {
-  padding: 0;
-  border: none;
-  outline: none;
+    padding: 0;
+    border: none;
+    outline: none;
 }
 .adLayer {
-  z-index: 11100;
-  top: 0;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+    z-index: 11100;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
 }
 .ad {
-  position: relative;
-  margin-top: 80rpx;
-  left: 50%;
-  width: 550rpx;
-  height: 742rpx;
-  transform: translateX(-50%);
+    position: relative;
+    margin-top: 80rpx;
+    left: 50%;
+    width: 550rpx;
+    height: 742rpx;
+    transform: translateX(-50%);
 }
 .adClose {
-  position: absolute;
-  top: 860rpx;
-  left: 50%;
-  width: 54rpx;
-  height: 54rpx;
-  transform: translateX(-50%);
+    position: absolute;
+    top: 860rpx;
+    left: 50%;
+    width: 54rpx;
+    height: 54rpx;
+    transform: translateX(-50%);
 }
 .body,
 page {
-  background-color: #f6f6f6;
+    background-color: #f6f6f6;
 }
 .menu {
-  width: 21%;
-  background-color: #fff;
-  position: fixed;
-  top: 128rpx;
-  left: 0;
-  overflow: scroll;
-  height: 90vh;
+    width: 21%;
+    background-color: #fff;
+    position: fixed;
+    top: 128rpx;
+    left: 0;
+    overflow: scroll;
+    height: 90vh;
 }
-.norListText{
-    width:220rpx;
+.norListText {
+    width: 220rpx;
 }
-button{
-    padding-left:0;
+button {
+    padding-left: 0;
     padding-right: 0;
 }
-.lrListText{
-    width:250rpx;
+.lrListText {
+    width: 250rpx;
     white-space: nowrap;
-    padding-left:10rpx !important;
+    padding-left: 10rpx !important;
 }
 .title {
-  border-radius: 0;
-  width: 160rpx;
-  font-size: 26rpx;
-  height: 100rpx;
-  text-align: center;
-  line-height: 100rpx;
-  border-bottom: 1rpx solid #f6f6f6;
+    border-radius: 0;
+    width: 160rpx;
+    font-size: 26rpx;
+    height: 100rpx;
+    text-align: center;
+    line-height: 100rpx;
+    border-bottom: 1rpx solid #f6f6f6;
 }
 .select {
-  color: #ff552e;
-  background-color: #f6f6f6;
+    color: #ff552e;
+    background-color: #f6f6f6;
 }
 .showBox {
-  width: 79%;
-  box-sizing: border-box;
-  padding: 30rpx;
-  margin-left: 21%;
-  padding-top: 0;
+    width: 79%;
+    box-sizing: border-box;
+    padding: 30rpx;
+    margin-left: 21%;
+    padding-top: 0;
 }
 .swiperTop {
-  height: 148rpx;
+    height: 148rpx;
 }
 .slide-image {
-  width: 100%;
-  height: 148rpx;
+    width: 100%;
+    height: 148rpx;
 }
 .h2 {
-  font-size: 26rpx;
-  color: #000;
-  display: block;
-  height: 70rpx;
-  line-height: 70rpx;
-  font-weight: 700;
+    font-size: 26rpx;
+    color: #000;
+    display: block;
+    height: 70rpx;
+    line-height: 70rpx;
+    font-weight: 700;
 }
 .titAll {
-  float: right;
-  position: relative;
+    float: right;
+    position: relative;
 }
 .allText {
-  color: #bbb;
-  font-size: 26rpx;
-  font-weight: normal;
-  padding-right: 15rpx;
+    color: #bbb;
+    font-size: 26rpx;
+    font-weight: normal;
+    padding-right: 15rpx;
 }
 .allImage {
-  width: 8rpx;
-  height: 13rpx;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  margin-top: -6.5rpx;
+    width: 8rpx;
+    height: 13rpx;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -6.5rpx;
 }
 .lrListBox {
-  align-items: center;
-  position: relative;
-  display: flex;
-  flex-flow: wrap;
+    align-items: center;
+    position: relative;
+    display: flex;
+    flex-flow: wrap;
 }
-.lrListBox button{
+.lrListBox button {
     border-radius: 0;
 }
 .lrListBox .lrBefore {
-  width: 2rpx;
-  background-color: #f6f6f6;
-  top: 0;
-  right: 0;
-  bottom: auto;
-  left: 49.5%;
-  height: 100%;
-  z-index: 999;
-  position: absolute;
+    width: 2rpx;
+    background-color: #f6f6f6;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 49.5%;
+    height: 100%;
+    z-index: 999;
+    position: absolute;
 }
 .lrListBox .lrAfter {
-  height: 2rpx;
-  background-color: #f6f6f6;
-  top: 49.5%;
-  right: 0;
-  bottom: 0;
-  left: auto;
-  width: 100%;
-  position: absolute;
+    height: 2rpx;
+    background-color: #f6f6f6;
+    top: 49.5%;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 100%;
+    position: absolute;
 }
 .lrListItem {
-  height: 140rpx;
-  width: 267rpx;
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  font-size: 24rpx;
-  color: #555;
+    height: 140rpx;
+    width: 267rpx;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    font-size: 24rpx;
+    color: #555;
 }
 .lrListImg {
-  width: 180rpx;
-  padding-left: 20rpx;
+    width: 180rpx;
+    padding-left: 20rpx;
 }
 .lrListText {
-  padding-left: 15rpx;
+    padding-left: 15rpx;
 }
 .norListBox {
-  background-color: #fff;
-  display: flex;
-  flex-flow: wrap;
-  width: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-flow: wrap;
+    width: 100%;
 }
 .norListItem {
-  width: 165rpx;
-//   height: 125rpx;
-  margin: 12rpx 6rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 25rpx;
-  color: #555;
+    width: 165rpx;
+    //   height: 125rpx;
+    margin: 12rpx 6rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 25rpx;
+    color: #555;
 }
 .norListImg {
-  width: 90rpx;
-  height: 90rpx;
+    width: 90rpx;
+    height: 90rpx;
 }
 .iconsBox {
-  margin-bottom: 30rpx;
+    margin-bottom: 30rpx;
 }
 button.view-all {
-  background-color: #fff;
-  font-size: 25rpx;
+    background-color: #fff;
+    font-size: 25rpx;
 }
 .fxfwBox {
-  background: white;
-  padding: 20rpx;
-  padding-bottom: 0;
-  .scroll {
-    width: auto;
-    height: 325rpx;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    .box {
-      width: 240rpx;
-      height: 275rpx;
-      margin-right: 20rpx;
-      display: inline-block;
-      -webkit-box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
-      -moz-box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
-      box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
-      .boxImage {
-        float:left;
-        width: 240rpx;
-        height: 180rpx;
-        margin-bottom:15rpx;
-      }
-      .boxText {
-        margin-left: 15rpx;
-        width: 100%;
-        float:left;
-        text-align: left;
-        line-height: 35rpx;
-        font-size: 22rpx;
-        color: #333;
-        .fontRed {
-          color: #ff552e;
+    background: white;
+    padding: 20rpx;
+    padding-bottom: 0;
+    .scroll {
+        width: auto;
+        height: 325rpx;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        .box {
+            width: 240rpx;
+            height: 275rpx;
+            margin-right: 20rpx;
+            display: inline-block;
+            -webkit-box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
+            -moz-box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
+            box-shadow: 0px 7px 12px 0px rgba(231, 231, 231, 0.84);
+            .boxImage {
+                float: left;
+                width: 240rpx;
+                height: 180rpx;
+                margin-bottom: 15rpx;
+            }
+            .boxText {
+                margin-left: 15rpx;
+                width: 100%;
+                float: left;
+                text-align: left;
+                line-height: 35rpx;
+                font-size: 22rpx;
+                color: #333;
+                .fontRed {
+                    color: #ff552e;
+                }
+            }
         }
-      }
     }
-  }
-  .fxfwMore {
-    height: 70rpx;
-    width: 100%;
-    line-height: 70rpx;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 22rpx;
-    color: #666;
-    position: relative;
-    .arrows {
-      width: 13rpx;
-      height: 13rpx;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 160rpx;
+    .fxfwMore {
+        height: 70rpx;
+        width: 100%;
+        line-height: 70rpx;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 22rpx;
+        color: #666;
+        position: relative;
+        .arrows {
+            width: 13rpx;
+            height: 13rpx;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 160rpx;
+        }
     }
-  }
-  .norListItem {
-    width: 240rpx;
-    // height: 275rpx;
-  }
+    .norListItem {
+        width: 240rpx;
+        // height: 275rpx;
+    }
 }
-
 </style>

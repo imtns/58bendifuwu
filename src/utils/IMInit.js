@@ -39,7 +39,6 @@ function getIMToken(cb, optionsmb) {
     });
 }
 
-
 function imInit(imToken) {
     console.log('初始化im开始');
     const uid = wx.getStorageSync('uid');
@@ -54,7 +53,7 @@ function imInit(imToken) {
             ws: 'wss://imgets.58.com/websocket',
             api: 'https://im.58.com',
             getNewToken(cb) {
-                getIMToken((token) => {
+                getIMToken(token => {
                     cb && cb(token);
                 });
             },
@@ -91,7 +90,6 @@ function gotoChat(options) {
     im.gotoChat(options, IMsuccess, IMerror);
 }
 
-
 function callShangjiatong() {
     wx.navigateToMiniProgram({
         appId: 'wb@waIngndiR4d',
@@ -108,9 +106,8 @@ function callShangjiatong() {
     });
 }
 
-
 function getIMTokenPromise(cb, optionsmb) {
-    const p = new Promise(((resolve, reject) => {
+    const p = new Promise((resolve, reject) => {
         if (!wx.getStorageSync('ppu')) {
             LoginHelper.goLogin();
             // callPassport();
@@ -145,7 +142,7 @@ function getIMTokenPromise(cb, optionsmb) {
                 console.log(`请求失败${err}`);
             },
         });
-    }));
+    });
     return p;
 }
 
