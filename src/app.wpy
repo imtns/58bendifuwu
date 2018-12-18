@@ -6,12 +6,6 @@ import LoginHelper from './utils/login';
 const { fuwu } = require('./utils/globalDataService.js');
 const im = require('./utils/IMInit.js');
 const _im = require('./vendors/im/index.js');
-/* eslint-disable no-undef */
-// const os = wx.getSystemInfoSync().platform;
-// const accesstoken = wx.getStorageSync('token');
-// const ppu = wx.getStorageSync('ppu');
-// const uid = wx.getStorageSync('uid');
-// const imtoken = wx.getStorageSync('im_token');
 
 export default class extends wepy.app {
   config = {
@@ -92,45 +86,8 @@ export default class extends wepy.app {
   onLaunch(options) {
       wx.setStorageSync('fromLogin', false);
       wx.setStorageSync('scene', options.scene);
-      //   const {
-      //       uid, infoid, rootcateid, cateid, usersource,
-      //   } = options.query;
-      //   if (wx.getStorageSync('ppu')) {
-      //       // 如果有ppu
-      //       if (wx.getStorageSync('im_token') && !_im.me()) {
-      //           im.imInit(wx.getStorageSync('im_token'), self.optionsmb);
-      //       } else {
-      //           im.getIMToken(im.imInit, self.optionsmb);
-      //       }
-      //   }
-      //   if (uid) {
-      //   // 如果从消息推送进入到小程序
-      //       self.optionsmb = {
-      //           user_id: uid, // 聊天对方 id
-      //           user_source: usersource, // 聊天对方来源
-      //           refer: {
-      //               invitation: {
-      //                   id: infoid,
-      //                   rootcateid: rootcateid,
-      //                   cateid: cateid,
-      //                   scene: '',
-      //                   role: 1,
-      //                   refer_time: new Date().getTime(),
-      //               },
-      //           },
-      //           router_type: 'navigateTo',
-      //       };
-      //       im.bindppu(wx.getStorageSync('ppu'), wx.getStorageSync('token'));
-      //       if (self.optionsmb && self.optionsmb.user_id && wx.getStorageSync('ppu')) {
-      //           setTimeout(() => {
-      //               im.gotoChat(self.optionsmb);
-      //           }, 1000);
-      //           console.log('登录youcashu----------------');
-      //       }
-      //   }
       fuwu.login(() => {
           fuwu.globalData.tokenFirstReady = true;
-          //    console.log('登录层高----------------');
       });
   }
   onShow(options) {
