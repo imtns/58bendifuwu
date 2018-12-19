@@ -1,5 +1,5 @@
 <template>
-    <nav :navbarData.sync="navbarData"></nav>
+    <nav :navbarData.sync="navbarData">343434</nav>
     <view class="body">
         <scroll-view scroll-y="true" bindscroll="scroll" style="height: 92vh;" enable-back-to-top="true" bindscrolltolower="reachBottom">
             <form bindsubmit="handleFormidCollect" report-submit="true">

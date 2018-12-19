@@ -1,7 +1,7 @@
 <template lang="wxml">
 <view class='nav-wrap'>
-    <view class="nav-top-extra"></view>
-    <view class="nav-top">
+    <view class="nav-top-extra" style="height:{{statusBarHeight}}px;"></view>
+    <view class="nav-top" style="height:{{titleBarHeight}}rpx;">
         <view class='nav-title'>{{navbarData.title}}</view>
         <view class='nav-capsule' wx:if='{{navbarData.showCapsule}}'>
             <view @tap='back' wx:if='{{!navbarData.share}}'>
@@ -20,9 +20,13 @@
 <script>
 import wepy from 'wepy';
 
+const { fuwu } = require('../utils/globalDataService');
+
 export default class NAV extends wepy.component {
     data = {
         height: 0,
+        statusBarHeight: 0,
+        titleBarHeight: 88,
     };
     props = {
         navbarData: {
@@ -37,6 +41,32 @@ export default class NAV extends wepy.component {
             default: false,
         },
     };
+    onLoad() {
+        if (
+            fuwu.globalData &&
+            fuwu.globalData.statusBarHeight &&
+            fuwu.globalData.titleBarHeight
+        ) {
+            this.statusBarHeight = fuwu.globalData.statusBarHeight;
+            this.titleBarHeight = fuwu.globalData.titleBarHeight;
+            this.$apply();
+        } else {
+            const that = this;
+            wx.getSystemInfo({
+                success(res) {
+                    if (res.model.indexOf('iPhone') !== -1) {
+                        fuwu.globalData.titleBarHeight = 88;
+                    } else {
+                        fuwu.globalData.titleBarHeight = 96;
+                    }
+                    fuwu.globalData.statusBarHeight = res.statusBarHeight;
+                    that.statusBarHeight = fuwu.globalData.statusBarHeight;
+                    that.titleBarHeight = fuwu.globalData.titleBarHeight;
+                    that.$apply();
+                },
+            });
+        }
+    }
     methods = {
         back() {
             wepy.navigateBack({
@@ -45,11 +75,10 @@ export default class NAV extends wepy.component {
         },
         home() {
             this.share = false;
-            wepy.switchTab({ url: '/discovery/daleiye/daleiye' });
+            wepy.redirectTo({ url: '/discovery/daleiye/daleiye' });
         },
     };
     events = {};
-    onLoad() {}
 }
 </script>
 

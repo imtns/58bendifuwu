@@ -33,6 +33,8 @@ const globalData = {
     },
     tagCookie: '',
     listCookie: '',
+    statusBarHeight: 0,
+    titleBarHeight: 88,
 };
 const globalDataService = {
     set(prop, value) {
