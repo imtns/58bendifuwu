@@ -75,7 +75,7 @@ export default class NAV extends wepy.component {
         },
         home() {
             this.share = false;
-            wepy.redirectTo({ url: '/discovery/daleiye/daleiye' });
+            wepy.switchTab({ url: '/discovery/daleiye/daleiye' });
         },
     };
     events = {};

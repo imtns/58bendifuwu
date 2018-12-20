@@ -162,7 +162,7 @@ export default class Liebiaoye extends wepy.page {
         this.navbarData = {
             title,
             showCapsule: true,
-            share: !!o.tagCookie,
+            share: !!o.tagCookie || !o.fullpath,
         };
         if (fullpath) this.fullpath = fullpath;
         wx.setStorageSync('tagCookie', fuwu.globalData.tagCookie);
